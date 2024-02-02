@@ -24,8 +24,19 @@ democrazia digitale
 \acrodef{IoT}{Internet of Thing}
 \acrodef{vm}[VM]{Virtual Machine}
 
+\acrodef{gh}[GH]{GitHub}
 
-\mainlinespacing{1.5} % line spacing in mainmatter, comment to default (1)
+\acrodef{gha}[GH Actions]{GitHub Actions}
+
+\acrodef{ghp}[GH Pages]{GitHub Pages}
+
+\acrodef{ci}[CI]{Continuous Integration}
+
+\acrodef{cd}[CD]{Continuous Delivery}
+
+
+
+\mainlinespacing{1.6} % line spacing in mainmatter, comment to default (1)
 
 \begin{document}
 
@@ -109,20 +120,83 @@ e di conseguenza confondere gli utilizzatori e scoraggiare l'utilizzo della piat
 %aumentare curva apprendimento e incertezza aumenta con il numero di funzionalità e impatto negativo sull' usabilità
 
 %----------------------------------------------------------------------------------------
-\chapter{Automazione e versionamento artefatti}
+\chapter{Build automation e versionamento degli artefatti}
+L'adozione di un sistema di build automation è un fattore chiave per la produzione
+efficace ed efficiente di software di qualità.
+
+Come principio base, è importante che ciascuna modifica apportata al codice
+sia testata a livello unitario e abbia documentazione correlata, che sia l'aggiunta 
+di una funzionalità piuttosto che la variazione di un campo, a titolo meramente
+esemplificativo. 
+
+Inoltre, queste modifiche devono essere ulteriormente 
+verificate attraverso test di integrazione, in modo da garantire la piena
+compatibilità tra i componenti. 
+
+Le verifiche possono essere effettuate 
+manualmente dallo sviluppatore, ma per ridurre il rischio di errori è
+possibile adottare un sistema di automazione, che attraverso una serie di task predefiniti
+e ripetibili, verifichi automaticamente le varie fasi,
+gestendo anche le dipendenze tra i task stessi.
+Così facendo, si può subito notare se tutto è andato a buon fine oppure 
+se è necessario effettuare ulteriori eventi correttivi.
+
+Una volta che il flusso di compilazione e verifica viene terminato con successo,
+è possibile procedere alla generazione di uno o più artefatti e della relativa documentazione.
+Questi prodotti possono essere sottoposti ad un operazione di versionamento,
+in modo da distinguere le evoluzioni del software e semplificarne la distribuzione
+e la tracciabilità.
+
+In questo progetto sono stati adottati \texttt{Kotlin} come linguaggio di programmazione
+e \texttt{Gradle} come build automator.
+
+Poichè gli artefatti che vengono generati sono dipendenti dall'architettura della macchina
+e dal sistema operativo sui quali avviene il processo di build, è opportuno eseguire tale processo
+su piattorme dedicate come Github.
+Github fornisce ambienti standard e personalizzabili
+in base a direttive, gestendo il processo di \ac{ci}/\ac{cd} che è stato descritto in questo capitolo. 
+Infine, per favorire la distribuzione e la compatibilità verso molteplici sistemi,
+è utile adottare strumenti come \texttt{Kotlin Multiplatform},
+che semplificano la generazione dell'output finale adattandolo alle specifiche piattaforme. 
+
 
 \section{Kotlin Multiplatform}
 Spiegare brevemente in cosa consiste, con immagini a supporto
 
-\section{Github}
+\section{GitHub Actions}
+ \ac{gha} è una piattaforma di \ac{ci}/\ac{cd} basata su repository \ac{gh},
+ ai quali possono essere agganciati degli elementi detti workflow.
 
-    \subsection{Github Actions}
-    Spiegazione funzionamento pipelines
+ Un \texttt{workflow}, definibile attraverso la sintassi \texttt{YAML}, rappresenta una sequenza di azioni che possono essere eseguite
+ all'occorrenza di un evento, ad esempio la creazione di un \texttt{tag} nel repository,
+ una \texttt{richiesta pull}, un'esecuzione manuale richiesta dal proprietario del repository, ecc\dots
 
-    \subsection{Github Pages}
-    Hosting di documentazione
+In ogni \texttt{workflow} va specificato il nome dello stesso e l'insieme di eventi che ne scatena 
+l'esecuzione. 
+Di seguito a ciò, è possibile definire un insieme di \texttt{job}.
 
-    \subsection{Artefatti}
+Ciascun \texttt{job} è legato ad uno specifico ambiente di esecuzione: va definito che tipo di
+sistema operativo deve essere adottato (\texttt{Linux}, \texttt{Windows}, \texttt{macOS})
+e se al termine dello stesso debba essere restituito un output, che sarà accessibile da altri \texttt{job}.
+È possibile specificare delle variabili in una \texttt{matrice}, in modo eseguire parallelamente molteplici istanze di uno stesso \texttt{job} 
+in base alle combinazioni delle variabili; a titolo esemplificativo, eseguire la compilazione di codice utilizzando
+la stessa versione del compilatore ma su 3 sistemi operativi differenti.  
+
+Ciascun \texttt{job} è caratterizzato da un proprio flusso indipendente, di conseguenza
+per orchestare l'intero processo è opportuno specificare condizioni basate sulle variabili di output 
+oppure sull'indicazione del completamento di uno o più i \texttt{jobs} desiderati.
+
+All'interno del \texttt{job} sono definibili uno o più \texttt{step}: questi vengono eseguiti in maniera sequenziale
+e sono impostabili per eseguire una sequenza arbitraria di comandi \texttt{bash} oppure
+per eseguire una \texttt{action} pubblica.
+Quest'ultima rappresenta un ottimo modo di favorire il riuso
+e la condivisione di codice nella community \ac{gh}, in quanto è possibile, ad esempio, utilizzare un workflow complesso
+come se fosse un singolo step (\texttt{composite action}) oppure lanciare l'esecuzione di un container senza
+imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configurazioni (\texttt{docker container action}).
+
+\section{GitHub Pages}
+ \ac{ghp}
+\section{Artefatti}
     Nota per il Prof.
     Non so se va spiegata qui la pubblicazione su Maven central/ github packages / npm
     oppure se parlarne direttamente nell' implementazione
@@ -130,6 +204,22 @@ Spiegare brevemente in cosa consiste, con immagini a supporto
 \chapter{Analisi}
 In questa parte metterei dettagli su votazioni a singola preferenza 
 e votazioni a lista di preferenze (es.Condorcet)
+\section{Algoritmi}
+\subsection{Algoritmi a maggioranza}
+\subsection{Algoritmo di Condorcet}
+\begin{table}[]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    \multicolumn{1}{|l|}{Voto}      & \multicolumn{1}{l|}{Occorrenze} \\ \hline
+    A \textgreater C \textgreater B & 23                              \\ \hline
+    B \textgreater C \textgreater A & 19                              \\ \hline
+    C \textgreater B \textgreater A & 16                              \\ \hline
+    C \textgreater A \textgreater B & 2                               \\ \hline
+    \end{tabular}
+    \caption{Tabella dei voti con occorrenze}
+    \end{table}
+\subsection{Algoritmo di Schultze}
 \section{Requisiti}
 
     \subsection{Requisiti funzionali}
