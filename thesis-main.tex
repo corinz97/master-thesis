@@ -51,9 +51,9 @@ Max 2000 characters, strict.
 Ai miei genitori
 \end{dedication}
 
-\begin{acknowledgements} % this is optional
-Optional. Max 1 page.
-\end{acknowledgements}
+%\begin{acknowledgements} % this is optional
+%Optional. Max 1 page.
+%\end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
 \tableofcontents   
@@ -116,11 +116,163 @@ La mancanza di elementi formalizzanti, che descrivono dettagliatamente tutti gli
 processo, e le variazioni ed evoluzioni che vengono apportate nel tempo, portano alla divergenza di flusso rispetto all'idea iniziale, 
 e di conseguenza confondere gli utilizzatori e scoraggiare l'utilizzo della piattaforma\cite{Pianini:2019}.
 
+Al di là dell'applicazione di e-democracy nel mondo della politica che, come descritto in precedenza, riscontra
+ostacoli più legati all'aspetto organizzativo e umano, che all'aspetto tecnico, si può pensare di adottare questi strumenti
+anche in altri contesti, come scelte legate all'organizzazione di un gruppo di lavoro o a recensioni sull'operato di
+un'associazione, oppure a vicende legate al mondo dello sport.
+
+Seppur aventi regole simili in taluni casi, ciascuno sport è influenzato da molti fattori:
+i concorrenti, gli ambienti di gara, i tifosi, e altri aspetti, che contribuiscono a rendere 
+ogni campionato come un capitolo a sè stante. 
+Non per ultimo, ognuno di essi ha un proprio metodo di calcolo ed organizzazione delle competizioni. 
+Soprattutto in caso di pareggi, è opportuno avere una logica per risolvere il conflitto e determinare un ordine specifico per
+le classifiche. Se si considerasse l'esito di ciascuna gara come un votazione, cambiando
+l'algoritmo utilizzato per un campionato, si otterrebbero esiti differenti, o ancora,
+se si cambiasse la logica di vittoria nelle fasi di un campionato, si potrebbe simulare come
+sarebbe stato l'esito finale con regole differenti.
 %modello implicito, sforzi iniziali ma analisi poco dettagliata lascia punti scoperti, si da maggior risalito a req non funzionali che funzionali
 %aumentare curva apprendimento e incertezza aumenta con il numero di funzionalità e impatto negativo sull' usabilità
 
 %----------------------------------------------------------------------------------------
-\chapter{Build automation e versionamento degli artefatti}
+
+%----------------------------------------------------------------------------------------
+\chapter{Analisi}
+In questo capitolo viene descritta l'analisi sugli aspetti che dovranno 
+caratterizzare la libreria \texttt{eleKtion}. Verrà fatta una panoramica sui tipi di voto
+ed alcuni algoritmi applicabili per ciascuna tipologia; successivamente verrà definito un 
+elenco di requisiti che dovranno essere considerati nelle fasi successive e infine,
+sarà fornita una modellazione del dominio mediante diagramma UML.
+\section{Voto a singola preferenza}
+La tipologia di voto a singola preferenza impone al votante di effettuare una scelta tra un
+numero definito di candidati. Al termine della votazione, tipicamente si adotta il criterio
+della votazione maggioritaria: si contano i voti ottenuti da ciascun candidato, e colui che ottiene il
+numero più elevato, risulta vincitore. A seconda del contesto preso in considerazione,
+è possibile avere più turni per diminuire di volta in volta il numero di candidati coinvolti.
+Se si arriva ad un pareggio, è possibile effettuare un nuovo ballottaggio oppure adottare
+criteri secondari, che variano in base al dominio trattato.
+\section{Voto a lista di preferenze}
+La tipologia di voto a lista di preferenze non impone al votante di effettuare un'unica scelta,
+bensì di fissare un ordinamento tra i candidati che parta dal meno preferito al più preferito
+o viceversa. Questa logica permette di conservare più contenuto informativo sulle preferenze
+rispetto alla singola scelta, e offre anche una panoramica di gradimento degli altri concorrenti.
+Questo tipo di voto è stato introdotto inizialmente dall'algoritmo di Condorcet ed adottato
+anche nelle sue varianti. Di seguito viene data una spiegazione sul funzionamento dell'algoritmo
+di Condorcet, e di un suo derivato, l'algoritmo di Schultze.
+\subsection{Algoritmo di Condorcet}
+L'algoritmo di Condorcet permette di estrarre un vincitore tra ${n}$ candidati,
+applicando il criterio di maggioranza nei confronti tra le coppie di candidati.
+Si generano le possibili coppie, si confrontano e si valuta quale coppia ha ottenuto il
+maggior numero di preferenze. Nello scontro a coppie, un candidato è vincitore se in un
+voto occupa una posizione preferenziale rispetto all'altro.
+
+Di seguito viene riportato un esempio, supponendo di avere tre possibili candidati (A, B, C)
+e 60 differenti votanti, che ordinano i candidati dalla posizione 1 alla posizione 3, dove la posizione 1 
+indica la posizione di maggior preferenza.
+Si ottengono delle liste di preferenze come rappresentato in tabella \ref{table:voticondorcet}, in cui
+è mostrata l'occorrenza di ciascuna lista.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \multicolumn{1}{|l|}{Posizione 1} & \multicolumn{1}{|l|}{Posizione 2} & \multicolumn{1}{|l|}{Posizione 3} & \multicolumn{1}{l|}{Numero di occorrenze della lista } \\ \hline
+    A & C & B & 23                              \\ \hline
+    B & C & A & 19                              \\ \hline
+    C & B & A & 16                              \\ \hline
+    C & A & B & 2                               \\ \hline
+    \end{tabular}
+    \caption{Tabella delle liste di preferenze, con l'occorrenza di ciascuna lista}
+    \label{table:voticondorcet}
+\end{table}
+
+Ora è possibile effettuare confronti tra le coppie, partendo ad esempio dalla coppia (B,C)
+\begin{itemize}
+    \item{Nella prima lista C è in una posizione favorevole rispetto a B, quindi C ottiene 23 punti}
+    \item{Nella seconda lista B è in una posizione favorevole rispetto a C, quindi B ottiene 19 punti}
+    \item{Nella terza lista C è in una posizione favorevole rispetto a B, quindi C ottiene 16 punti}
+    \item{Nella quarta lista C è in una posizione favorevole rispetto a B, quindi C ottiene 2 punti}
+\end{itemize}
+
+Si ha che il candidato C batte il candidato B con un punteggio di 41 a 19.
+
+Facendo i confronti tra le coppie (A,B) e (A,C) si ottiene che il candidato
+B batte il candidato A con un punteggio di 35 a 25, e il candidato C batte il candidato
+A con un punteggio di 37 a 23. Il risultato finale è quindi C $>$ B $>$ A.
+
+In alcuni casi il metodo di Condorcet può non portare ad alcun vincitore, in quel caso si
+ha un ciclo, ad esempio, trovandosi in una situazione 
+in cui C $>$ B, B $>$ A, A $>$ C.
+
+Le varianti del metodo di Condorcet ottimizzano l'algoritmo per minimizzare il rischio
+di indeterminazione del vincitore.
+Può accedere, in Condorcet come nelle sue varianti, di ottenere dei pareggi,
+i quali avvengono quando due o più candidati pareggiano l'uno con l'altro ma 
+battono tutti i restanti. La situazione di pareggio può essere gestita in vari
+modi, ad esempio, estraendo una sequenza in modo casuale, valutando altri criteri
+come la preferenza nei singoli voti (most first choice) oppure mantenendo il set di pareggio
+senza effettuare alcuna azione.
+
+Dato il risultato della votazione, è possibile definire l'utilità individuale come il grado
+di soddisfazione del votante. Il grado di soddisfazione sarà tanto più alto 
+quanto più vicino è il risultato rispetto al voto espresso.
+
+Concludendo, l'algoritmo porta ad un risultato nel quale si tende a massimizzare
+l'utilità per il maggior numero di votanti, ossia a massimizzare l'utilità
+complessiva. 
+
+\subsection{Algoritmo di Schultze}
+L'algoritmo di Schultze, conosciuto anche come Schwartz Sequential Dropping (SSD),
+è una variante di Condorcet basata sulla sommatoria del conteggio delle preferenze tra i candidati.
+Ad esempio, una lista A $>$ B $>$ C, A ottiene 2 punti, B ottiene 1 punto mentre C nessuno.
+Riprendendo la situazione presente in tabella \ref{table:voticondorcet} e moltiplicando
+i punti per il numero di occorrenze della lista, si ha un totale dei punti pari a 48
+per la lista in oggetto.
+Proseguendo con l'algoritmo, la situazione finale è mostrata in tabella \ref{table:risultatischultze}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \multicolumn{1}{|l|}{Candidato} & \multicolumn{1}{|l|}{x 23} & \multicolumn{1}{|l|}{x 19} & \multicolumn{1}{l|}{x 16} & \multicolumn{1}{l|}{x 2} & \multicolumn{1}{l|}{Sommatoria} \\ \hline
+    A & 2 & 0 & 0 & 1 & 48                              \\ \hline
+    B & 0 & 2 & 1 & 0 & 54                              \\ \hline
+    C & 1 & 1 & 2 & 2 & 78                             \\ \hline
+  
+    \end{tabular}
+    \caption{Tabella delle sommatorie ottenute con l'applicazione dell'algoritmo di Schultze}
+    \label{table:risultatischultze}
+\end{table}
+
+Prendendo in considerazione le sommatorie in ordine decrescente, otteniamo, anche in questo caso C $>$ B $>$ A
+
+\section{Requisiti}
+La libreria \texttt{EleKtion} fornisce la possibilità effettuare votazioni.
+Essa non tratta la parte preliminare ad una votazione, quale fase di proposta, discussione,
+eventuali pre-votazioni o quorum, ma pone il focus sulla organizzazione dei candidati coinvolti,
+la tipologia di algoritmo utilizzato per la votazione ed il numero di voti presenti.
+Al termine della votazione, è disponibile una classifica che riporta informazioni 
+circa le specifiche impostate e le caratteristiche dei concorrenti.
+
+    \subsection{Requisiti funzionali}
+    \begin{itemize}
+        \item{A seconda del tipo di votazione, è possibile definire una metrica da utilizzare nel caso
+        in cui si hanno dei pareggi.}
+        \item{Sarà possibile definire tutti gli elementi necessari attraverso l'uso una sintassi che agevoli la rapidità di creazione,
+        evitando che il creatore effettui manualmente i controlli minimi ed obbligatori}
+    \end{itemize}
+    \subsection{Requisiti non funzionali}
+    \begin{itemize}
+    \item{La libreria dovrà essere compatibile con molteplici piattaforme e facilmente importabile in esse}
+    \end{itemize}
+
+
+\section{Modello del dominio}
+%----------------------------------------------------------------------------------------
+\chapter{Design}
+%----------------------------------------------------------------------------------------
+\chapter{Implementazione}
+
+\section{Build automation e versionamento degli artefatti}
 L'adozione di un sistema di build automation è un fattore chiave per la produzione
 efficace ed efficiente di software di qualità.
 
@@ -160,10 +312,10 @@ Infine, per favorire la distribuzione e la compatibilità verso molteplici siste
 che semplificano la generazione dell'output finale adattandolo alle specifiche piattaforme. 
 
 
-\section{Kotlin Multiplatform}
+\subsection{Kotlin Multiplatform}
 Spiegare brevemente in cosa consiste, con immagini a supporto
 
-\section{GitHub Actions}
+\subsection{GitHub Actions}
  \ac{gha} è una piattaforma di \ac{ci}/\ac{cd} basata su repository \ac{gh},
  ai quali possono essere agganciati degli elementi detti workflow.
 
@@ -194,47 +346,16 @@ e la condivisione di codice nella community \ac{gh}, in quanto è possibile, ad 
 come se fosse un singolo step (\texttt{composite action}) oppure lanciare l'esecuzione di un container senza
 imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configurazioni (\texttt{docker container action}).
 
-\section{GitHub Pages}
+\subsection{GitHub Pages}
  \ac{ghp} è un servizio di hosting disponibile per ogni account ed organizzazione in \ac{gh},
  attraverso il quale è possibile pubblicare un sito web statico, che viene costruito e
  pubblica attraverso un apposito \texttt{workflow} predefinito. 
  Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato dare informazioni 
  su come scaricare ed installare il software oppure per pubblicare la documentazione.
-\section{Artefatti}
-    Nota per il Prof.
-    Non so se va spiegata qui la pubblicazione su Maven central/ github packages / npm
-    oppure se parlarne direttamente nell' implementazione
-%----------------------------------------------------------------------------------------
-\chapter{Analisi}
-In questa parte metterei dettagli su votazioni a singola preferenza 
-e votazioni a lista di preferenze (es.Condorcet)
-\section{Algoritmi}
-\subsection{Algoritmi a maggioranza}
-\subsection{Algoritmo di Condorcet}
-\begin{table}[]
-    \centering
-    \begin{tabular}{|c|c|}
-    \hline
-    \multicolumn{1}{|l|}{Voto}      & \multicolumn{1}{l|}{Occorrenze} \\ \hline
-    A \textgreater C \textgreater B & 23                              \\ \hline
-    B \textgreater C \textgreater A & 19                              \\ \hline
-    C \textgreater B \textgreater A & 16                              \\ \hline
-    C \textgreater A \textgreater B & 2                               \\ \hline
-    \end{tabular}
-    \caption{Tabella dei voti con occorrenze}
-    \end{table}
-\subsection{Algoritmo di Schultze}
-\section{Requisiti}
-
-    \subsection{Requisiti funzionali}
-
-    \subsection{Requisiti non funzionali}
-
-\section{Modello del dominio}
-%----------------------------------------------------------------------------------------
-\chapter{Design}
-%----------------------------------------------------------------------------------------
-\chapter{Implementazione}
+%\section{Artefatti}
+%    Nota per il Prof.
+%    Non so se va spiegata qui la pubblicazione su Maven central/ github packages / npm
+%    oppure se parlarne direttamente nell' implementazione
 
 \section{DSL }
 
