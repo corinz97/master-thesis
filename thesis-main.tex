@@ -144,29 +144,29 @@ elenco di requisiti che dovranno essere considerati nelle fasi successive e infi
 sarà fornita una modellazione del dominio mediante diagramma UML.
 \section{Voto a singola preferenza}
 La tipologia di voto a singola preferenza impone al votante di effettuare una scelta tra un
-numero definito di candidati. Al termine della votazione, tipicamente si adotta il criterio
-della votazione maggioritaria: si contano i voti ottenuti da ciascun candidato, e colui che ottiene il
+numero definito di concorrenti. Al termine della votazione, tipicamente si adotta il criterio
+della votazione maggioritaria: si contano i voti ottenuti da ciascun concorrente, e colui che ottiene il
 numero più elevato, risulta vincitore. A seconda del contesto preso in considerazione,
-è possibile avere più turni per diminuire di volta in volta il numero di candidati coinvolti.
+è possibile avere più turni per diminuire di volta in volta il numero di concorrenti coinvolti.
 Se si arriva ad un pareggio, è possibile effettuare un nuovo ballottaggio oppure adottare
 criteri secondari, che variano in base al dominio trattato.
 \section{Voto a lista di preferenze}
 La tipologia di voto a lista di preferenze non impone al votante di effettuare un'unica scelta,
-bensì di fissare un ordinamento tra i candidati che parta dal meno preferito al più preferito
+bensì di fissare un ordinamento tra i concorrenti che parta dal meno preferito al più preferito
 o viceversa. Questa logica permette di conservare più contenuto informativo sulle preferenze
 rispetto alla singola scelta, e offre anche una panoramica di gradimento degli altri concorrenti.
 Questo tipo di voto è stato introdotto inizialmente dall'algoritmo di Condorcet ed adottato
 anche nelle sue varianti. Di seguito viene data una spiegazione sul funzionamento dell'algoritmo
 di Condorcet, e di un suo derivato, l'algoritmo di Schultze.
 \subsection{Algoritmo di Condorcet}
-L'algoritmo di Condorcet permette di estrarre un vincitore tra ${n}$ candidati,
-applicando il criterio di maggioranza nei confronti tra le coppie di candidati.
+L'algoritmo di Condorcet permette di estrarre un vincitore tra ${n}$ concorrenti,
+applicando il criterio di maggioranza nei confronti tra le coppie di concorrenti.
 Si generano le possibili coppie, si confrontano e si valuta quale coppia ha ottenuto il
-maggior numero di preferenze. Nello scontro a coppie, un candidato è vincitore se in un
+maggior numero di preferenze. Nello scontro a coppie, un concorrente è vincitore se in un
 voto occupa una posizione preferenziale rispetto all'altro.
 
-Di seguito viene riportato un esempio, supponendo di avere tre possibili candidati (A, B, C)
-e 60 differenti votanti, che ordinano i candidati dalla posizione 1 alla posizione 3, dove la posizione 1 
+Di seguito viene riportato un esempio, supponendo di avere tre possibili concorrenti (A, B, C)
+e 60 differenti votanti, che ordinano i concorrenti dalla posizione 1 alla posizione 3, dove la posizione 1 
 indica la posizione di maggior preferenza.
 Si ottengono delle liste di preferenze come rappresentato in tabella \ref{table:voticondorcet}, in cui
 è mostrata l'occorrenza di ciascuna lista.
@@ -193,10 +193,10 @@ Ora è possibile effettuare confronti tra le coppie, partendo ad esempio dalla c
     \item{Nella quarta lista C è in una posizione favorevole rispetto a B, quindi C ottiene 2 punti}
 \end{itemize}
 
-Si ha che il candidato C batte il candidato B con un punteggio di 41 a 19.
+Si ha che il concorrente C batte il concorrente B con un punteggio di 41 a 19.
 
-Facendo i confronti tra le coppie (A,B) e (A,C) si ottiene che il candidato
-B batte il candidato A con un punteggio di 35 a 25, e il candidato C batte il candidato
+Facendo i confronti tra le coppie (A,B) e (A,C) si ottiene che il concorrente
+B batte il concorrente A con un punteggio di 35 a 25, e il concorrente C batte il concorrente
 A con un punteggio di 37 a 23. Il risultato finale è quindi C $>$ B $>$ A.
 
 In alcuni casi il metodo di Condorcet può non portare ad alcun vincitore, in quel caso si
@@ -206,7 +206,7 @@ in cui C $>$ B, B $>$ A, A $>$ C.
 Le varianti del metodo di Condorcet ottimizzano l'algoritmo per minimizzare il rischio
 di indeterminazione del vincitore.
 Può accedere, in Condorcet come nelle sue varianti, di ottenere dei pareggi,
-i quali avvengono quando due o più candidati pareggiano l'uno con l'altro ma 
+i quali avvengono quando due o più concorrenti pareggiano l'uno con l'altro ma 
 battono tutti i restanti. La situazione di pareggio può essere gestita in vari
 modi, ad esempio, estraendo una sequenza in modo casuale, valutando altri criteri
 come la preferenza nei singoli voti (most first choice) oppure mantenendo il set di pareggio
@@ -222,7 +222,7 @@ complessiva.
 
 \subsection{Algoritmo di Schultze}
 L'algoritmo di Schultze, conosciuto anche come Schwartz Sequential Dropping (SSD),
-è una variante di Condorcet basata sulla sommatoria del conteggio delle preferenze tra i candidati.
+è una variante di Condorcet basata sulla sommatoria del conteggio delle preferenze tra i concorrenti.
 Ad esempio, una lista A $>$ B $>$ C, A ottiene 2 punti, B ottiene 1 punto mentre C nessuno.
 Riprendendo la situazione presente in tabella \ref{table:voticondorcet} e moltiplicando
 i punti per il numero di occorrenze della lista, si ha un totale dei punti pari a 48
@@ -233,7 +233,7 @@ Proseguendo con l'algoritmo, la situazione finale è mostrata in tabella \ref{ta
     \centering
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-    \multicolumn{1}{|l|}{Candidato} & \multicolumn{1}{|l|}{x 23} & \multicolumn{1}{|l|}{x 19} & \multicolumn{1}{l|}{x 16} & \multicolumn{1}{l|}{x 2} & \multicolumn{1}{l|}{Sommatoria} \\ \hline
+    \multicolumn{1}{|l|}{concorrente} & \multicolumn{1}{|l|}{x 23} & \multicolumn{1}{|l|}{x 19} & \multicolumn{1}{l|}{x 16} & \multicolumn{1}{l|}{x 2} & \multicolumn{1}{l|}{Sommatoria} \\ \hline
     A & 2 & 0 & 0 & 1 & 48                              \\ \hline
     B & 0 & 2 & 1 & 0 & 54                              \\ \hline
     C & 1 & 1 & 2 & 2 & 78                             \\ \hline
@@ -246,22 +246,46 @@ Proseguendo con l'algoritmo, la situazione finale è mostrata in tabella \ref{ta
 Prendendo in considerazione le sommatorie in ordine decrescente, otteniamo, anche in questo caso C $>$ B $>$ A
 
 \section{Requisiti}
-La libreria \texttt{EleKtion} fornisce la possibilità effettuare votazioni.
-Essa non tratta la parte preliminare ad una votazione, quale fase di proposta, discussione,
-eventuali pre-votazioni o quorum, ma pone il focus sulla organizzazione dei candidati coinvolti,
-la tipologia di algoritmo utilizzato per la votazione ed il numero di voti presenti.
-Al termine della votazione, è disponibile una classifica che riporta informazioni 
+La libreria \texttt{EleKtion} fornirà la possibilità di creare ed effettuare votazioni.
+Essa non tratterà la parte preliminare ad una votazione, quale fase di proposta, discussione,
+eventuali pre-votazioni o quorum, ma porrà il focus sulla definizione e gestione dei concorrenti coinvolti,
+la tipologia di algoritmo utilizzato per ottenere il risultato finale ed i voti presenti nella fase di votazione.
+Al termine della stessa, è disponibile una classifica che riporta informazioni 
 circa le specifiche impostate e le caratteristiche dei concorrenti.
 
     \subsection{Requisiti funzionali}
     \begin{itemize}
-        \item{A seconda del tipo di votazione, è possibile definire una metrica da utilizzare nel caso
-        in cui si hanno dei pareggi.}
-        \item{Sarà possibile definire tutti gli elementi necessari attraverso l'uso una sintassi che agevoli la rapidità di creazione,
-        evitando che il creatore effettui manualmente i controlli minimi ed obbligatori}
+        \item{Definizione di un gestore di votazioni, intesi come contenitore delle stesse. Ciascuna votazione
+        dovrà essere indipendente dalle altre. L'eventuale collegamento tra le stesse sarà demandato all'utilizzatore della libreria.}
+        \item{Definizione di una votazione come entry point del processo.} 
+        \item{Definizione dei concorrenti che rappresenteranno i candidati disponibili, delle relative caratteristiche e di
+        eventuali punteggi, che potranno essere presenti a seconda del dominio della votazione.
+        Gli eventuali punteggi saranno collegati ad una specifica metrica di interesse.
+        }
+        \item{Definizione dell'algoritmo da utilizzare. L'algoritmo dovrà determinare la logica con cui saranno
+        confrontati e selezionati i concorrenti. L'algoritmo potrà utilizzare la metrica disponibile per
+        effettuare ulteriori valutazioni in occasione di pareggio o altre casistiche definibili dall'utilizzatore.
+        L'algoritmo potrà essere caratterizzato dalla presenza di opportuni parametri, utili al suo funzionamento.   }
+        \item{Definizione dei voti presenti nella votazione. La tipologia di voto dovrà essere dipendente dall'algoritmo utilizzato,
+        e in ogni caso potrà essere dei seguenti tipi:
+        \begin{itemize}
+            \item{Voto a singola preferenza}
+            \item{Voto a lista di preferenze}
+        \end{itemize}
+
+        Dovrà essere data la possibilita si anonimizzare il votante. Una volta anonimizzato, non sarà possibile risalire alla vera identità.
+
+        
+        }
+        \item{Le fasi di definizione dovranno essere correlate ad opportuni controlli di congruità. Ad esempio, non dovrà essere
+        possibile votare un concorrente che non è presente tra i candidati disponibili.}
+        \item{La classifica finale dovrà essere disponibile e visualizzabile dall'utilizzatore. Dovrà esser data evidenza
+        di eventuali situazioni di pareggio, di quale algoritmo è stato utilizzato e delle caratteristiche dei concorrenti.}
     \end{itemize}
     \subsection{Requisiti non funzionali}
     \begin{itemize}
+        \item{Dovrà essere possibile definire tutti gli elementi necessari attraverso l'uso di costrutti che agevolino la rapidità di creazione,
+        evitando che l'utilizzatore effettui manualmente i controlli minimi ed obbligatori}
     \item{La libreria dovrà essere compatibile con molteplici piattaforme e facilmente importabile in esse}
     \end{itemize}
 
