@@ -34,6 +34,8 @@ democrazia digitale
 
 \acrodef{cd}[CD]{Continuous Delivery}
 
+\acrodef{dsl}[DSL]{Domain specific language}
+
 
 
 \mainlinespacing{1.35} % line spacing in mainmatter, comment to default (1)
@@ -372,7 +374,9 @@ sarebbe stato l'esito finale con regole differenti.
 
 \section{Modello del dominio}
 \texttt{eleKtion} avrà a disposizione uno o più gestori di votazioni. 
-I gestori sono indipendenti tra loro e così anche le votazioni all'interno degli stessi.
+I gestori sono indipendenti tra loro e così anche le votazioni all'interno degli stessi,
+fatto salvo l'uso coerente della tipologia di votazione e della metrica di punteggio,
+che rimane stabile in ogni gestore.
 
 Non è contemplata l'ipotesi di più turni nella stessa votazione, 
 quindi in tal caso dovranno essere gestiti come votazioni separate.
@@ -387,7 +391,7 @@ La votazione, inoltre, ha associato l'elenco dei voti,
 i quali hanno riferimento sia del votato che del votante,
 in caso di votazione non anonima.
 È importante che un voto, per essere considerato valido, 
-sia riferito ad un candidato esistente e sia di una tipologia esclusiva tra quelle ammesse.
+sia riferito ad un candidato esistente e sia della tipologia ammessa dalla votazione.
 
 Infine, ci può essere un solo algoritmo collegato alla votazione,
 il quale può contenere dei parametri per effettuare variazioni nella configurazione per il suo funzionamento.
@@ -406,6 +410,133 @@ il dominio descritto in questo capitolo.
 
 %----------------------------------------------------------------------------------------
 \chapter{Design}
+In questo capitolo viene posto un approfondimento sulla porzione di dominio
+impattata dall'introduzione di \ac{dsl}, volto al miglioramento dell'utilizzabilità della libreria \texttt{eleKtion}.
+Per ogni funzionalità verrà evidenzata un'apposita descrizione e un diagramma UML
+che ne esplichi l'organizzazione. Questi diagrammi sono realizzati con il presupposto di poter adottare l'utilizzo
+dei seguenti costrutti:
+\begin{itemize}
+\item{tipi \texttt{generici} \cite{WebsiteKotlinGenerics};}
+\item{\texttt{overloading} degli \texttt{operatori} \cite{WebsiteKotlinOperatorOverloading};}
+\item{\texttt{higher order functions} (in particolare \texttt{function literal with receiver}) \cite{WebsiteKotlinLambda}.}
+\end{itemize}
+
+Si rimanda alle fonti per l'approfondimento specifico in \texttt{Kotlin}, la sintassi utilizzata nei diagrammi
+è generica ed astrae dal linguaggio specifico.
+
+\section{\ac{dsl} per la definizione del gestore di votazioni }
+Questo \ac{dsl} è pensato per facilitare la creazione del gestore di votazioni.
+Un gestore di votazioni viene vincolato ad adottare uno specifico tipo \texttt{S}, sottotipo di \texttt{ScoreMetric}, ed uno specifico
+tipo di voto \texttt{V}, sottotipo di \texttt{Vote}.
+Questi due tipo vincolano i seguenti componenti che verranno definiti, pertanto non è possibile adottare diversi metriche di punteggio tra i concorrenti,
+o diversi tipologie di voto, tra le varie votazioni presenti nel medesimo gestore.
+
+Il punto di ingresso dell'intero flusso è rappresentato dalla funzione \texttt{initializedAs}, al suo interno è possibile inizializzare una votazione attraverso 
+la funzione \texttt{poll}, e l'utilizzo dell'operatore unario \texttt{+}, per l'aggiunta di quest'ultima alla lista di votazioni.
+In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfacce e della classe astratta.
+\vfill
+\begin{center} 
+\begin{figure}[H]
+    \centering
+     \includegraphics[width=1.1\linewidth]{figures/pollManagerDSL.png}
+     \caption{Diagramma UML del \ac{dsl} per la definizione del gestore di votazioni}
+    \label{fig:pollManagerDSL}
+ \end{figure}
+\end{center}
+\vfill
+ \newpage
+
+
+ \section{\ac{dsl} per la definizione della votazione}
+ Questo \ac{dsl} è pensato per facilitare la creazione di una votazione.
+ In una votazione è obbligatorio scegliere l'algoritmo con cui sarà elaborato l'esito, 
+ l'algoritmo può ricevere parametri utili al uso funzionamento, attraverso l'utilizzo dell'
+ operatore unario \texttt{+} presente in \texttt{PollAlgorithmDSL}.
+ In base al tipo di voto (vedi capitolo \ref{tipidivoto}) è utile definire un costrutto
+ per agevolarne la creazione.
+ Nel caso in cui il voto sia a singola preferenza, è necessario specificare
+ l'identificativo del votato e l'identificativo del votante (vedi funzione \texttt{votedBy} in \texttt{SPVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL}). Nel caso in cui quest'ultimo non 
+ sia richiesto, corrisponderà ad un identificativo casuale (vedi funzione \texttt{asAnonymousVote} in \texttt{SPVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL}).
+ Nel caso in cui il voto sia a lista di preferenze, per costruire la lista è necessario specificare l'elenco degli identificativi dei votati,
+ utilizzando la funzione \texttt{then} in concatenazione (vedi funzione \texttt{then} in \texttt{LOPVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL})).
+ Allo stesso modo del voto a singola preferenza, è prevista la possibilità di anonimizzare il votante.
+ Come visibile in figura \ref{fig:pollAlgorithmDSL}, sono previsti metodi per semplificare l'inizializzazione dei possibili algoritmi:
+ \begin{itemize}
+    \item{\texttt{majorityVotesAlgorithm}: rappresenta la creazione di un algoritmo a maggioranza, in cui il vincitore è colui che ricevuto più voti;}
+    \item{\texttt{majorityVotesHScoreAlgorithm}: rappresenta la creazione di un algoritmo a maggioranza, in cui il vincitore è colui che ricevuto più voti.
+    Se si verificano pareggi, viene selezionato il concorrente che ha il punteggio maggiore, secondo la metrica di punteggio definita;}
+    \item{\texttt{majorityVotesHScoreAlgorithm}: rappresenta la creazione di un algoritmo a maggioranza, in cui il vincitore è colui che ricevuto più voti.
+    Se si verificano pareggi, viene selezionato il concorrente che ha il punteggio minore, secondo la metrica di punteggio definita;}
+    \item{\texttt{condorcetAlgorithm}: rappresenta la creazione dell'algoritmo di Condorcet;}
+    \item{\texttt{schultzeAlgorithm}: rappresenta la creazione dell'algoritmo di Schultze.}
+ \end{itemize}
+
+ In figura \ref{fig:pollDSL} vengono mostrati gli altri metodi utili alla creazione di una votazione:
+ La funzione \texttt{competition}, utile alla creazione della competizione,
+ richiede che venga definito un nome alla competizione e un inizializzatore in cui saranno definiti i concorrenti.
+ Quest'ultimo, così come l'algoritmo desiderato, sono effettivamente assegnati alla votazione
+ attraverso l'uso dell'operatore unario \texttt{-}.
+ Infine è possibile aggiungere un elenco di voti, preferibilmente creati utilizzando i metodi descritti nella prima parte
+ di questo sotto capitolo. Ciascun voto richiede di essere effettivamente aggiunto alla lista di voti attraverso
+ l'uso dell' operatore unario \texttt{+}.
+
+ Per motivi di spazio, nelle figure \ref{fig:pollAlgorithmDSL} e \ref{fig:pollDSL} sono stati utilizzati gli
+ acronimi \textit{SP} e \textit{LOP}, al posto di, rispettivamente, \textit{SinglePreference} e \textit{ListOfPreferences}.
+
+ \vfill
+ \begin{center} 
+ \begin{figure}[H]
+     \centering
+      \includegraphics[width=1.1\linewidth]{figures/pollAlgorithmDSL.png}
+      \caption{Diagramma UML del \ac{dsl} per la porzione di definizione dell'algoritmo}
+     \label{fig:pollAlgorithmDSL}
+  \end{figure}
+\end{center}
+\vfill
+
+
+
+\vfill
+\begin{center}
+ \begin{figure}[H]
+     \centering
+      \includegraphics[width=1.1\linewidth]{figures/pollDSL.png}
+      \caption{Diagramma UML del \ac{dsl} per la porzione di definizione della votazione}
+     \label{fig:pollDSL}
+  \end{figure}
+\end{center}
+\vfill
+  
+
+
+
+\section{\ac{dsl} per la definizione della competizione}
+\label{dslcompetizione}
+Questo DSL è pensato per facilitare la creazione ed il popolamento di una competizione.
+La funzione \texttt{competitor}, utile alla creazione del concorrente,
+richiede che venga definito l'identificativo del concorrente e un inizializzatore in cui saranno definiti i punteggi realizzati.
+Il concorrente istanziato, viene aggiunto alla lista dei concorrenti grazie all'uso dell'operatore unario \texttt{+}.
+
+In figura \ref{fig:competitionDSL} viene mostrato il diagramma UML delle interfacce e della classe astratta.
+\begin{figure}[H]
+    \centering
+     \includegraphics[width=1.1\linewidth]{figures/competitionDSL.png}
+     \caption{Diagramma UML del \ac{dsl} per la definizione della competizione}
+    \label{fig:competitionDSL}
+ \end{figure}
+ \newpage
+\section{\ac{dsl} per la definizione del concorrente}
+Questo DSL è ideato per facilitare la creazione di un concorrente.
+Ciascun concorrente può avere un elenco di punteggi, e ciascuno di essi può essere
+assegnato al concorrente (vedi capitolo \ref{dslcompetizione} ) attraverso l'uso dell'operatore unario \texttt{+}. .
+\begin{figure}[H]
+    \centering
+     \includegraphics[width=1.1\linewidth]{figures/competitorDSL.png}
+     \caption{Diagramma UML del \ac{dsl} per la definizione della concorrente}
+    \label{fig:competitorDSL}
+ \end{figure}
+ \newpage
+
 %----------------------------------------------------------------------------------------
 \chapter{Implementazione}
 
@@ -495,6 +626,7 @@ imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configur
 %    oppure se parlarne direttamente nell' implementazione
 
 \section{DSL }
+come ho utilizzato gli operator le lambda with receiver esempi di utilizzo del dsl
 
 \section{Librerie multiplatform utilizzate}
 
