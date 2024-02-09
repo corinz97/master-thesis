@@ -179,9 +179,11 @@ la libertà di pensiero\cite{castelfranchi2019problematic}.
 
 %----------------------------------------------------------------------------------------
 \chapter{Analisi}
-In questo capitolo viene descritta l'analisi sugli aspetti che dovranno 
-caratterizzare la libreria multipiattaforma \texttt{eleKtion}. Verrà fatta una panoramica sui tipi di voto
-ed alcuni algoritmi applicabili per ciascuna tipologia; successivamente verrà definito un 
+In questo capitolo verrà descritta l'analisi sugli aspetti che dovranno 
+caratterizzare la libreria multipiattaforma \texttt{eleKtion}.
+
+Verrà esposto un approfondimento sui tipi di voto
+ed alcuni algoritmi applicabili per ciascun tipo; successivamente sarà definito un 
 elenco di requisiti che dovranno essere considerati nelle fasi successive e infine,
 sarà fornita una modellazione del dominio mediante diagramma UML.
 \section{Voto a singola preferenza}
@@ -373,6 +375,7 @@ sarebbe stato l'esito finale con regole differenti.
 
 
 \section{Modello del dominio}
+\label{modellodominio}
 \texttt{eleKtion} avrà a disposizione uno o più gestori di votazioni. 
 I gestori sono indipendenti tra loro e così anche le votazioni all'interno degli stessi,
 fatto salvo l'uso coerente della tipologia di votazione e della metrica di punteggio,
@@ -410,10 +413,13 @@ il dominio descritto in questo capitolo.
 
 %----------------------------------------------------------------------------------------
 \chapter{Design}
-In questo capitolo viene posto un approfondimento sulla porzione di dominio
+In questo capitolo, partendo dalla modellazione del dominio descritta nel capitolo \ref{modellodominio}, 
+sarà sviluppato un approfondimento sulla definizione delle metriche di punteggio e sulla porzione
 impattata dall'introduzione di \ac{dsl}, volto al miglioramento dell'utilizzabilità della libreria \texttt{eleKtion}.
-Per ogni funzionalità verrà evidenzata un'apposita descrizione e un diagramma UML
-che ne esplichi l'organizzazione. Questi diagrammi sono realizzati con il presupposto di poter adottare l'utilizzo
+Per ciascuna funzionalità verrà evidenzata un'apposita descrizione e un diagramma UML
+che esplichi come saranno organizzate le interfacce e le classi astratte.
+
+Questi diagrammi sono realizzati con il presupposto di poter adottare l'utilizzo
 dei seguenti costrutti:
 \begin{itemize}
 \item{tipi \texttt{generici} \cite{WebsiteKotlinGenerics};}
@@ -424,12 +430,30 @@ dei seguenti costrutti:
 Si rimanda alle fonti per l'approfondimento specifico in \texttt{Kotlin}, la sintassi utilizzata nei diagrammi
 è generica ed astrae dal linguaggio specifico.
 
+
 \section{\ac{dsl} per la definizione del gestore di votazioni }
 Questo \ac{dsl} è pensato per facilitare la creazione del gestore di votazioni.
 Un gestore di votazioni viene vincolato ad adottare uno specifico tipo \texttt{S}, sottotipo di \texttt{ScoreMetric}, ed uno specifico
 tipo di voto \texttt{V}, sottotipo di \texttt{Vote}.
-Questi due tipo vincolano i seguenti componenti che verranno definiti, pertanto non è possibile adottare diversi metriche di punteggio tra i concorrenti,
+
+Una metrica è definibile come il criterio tale per cui un concorrente può essere messo a confronto con un altro, sulla base della
+sua prestazione nella competizione. Pertanto, è rappresentabile come un criterio di comparazione tra valori, visibile in figura \ref{fig:metrica}.
+
+\vfill
+\begin{center} 
+\begin{figure}[H]
+    \centering
+     \includegraphics[width=1.1\linewidth]{figures/metrica.png}
+     \caption{Diagramma UML dell'organizzazione di una metrica}
+    \label{fig:metrica}
+ \end{figure}
+\end{center}
+\vfill
+
+I tipi \textit{S} e \textit{V} vincolano i seguenti componenti che verranno trattati, pertanto non è possibile adottare diversi metriche di punteggio tra i concorrenti,
 o diversi tipologie di voto, tra le varie votazioni presenti nel medesimo gestore.
+
+
 
 Il punto di ingresso dell'intero flusso è rappresentato dalla funzione \texttt{initializedAs}, al suo interno è possibile inizializzare una votazione attraverso 
 la funzione \texttt{poll}, e l'utilizzo dell'operatore unario \texttt{+}, per l'aggiunta di quest'ultima alla lista di votazioni.
@@ -627,6 +651,7 @@ imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configur
 
 \section{DSL }
 come ho utilizzato gli operator le lambda with receiver esempi di utilizzo del dsl
+tanti esempi nei listings
 
 \section{Librerie multiplatform utilizzate}
 
