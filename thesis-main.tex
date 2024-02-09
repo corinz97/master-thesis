@@ -8,10 +8,11 @@
 
 \school{\unibo}
 \programme{Corso di Laurea Magistrale in Ingegneria e Scienze Informatiche}
-\title{MYOP - Make your own poll \\
-Libreria multipiattaforma \\
-a supporto della \\
-democrazia digitale
+
+\title{EleKtion: \\
+libreria Kotlin Multiplatform \\
+per la democrazia digitale  \\
+in nuovi contesti
 }
 \author{Jacopo Corina}
 \date{\today}
@@ -180,7 +181,7 @@ la libertà di pensiero\cite{castelfranchi2019problematic}.
 %----------------------------------------------------------------------------------------
 \chapter{Analisi}
 In questo capitolo verrà descritta l'analisi sugli aspetti che dovranno 
-caratterizzare la libreria multipiattaforma \texttt{eleKtion}.
+caratterizzare la libreria multipiattaforma \texttt{EleKtion}.
 
 Verrà esposto un approfondimento sui tipi di voto
 ed alcuni algoritmi applicabili per ciascun tipo; successivamente sarà definito un 
@@ -313,7 +314,7 @@ Il risultato di Schultze non coincide sempre con il risultato di Condorcet.
 
 \newpage
 \section{Requisiti}
-La libreria \texttt{eleKtion} fornirà la possibilità di creare ed effettuare votazioni.
+La libreria \texttt{EleKtion} fornirà la possibilità di creare ed effettuare votazioni.
 Essa non tratterà la parte preliminare ad una votazione, quale fase di proposta, discussione,
 eventuali pre-votazioni o quorum, ma porrà l'obiettivo sulla definizione e gestione dei concorrenti coinvolti,
 la tipologia di algoritmo utilizzato per ottenere il risultato finale ed i voti presenti nella fase di votazione.
@@ -376,7 +377,7 @@ sarebbe stato l'esito finale con regole differenti.
 
 \section{Modello del dominio}
 \label{modellodominio}
-\texttt{eleKtion} avrà a disposizione uno o più gestori di votazioni. 
+\texttt{EleKtion} avrà a disposizione uno o più gestori di votazioni. 
 I gestori sono indipendenti tra loro e così anche le votazioni all'interno degli stessi,
 fatto salvo l'uso coerente della tipologia di votazione e della metrica di punteggio,
 che rimane stabile in ogni gestore.
@@ -407,7 +408,7 @@ il dominio descritto in questo capitolo.
 \begin{figure}
    \centering
     \includegraphics[width=1.1\linewidth]{figures/modellodominio.png}
-    \caption{Diagramma UML del modello di dominio di \texttt{eleKtion}}
+    \caption{Diagramma UML del modello di dominio di \texttt{EleKtion}}
    \label{fig:modellodominio}
 \end{figure}
 
@@ -415,7 +416,7 @@ il dominio descritto in questo capitolo.
 \chapter{Design}
 In questo capitolo, partendo dalla modellazione del dominio descritta nel capitolo \ref{modellodominio}, 
 sarà sviluppato un approfondimento sulla definizione delle metriche di punteggio e sulla porzione
-impattata dall'introduzione di \ac{dsl}, volto al miglioramento dell'utilizzabilità della libreria \texttt{eleKtion}.
+impattata dall'introduzione di \ac{dsl}, volto al miglioramento dell'utilizzabilità della libreria \texttt{EleKtion}.
 Per ciascuna funzionalità verrà evidenzata un'apposita descrizione e un diagramma UML
 che esplichi come saranno organizzate le interfacce e le classi astratte.
 
@@ -443,7 +444,7 @@ sua prestazione nella competizione. Pertanto, è rappresentabile come un criteri
 \begin{center} 
 \begin{figure}[H]
     \centering
-     \includegraphics[width=1.1\linewidth]{figures/metrica.png}
+     \includegraphics[width=1.1\linewidth]{figures/random-image.pdf}
      \caption{Diagramma UML dell'organizzazione di una metrica}
     \label{fig:metrica}
  \end{figure}
