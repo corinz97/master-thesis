@@ -35,8 +35,11 @@ in nuovi contesti
 
 \acrodef{cd}[CD]{Continuous Delivery}
 
-\acrodef{dsl}[DSL]{Domain specific language}
+\acrodef{dsl}[DSL]{Domain Specific Language}
 
+\acrodef{npm}[NPM]{Node Package Manager}
+
+\acrodef{jvm}[JVM]{Java Virtual Machine}
 
 
 \mainlinespacing{1.35} % line spacing in mainmatter, comment to default (1)
@@ -432,7 +435,7 @@ Si rimanda alle fonti per l'approfondimento specifico in \texttt{Kotlin}, la sin
 è generica ed astrae dal linguaggio specifico.
 
 
-\section{\ac{dsl} per la definizione del gestore di votazioni }
+\section{Domain Specific Language per la definizione del gestore di votazioni }
 Questo \ac{dsl} è pensato per facilitare la creazione del gestore di votazioni.
 Un gestore di votazioni viene vincolato ad adottare uno specifico tipo \texttt{S}, sottotipo di \texttt{ScoreMetric}, ed uno specifico
 tipo di voto \texttt{V}, sottotipo di \texttt{Vote}.
@@ -472,7 +475,7 @@ In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfa
  \newpage
 
 
- \section{\ac{dsl} per la definizione della votazione}
+ \section{Domain Specific Language per la definizione della votazione}
  Questo \ac{dsl} è pensato per facilitare la creazione di una votazione.
  In una votazione è obbligatorio scegliere l'algoritmo con cui sarà elaborato l'esito, 
  l'algoritmo può ricevere parametri utili al uso funzionamento, attraverso l'utilizzo dell'
@@ -535,7 +538,7 @@ In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfa
 
 
 
-\section{\ac{dsl} per la definizione della competizione}
+\section{Domain Specific Language per la definizione della competizione}
 \label{dslcompetizione}
 Questo DSL è pensato per facilitare la creazione ed il popolamento di una competizione.
 La funzione \texttt{competitor}, utile alla creazione del concorrente,
@@ -645,10 +648,43 @@ imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configur
  pubblica attraverso un apposito \texttt{workflow} predefinito. 
  Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato dare informazioni 
  su come scaricare ed installare il software oppure per pubblicare la documentazione.
-%\section{Artefatti}
-%    Nota per il Prof.
-%    Non so se va spiegata qui la pubblicazione su Maven central/ github packages / npm
-%    oppure se parlarne direttamente nell' implementazione
+
+\subsection{Maven Central, GitHub Packages e NPM}
+Maven Central è tra i repository centralizzati più popolari per distribuire e riutilizzare artefatti basati su \ac{jvm}.
+Un repository è definibile come "la directory che memorizza tutti i progetti e le librerie JAR, i plugin
+o qualsiasi altro artefatto specifico del progetto che può essere facilmente utilizzato da Maven"\cite{kozak2022three}.
+
+Il sistema di gestione delle dipendenze di Maven è in grado di risolvere automaticamente le dipendenze transitive,
+semplificando la gestione manuale delle dipendenze per gli sviluppatori. 
+Gli artefatti caricati su Maven Central, tra cui librerie di codice compilato, documentazione ed elenco di dipendenze,
+sono immutabili e non possono essere modificati né eliminati.
+Le dipendenze vengono identificate in modo univoco con una tripletta \texttt{groupId:artifactId:version},
+dove \texttt{groupId} identifica un gruppo di artefatti, \texttt{artifactId} si riferisce al nome della libreria
+e \texttt{version} identifica univocamente ogni rilascio della libreria.
+Ad esempio, la tripletta 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0' 
+identifica la versione 1.6.0 di un serializzatore json per \textit{Kotlin}, gestito da \textit{JetBrains}.
+
+Tutte le versioni di una libreria rilasciate su Maven Central, una volta pubblicate sono sempre disponibili nel repository. 
+Gli utenti della libreria sono liberi di decidere quale versione utilizzare e per quanto tempo e a questi ultimi è delegata la responsabilità di aggiornare le proprie dipendenze per 
+adeguarsi a problemi di sicurezza o evoluzioni dell'API.
+Nel lungo termine, queste decisioni determinano le librerie e le versioni più popolari nell'intero ecosistema software.
+Si osserva che per la maggior parte delle librerie, più di una versione è attivamente utilizzata in un dato momento. 
+
+Da uno studio empirico \cite{soto2019emergence} è emerso che "circa il 40\% delle librerie ha due o più versioni attivamente utilizzate, 
+mentre quasi il 4\% non ha mai avuto alcun utente su Maven Central. 
+Inoltre, si è scoperto che più del 90\% delle versioni più popolari non sono le ultime versioni rilasciate, 
+e sia le versioni attive che significativamente popolari sono distribuite lungo la storia delle versioni della libreria".
+
+Un' alternativa all'uso di Maven Central può risiedere in \ac{gh} Packages. Quest'ultimo pone una gestione 
+semplificata per la pubblicazione degli artefatti, in quanto strettamente connesso all'uso di repository \ac{gh},
+il che permette di avere un controllo degli accessi efficace come quello disponibile per i repo.
+Al pari di Maven Central viene mantenuto il concetto di artefatti immutabili, e in più viene dato il supporto
+per l'archiviazione di pacchetti in numerosi linguaggi, tra cui \textit{C\#}.
+
+Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulle diffusione di librerie \textit{Javascript} e \textit{Node.js},
+si differenzia in particolare dai precedenti in quanto non adotta il principio di immutabilità.
+In questo caso, la modifica o eliminazione di una versione di un pacchetto può avere impatti notevoli sugli utilizzatori,
+portando a potenziali disastri mondiali \cite{NPMChaos}.
 
 \section{DSL }
 come ho utilizzato gli operator le lambda with receiver esempi di utilizzo del dsl
