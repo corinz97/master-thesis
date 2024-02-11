@@ -426,9 +426,10 @@ che esplichi come saranno organizzate le interfacce e le classi astratte.
 Questi diagrammi sono realizzati con il presupposto di poter adottare l'utilizzo
 dei seguenti costrutti:
 \begin{itemize}
-\item{tipi \texttt{generici} \cite{WebsiteKotlinGenerics};}
-\item{\texttt{overloading} degli \texttt{operatori} \cite{WebsiteKotlinOperatorOverloading};}
-\item{\texttt{higher order functions} (in particolare \texttt{function literal with receiver}) \cite{WebsiteKotlinLambda}.}
+\item{Tipi \texttt{generici} \cite{WebsiteKotlinGenerics};}
+\item{\texttt{Overloading} degli \texttt{operatori} \cite{WebsiteKotlinOperatorOverloading};}
+\item{\texttt{Higher order functions} (in particolare \texttt{function literal with receiver}) \cite{WebsiteKotlinLambda};}
+\item{\texttt{Companion object} \cite{WebsiteKotlinCompanionObject}.}
 \end{itemize}
 
 Si rimanda alle fonti per l'approfondimento specifico in \texttt{Kotlin}, la sintassi utilizzata nei diagrammi
@@ -441,13 +442,16 @@ Un gestore di votazioni viene vincolato ad adottare uno specifico tipo \texttt{S
 tipo di voto \texttt{V}, sottotipo di \texttt{Vote}.
 
 Una metrica è definibile come il criterio tale per cui un concorrente può essere messo a confronto con un altro, sulla base della
-sua prestazione nella competizione. Pertanto, è rappresentabile come un criterio di comparazione tra valori, visibile in figura \ref{fig:metrica}.
+sua prestazione nella competizione. Pertanto, è rappresentabile come una comparazione tra valori.
+Dall'interfaccia \texttt{ScoreMetric} possono essere definiti numerosi sottotipi utili alla competizione trattata, ad esempio il punteggio di un concorrente
+può essere legato ai punti assegnati in una gara, alle vittorie ottenute in campionato, oppure a criteri legati al tempo.
+Per facilitarne la creazione è utile definire una funzione di supporto contenuta in un \texttt{companion object}, come mostrato in figura \ref{fig:metrica}.
 
 \vfill
 \begin{center} 
 \begin{figure}[H]
     \centering
-     \includegraphics[width=1.1\linewidth]{figures/random-image.pdf}
+     \includegraphics[width=1.1\linewidth]{figures/scoremetric.PNG}
      \caption{Diagramma UML dell'organizzazione di una metrica}
     \label{fig:metrica}
  \end{figure}
@@ -456,8 +460,6 @@ sua prestazione nella competizione. Pertanto, è rappresentabile come un criteri
 
 I tipi \textit{S} e \textit{V} vincolano i seguenti componenti che verranno trattati, pertanto non è possibile adottare diversi metriche di punteggio tra i concorrenti,
 o diversi tipologie di voto, tra le varie votazioni presenti nel medesimo gestore.
-
-
 
 Il punto di ingresso dell'intero flusso è rappresentato dalla funzione \texttt{initializedAs}, al suo interno è possibile inizializzare una votazione attraverso 
 la funzione \texttt{poll}, e l'utilizzo dell'operatore unario \texttt{+}, per l'aggiunta di quest'ultima alla lista di votazioni.
@@ -668,7 +670,7 @@ Tutte le versioni di una libreria rilasciate su Maven Central, una volta pubblic
 Gli utenti della libreria sono liberi di decidere quale versione utilizzare e per quanto tempo e a questi ultimi è delegata la responsabilità di aggiornare le proprie dipendenze per 
 adeguarsi a problemi di sicurezza o evoluzioni dell'API.
 Nel lungo termine, queste decisioni determinano le librerie e le versioni più popolari nell'intero ecosistema software.
-Si osserva che per la maggior parte delle librerie, più di una versione è attivamente utilizzata in un dato momento (\cite{soto2019emergence}). 
+Si osserva che per la maggior parte delle librerie, più di una versione è attivamente utilizzata in un dato momento \cite{soto2019emergence}. 
 
 Dallo studio empirico condotto da \cite{soto2019emergence}, è emerso che "circa il 40\% delle librerie ha due o più versioni attivamente utilizzate, 
 mentre quasi il 4\% non ha mai avuto alcun utente su Maven Central. 
