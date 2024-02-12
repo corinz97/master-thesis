@@ -611,7 +611,43 @@ che semplificano la generazione dell'output finale adattandolo alle specifiche p
 
 
 \subsection{Kotlin Multiplatform}
-Spiegare brevemente in cosa consiste, con immagini a supporto
+Kotlin Multiplatform è un tool che favorisce il riuso di codice tra molteplici piattaforme.
+Grazie ad esso, riutilizzando la logica applicativa scritta in \textit{Kotlin}, è possibile produrre artefatti compatibili
+in molteplici piattaforme, dette anche \textit{target}, come \texttt{JVM}, \texttt{JS}, \texttt{Android}, \texttt{iOS} e piattaforme native come \texttt{Linux}.
+I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
+Per ogni \textit{target} viene definito un \textit{source set}, ossia un insieme di file sorgente, che definisce anche le dipendenze e le compatibilità.
+Il \textit{source set} predefinito è \texttt{commonMain}, e contiene il codice comune a tutti i \textit{target}.
+Al suo interno è possibile utilizzare funzioni e dipendenze che siano compilabili verso tutte le piattaforme dichiarate, mentre quelle che
+sono legate ad uno specifico linguaggio o architettura vanno definite ed utilizzate all'interno degli opportuni \textit{source sets},
+come \texttt{jvmMain} e \texttt{jsMain}. 
+Un esempio è visibile in figura \ref{fig:targets}, in cui i \textit{target} intermedi sono colorati in azzurro: \textit{apple} conterrà
+codice compatibile solamente con i \textit{target} che lo estendono, oltre a quello ereditato dai livelli superiori. Pertanto, è ammesso 
+che \textit{macos} utilizzi funzioni che non siano disponibili in \textit{tvos} ma entrambi accedono al codice messo a disposizione da \textit{apple}.
+
+\begin{figure}[H]
+    \centering
+     \includegraphics[width=1\linewidth]{figures/mptargets.png}
+     \caption{Esempio di una possibile gerarchia di \textit{target}. Fonte: \cite{WebsiteKotlinMultiPlatformTargets}}
+    \label{fig:targets}
+ \end{figure}
+
+Inoltre, questo meccanismo permette di applicare un \textit{template method} architetturale, grazie al quale è possibile dichiarare nel \textit{
+    source set
+} \texttt{commonMain} funzioni agnostiche 
+tramite la direttiva \texttt{expected}, senza definirne il contenuto, che sarà valorizzato in un successivo momento.
+In fase di compilazione, nelle versioni platform-specific, saranno valorizzate tramite funzioni che adottano la direttiva \texttt{actual},
+che posso richiamare funzionalità altrimenti non adottabili in \textit{commonMain}.
+
+Una logica analoga è applicabile anche alla sezione dei test: è disponibile un \textit{source set} di base, detto \textit{commonTest}, e altri
+eventuali che contengono codice compatibile solo in quella determinata piattaforma.
+In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output ottenuti utilizzando i \textit{target} \texttt{JVM} e \texttt{JS}.
+
+\begin{figure}[H]
+    \centering
+     \includegraphics[width=1\linewidth]{figures/sourcesetscompilation.png}
+     \caption{Esempio di output ottenibili in un progetto multipiattaforma. Fonte: \cite{WebsiteKotlinMultiPlatformCompilations}}
+    \label{fig:targets}
+ \end{figure}
 
 \subsection{GitHub Actions}
  \ac{gha} è una piattaforma di \ac{ci}/\ac{cd} basata su repository \ac{gh},
