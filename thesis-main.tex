@@ -745,10 +745,153 @@ mettendo dettagli solo per i casi più complicati
 
 \section{Sperimentazione con Ergast API}
 Estratti di demo che ho realizzato usando i dati della Formula 1
+
+
+\begin{table}[H]
+    \centering
+    \begingroup
+\resizebox{\linewidth}{!}{%
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+   %% \begin{tblr}{
+        
+   %%  @{}XXXXXXXXXXXXXXXXXXXXXX@{}
+   %% }
+    \hline
+    \multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{G1} & \multicolumn{1}{l|}{G2} & \multicolumn{1}{l|}{G3} & \multicolumn{1}{l|}{G4} & \multicolumn{1}{l|}{G5} & \multicolumn{1}{l|}{G6} & \multicolumn{1}{l|}{G7} & \multicolumn{1}{l|}{G8} & \multicolumn{1}{l|}{G9} & \multicolumn{1}{l|}{G10} & \multicolumn{1}{l|}{G11} & \multicolumn{1}{l|}{G12} & \multicolumn{1}{l|}{G13} & \multicolumn{1}{l|}{G14} & \multicolumn{1}{l|}{G15} & \multicolumn{1}{l|}{G16} & \multicolumn{1}{l|}{G17} & \multicolumn{1}{l|}{G18} & \multicolumn{1}{l|}{G19} & \multicolumn{1}{l|}{G20} & \multicolumn{1}{l|}{G21} & \multicolumn{1}{l|}{G22} \\ \hline
+    C1. & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\ \hline
+    C2. & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+    C3. & 5 & 5 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 4 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 \\ \hline
+    C4. & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 4 & 4 & 4 & 4 & 5 & 4 & 5 & 4 \\ \hline
+    C5. & 4 & 4 & 5 & 5 & 5 & 6 & 6 & 5 & 5 & 5 & 6 & 7 & 5 & 5 & 5 & 5 & 5 & 5 & 4 & 6 & 4 & 7 \\ \hline
+    C6. & 19 & 8 & 10 & 6 & 7 & 7 & 7 & 7 & 6 & 7 & 7 & 5 & 6 & 6 & 6 & 6 & 6 & 7 & 7 & 7 & 7 & 5 \\ \hline
+    C7. & 17 & 20 & 8 & 9 & 9 & 11 & 11 & 11 & 10 & 9 & 8 & 8 & 8 & 8 & 8 & 7 & 7 & 6 & 6 & 5 & 6 & 6 \\ \hline
+    C8. & 7 & 6 & 7 & 7 & 6 & 5 & 5 & 6 & 7 & 6 & 5 & 6 & 7 & 7 & 7 & 8 & 8 & 8 & 8 & 8 & 8 & 8 \\ \hline
+    C9. & 6 & 7 & 6 & 8 & 8 & 8 & 8 & 8 & 8 & 8 & 9 & 9 & 9 & 9 & 9 & 10 & 10 & 11 & 11 & 10 & 10 & 10 \\ \hline
+    C10. & 20 & 19 & 13 & 11 & 14 & 13 & 13 & 14 & 14 & 11 & 11 & 11 & 12 & 12 & 11 & 9 & 9 & 9 & 9 & 9 & 9 & 9 \\ \hline
+    C11. & 9 & 11 & 14 & 14 & 10 & 10 & 10 & 10 & 11 & 12 & 12 & 12 & 10 & 10 & 10 & 11 & 11 & 10 & 10 & 11 & 11 & 11 \\ \hline
+    C12. & 10 & 13 & 18 & 17 & 18 & 18 & 18 & 12 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 & 13 \\ \hline
+    C13. & 18 & 10 & 12 & 13 & 12 & 9 & 9 & 9 & 9 & 10 & 10 & 10 & 11 & 11 & 12 & 12 & 12 & 12 & 12 & 12 & 12 & 12 \\ \hline
+    C14. & 11 & 14 & 16 & 16 & 16 & 16 & 16 & 17 & 17 & 17 & 17 & 17 & 17 & 17 & 17 & 17 & 17 & 16 & 16 & 14 & 14 & 14 \\ \hline
+    C15. & 8 & 9 & 11 & 12 & 13 & 14 & 14 & 15 & 15 & 15 & 15 & 15 & 15 & 15 & 15 & 15 & 14 & 14 & 14 & 15 & 15 & 15 \\ \hline
+    C16. & 15 & 15 & 9 & 10 & 11 & 12 & 12 & 13 & 12 & 14 & 14 & 14 & 14 & 14 & 14 & 14 & 15 & 15 & 15 & 16 & 16 & 16 \\ \hline
+    C17. & 16 & 17 & 15 & 15 & 15 & 15 & 15 & 16 & 16 & 16 & 16 & 16 & 16 & 16 & 16 & 16 & 16 & 17 & 18 & 18 & 18 & 18 \\ \hline
+    C18. & 13 & 12 & 17 & 18 & 17 & 17 & 17 & 18 & 18 & 18 & 18 & 18 & 18 & 18 & 18 & 18 & 18 & 18 & 19 & 19 & 19 & 19 \\ \hline
+    C19. & 12 & 16 & 19 & 19 & 19 & 20 & 20 & 20 & 19 & 19 & 19 & 19 & 19 & 19 & 20 & 20 & 20 & 20 & 21 & 21 & 21 & 21 \\ \hline
+    C20. & 14 & 18 & 20 & 20 & 20 & 19 & 19 & 19 & 20 & 20 & 20 & 20 & 20 & 21 & 21 & 21 & 21 & 21 & 22 & 22 & 22 & 22 \\ \hline
+    C21. & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 21 & 21 & 21 & 22 & 22 & 22 & 22 & 22 & 17 & 17 & 17 & 17 \\ \hline
+    C22. & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 20 & 21 & 21 & 22 & 20 & 19 & 19 & 19 & 19 & 20 & 20 & 20 & 20 \\ \hline
+    \end{tabular}}
+    \endgroup
+    %%\end{tblr}
+    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
+    \label{table:classifichegeneralireali}
+\end{table}
+
 \begin{figure}[H]
     \centering
-     \includegraphics[scale=1.0]{figures/graph.png}
-     \caption{caption di prova}
+     \includegraphics[scale=1.0]{figures/realstandings2023.png}
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali} }
+ \end{figure}
+
+
+ \begin{table}[H]
+    \centering
+    \begingroup
+\resizebox{\linewidth}{!}{%
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+   %% \begin{tblr}{
+        
+   %%  @{}XXXXXXXXXXXXXXXXXXXXXX@{}
+   %% }
+    \hline
+    \multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{G1} & \multicolumn{1}{l|}{G2} & \multicolumn{1}{l|}{G3} & \multicolumn{1}{l|}{G4} & \multicolumn{1}{l|}{G5} & \multicolumn{1}{l|}{G6} & \multicolumn{1}{l|}{G7} & \multicolumn{1}{l|}{G8} & \multicolumn{1}{l|}{G9} & \multicolumn{1}{l|}{G10} & \multicolumn{1}{l|}{G11} & \multicolumn{1}{l|}{G12} & \multicolumn{1}{l|}{G13} & \multicolumn{1}{l|}{G14} & \multicolumn{1}{l|}{G15} & \multicolumn{1}{l|}{G16} & \multicolumn{1}{l|}{G17} & \multicolumn{1}{l|}{G18} & \multicolumn{1}{l|}{G19} & \multicolumn{1}{l|}{G20} & \multicolumn{1}{l|}{G21} & \multicolumn{1}{l|}{G22} \\ \hline
+    C1. & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\ \hline
+    C2. & 2 & 1 & 2 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\ \hline
+    C3. & 5 & 3 & 4 & 3 & 5 & 4 & 4 & 3 & 4 & 3 & 4 & 4 & 4 & 4 & 4 & 3 & 4 & 4 & 4 & 3 & 4 & 3 \\ \hline
+    C4. & 3 & 2 & 3 & 2 & 3 & 3 & 3 & 2 & 3 & 2 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 4 \\ \hline
+    C5.  & 4 & 3 & 5 & 3 & 4 & 5 & 6 & 4 & 5 & 5 & 7 & 7 & 7 & 6 & 5 & 4 & 5 & 5 & 5 & 4 & 5 & 4 \\ \hline
+    C6.  & 19 & 10 & 14 & 11 & 6 & 7 & 7 & 6 & 7 & 5 & 6 & 6 & 6 & 6 & 7 & 5 & 5 & 7 & 5 & 6 & 5 & 4 \\ \hline
+    C7. & 17 & 11 & 13 & 7 & 11 & 10 & 11 & 10 & 11 & 8 & 10 & 9 & 8 & 7 & 8 & 6 & 6 & 6 & 6 & 5 & 6 & 5 \\ \hline
+    C8. & 7 & 4 & 7 & 4 & 6 & 6 & 5 & 5 & 6 & 4 & 5 & 5 & 5 & 5 & 6 & 5 & 7 & 6 & 7 & 5 & 7 & 6 \\ \hline
+    C9. & 6 & 11 & 6 & 4 & 6 & 9 & 7 & 7 & 8 & 6 & 8 & 8 & 8 & 7 & 9 & 9 & 9 & 10 & 9 & 9 & 8 & 7 \\ \hline
+    C10.  & 20 & 11 & 14 & 8 & 15 & 12 & 12 & 10 & 13 & 10 & 11 & 12 & 9 & 10 & 11 & 8 & 8 & 9 & 8 & 8 & 9 & 7 \\ \hline
+    C11. & 9 & 5 & 8 & 6 & 7 & 8 & 8 & 8 & 9 & 7 & 9 & 10 & 8 & 8 & 10 & 7 & 8 & 8 & 8 & 7 & 8 & 8 \\ \hline
+    C12.  & 10 & 11 & 14 & 11 & 13 & 13 & 16 & 12 & 14 & 11 & 11 & 13 & 9 & 9 & 11 & 8 & 9 & 10 & 9 & 9 & 10 & 9 \\ \hline
+    C13.  & 18 & 10 & 11 & 9 & 9 & 9 & 9 & 8 & 10 & 9 & 11 & 11 & 9 & 9 & 11 & 9 & 9 & 11 & 9 & 10 & 11 & 9 \\ \hline
+    C14.  & 11 & 6 & 8 & 5 & 8 & 9 & 10 & 9 & 12 & 12 & 13 & 13 & 11 & 12 & 13 & 11 & 11 & 13 & 11 & 11 & 13 & 10 \\ \hline
+    C15.  & 8 & 10 & 11 & 9 & 12 & 11 & 13 & 11 & 13 & 11 & 12 & 13 & 10 & 11 & 12 & 10 & 10 & 12 & 10 & 12 & 12 & 11 \\ \hline
+    C16. & 15 & 8 & 9 & 7 & 10 & 11 & 11 & 12 & 15 & 13 & 14 & 14 & 12 & 13 & 14 & 12 & 12 & 14 & 12 & 12 & 14 & 11 \\ \hline
+    C17.  & 16 & 9 & 10 & 10 & 13 & 12 & 14 & 13 & 15 & 13 & 15 & 14 & 13 & 14 & 15 & 13 & 13 & 15 & 13 & 13 & 15 & 12 \\ \hline
+    C18. & 13 & 7 & 12 & 9 & 9 & 12 & 13 & 13 & 15 & 15 & 16 & 15 & 14 & 15 & 16 & 14 & 14 & 16 & 14 & 14 & 16 & 13 \\ \hline
+    C19.  & 12 & 10 & 13 & 11 & 16 & 14 & 17 & 15 & 17 & 15 & 18 & 16 & 15 & 16 & 17 & 15 & 15 & 17 & 15 & 15 & 17 & 14 \\ \hline
+    C20.  & 14 & 9 & 12 & 11 & 14 & 13 & 15 & 14 & 16 & 14 & 17 & 16 & 16 & 17 & 18 & 16 & 16 & 18 & 16 & 16 & 18 & 15 \\ \hline
+    C21. & 21 & 12 & 15 & 12 & 17 & 15 & 18 & 16 & 18 & 16 & 19 & 17 & 17 & 18 & 19 & 17 & 17 & 19 & 17 & 17 & 19 & 16 \\ \hline
+    C22.  & 22 & 13 & 16 & 13 & 18 & 16 & 19 & 17 & 19 & 17 & 20 & 18 & 18 & 19 & 20 & 18 & 18 & 20 & 18 & 18 & 20 & 17 \\ \hline
+    \end{tabular}}
+    \endgroup
+    %%\end{tblr}
+    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
+    Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
+    }
+    \label{table:classifichegeneralicondorcet}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+     \includegraphics[scale=1.0]{figures/condorcetstandings2023.png}
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet} }
+ \end{figure}
+
+
+ \begin{table}[H]
+    \centering
+    \begingroup
+\resizebox{\linewidth}{!}{%
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+   %% \begin{tblr}{
+        
+   %%  @{}XXXXXXXXXXXXXXXXXXXXXX@{}
+   %% }
+    \hline
+    \multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{G1} & \multicolumn{1}{l|}{G2} & \multicolumn{1}{l|}{G3} & \multicolumn{1}{l|}{G4} & \multicolumn{1}{l|}{G5} & \multicolumn{1}{l|}{G6} & \multicolumn{1}{l|}{G7} & \multicolumn{1}{l|}{G8} & \multicolumn{1}{l|}{G9} & \multicolumn{1}{l|}{G10} & \multicolumn{1}{l|}{G11} & \multicolumn{1}{l|}{G12} & \multicolumn{1}{l|}{G13} & \multicolumn{1}{l|}{G14} & \multicolumn{1}{l|}{G15} & \multicolumn{1}{l|}{G16} & \multicolumn{1}{l|}{G17} & \multicolumn{1}{l|}{G18} & \multicolumn{1}{l|}{G19} & \multicolumn{1}{l|}{G20} & \multicolumn{1}{l|}{G21} & \multicolumn{1}{l|}{G22} \\ \hline
+    C1. & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\ \hline
+C2. & 2 & 1 & 2 & 2 & 2 & 3 & 4 & 4 & 3 & 4 & 3 & 2 & 2 & 2 & 2 & 3 & 4 & 2 & 3 & 3 & 2 & 2 \\ \hline
+C3.  & 5 & 3 & 4 & 4 & 4 & 4 & 3 & 3 & 4 & 3 & 2 & 3 & 3 & 3 & 3 & 2 & 2 & 4 & 2 & 2 & 3 & 3 \\ \hline
+C4. & 3 & 2 & 3 & 3 & 3 & 2 & 2 & 2 & 2 & 2 & 2 & 4 & 2 & 3 & 4 & 4 & 3 & 3 & 4 & 4 & 4 & 4 \\ \hline
+C5.  & 4 & 3 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 4 & 6 & 4 & 4 & 5 & 5 & 5 & 5 & 5 & 5 & 5 & 5 \\ \hline
+C6.  & 19 & 8 & 16 & 9 & 9 & 8 & 8 & 7 & 7 & 7 & 6 & 7 & 6 & 6 & 6 & 6 & 6 & 8 & 8 & 8 & 8 & 8 \\ \hline
+C7.  & 17 & 12 & 13 & 9 & 12 & 12 & 11 & 12 & 11 & 10 & 7 & 8 & 7 & 7 & 8 & 8 & 8 & 6 & 6 & 6 & 6 & 6 \\ \hline
+C8.  & 7 & 4 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 6 & 5 & 5 & 5 & 5 & 7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\ \hline
+C9. & 6 & 8 & 7 & 6 & 7 & 11 & 9 & 10 & 9 & 8 & 8 & 9 & 8 & 8 & 10 & 11 & 11 & 11 & 11 & 11 & 11 & 11 \\ \hline
+C10.  & 20 & 13 & 14 & 12 & 14 & 15 & 13 & 13 & 14 & 12 & 10 & 12 & 11 & 11 & 11 & 10 & 9 & 10 & 10 & 10 & 10 & 10 \\ \hline
+C11.  & 9 & 5 & 8 & 8 & 8 & 7 & 7 & 8 & 8 & 9 & 9 & 10 & 9 & 9 & 9 & 9 & 10 & 9 & 9 & 9 & 9 & 9 \\ \hline
+C12.  & 10 & 11 & 17 & 15 & 15 & 17 & 16 & 15 & 13 & 14 & 12 & 14 & 12 & 10 & 12 & 12 & 13 & 12 & 12 & 13 & 13 & 13 \\ \hline
+C13.  & 18 & 8 & 13 & 13 & 11 & 9 & 9 & 9 & 10 & 11 & 11 & 11 & 10 & 11 & 13 & 13 & 12 & 13 & 13 & 12 & 12 & 12 \\ \hline
+C14.  & 11 & 6 & 9 & 7 & 8 & 10 & 10 & 11 & 12 & 13 & 13 & 13 & 13 & 13 & 15 & 14 & 16 & 15 & 14 & 14 & 14 & 14 \\ \hline
+C15. & 8 & 8 & 11 & 13 & 13 & 13 & 14 & 14 & 14 & 15 & 14 & 15 & 14 & 12 & 14 & 14 & 14 & 14 & 14 & 15 & 15 & 15 \\ \hline
+C16.  & 15 & 9 & 10 & 10 & 12 & 15 & 14 & 16 & 15 & 17 & 16 & 17 & 16 & 15 & 17 & 16 & 17 & 17 & 16 & 17 & 17 & 17 \\ \hline
+C17.  & 16 & 11 & 12 & 14 & 14 & 16 & 12 & 15 & 14 & 16 & 15 & 16 & 15 & 14 & 16 & 15 & 15 & 16 & 15 & 16 & 16 & 16 \\ \hline
+C18.  & 13 & 7 & 13 & 11 & 10 & 14 & 15 & 17 & 16 & 18 & 17 & 18 & 17 & 16 & 18 & 17 & 18 & 18 & 17 & 18 & 18 & 18 \\ \hline
+C19.  & 12 & 10 & 15 & 15 & 16 & 19 & 18 & 19 & 18 & 20 & 18 & 19 & 18 & 17 & 19 & 18 & 19 & 19 & 18 & 19 & 19 & 19 \\ \hline
+C20.  & 14 & 10 & 14 & 16 & 17 & 18 & 17 & 18 & 17 & 19 & 18 & 20 & 19 & 18 & 20 & 19 & 20 & 20 & 19 & 20 & 20 & 21 \\ \hline
+C21.  & 21 & 14 & 18 & 17 & 18 & 20 & 19 & 20 & 19 & 21 & 19 & 21 & 20 & 19 & 22 & 21 & 22 & 22 & 21 & 21 & 21 & 20 \\ \hline
+C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21 & 20 & 21 & 21 & 20 & 22 & 22 & 22 \\ \hline
+    \end{tabular}}
+    \endgroup
+    %%\end{tblr}
+    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
+    Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
+    }
+    \label{table:classifichegeneralischultze}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+     \includegraphics[scale=1.0]{figures/schultzestandings2023.png}
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze} }
  \end{figure}
 %----------------------------------------------------------------------------------------
 \chapter{Conclusioni}
