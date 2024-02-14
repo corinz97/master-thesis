@@ -774,7 +774,7 @@ e quelli ottenuti al termine della votazione.
 \subsection{Elaborazione dati di un mondiale \textit{F1}}
 \label{chapter:elaborazionemondiale}
 Si è provveduto ad ottenere l'elenco delle gare svoltesi nel corso del mondiale AAAA (anno del mondiale), disponibili
-al seguente indirizzo \texttt{https://ergast.com/api/f1/AAAA.json}.
+l'endpoint di Ergast API \newline https://ergast.com/api/f1/AAAA.json.
 
 In questo mondiale sono state effettuate in totale \textit{k} gare, per ognuna di esse sono stati scaricati i
 dati di gara, tenendo in considerazione solamente il nominativo del pilota e la posizione di arrivo.
@@ -808,7 +808,7 @@ La generazione delle classifiche parziali secondo l'algoritmo selezionato, forni
 cui il primo consiste nella classifica parziale al termine dell'ultima gara, il secondo nella classifica parziale al termine 
 della seconda gara, fino ad arrivare alla classifica finale.
 
-I dati delle classifiche reali sono ottenuti contattando l'endpoint \texttt{https://ergast.com/api/f1/AAAA/GP/driverStandings.json}",
+I dati delle classifiche reali sono ottenuti contattando l'endpoint \newline https://ergast.com/api/f1/AAAA/GP/driverStandings.json,
 dove AAAA è l'anno del mondiale e GP è il numero della gara
 
 \lstinputlisting[float,language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche parziali utilizzando \texttt{EleKtion}}]{listings/election-GPs.kt}
@@ -836,38 +836,61 @@ differenza tra le matrici trattate.
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-schultze}, caption={Ordinamento propedeutico al confronto (Schultze)}]{listings/ordering-rankings-Schultze.kt}
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-real},caption={Ordinamento propedeutico al confronto (Dati reali)}]{listings/ordering-rankings-real.kt}
 
-\subsection{Elaborazione del mondiale F1 2023}
+\subsection{Elaborazione del mondiale \textit{F1} 2023}
 
 Si è provveduto alla generazione delle classifiche parziali e della classifica finale 
 seguendo il flusso rappresentato in \label{chapter:elaborazionemondiale}.
 
 Si riporta in tabella \ref{tabella:classificafinale2023} gli ordinamenti ottenuti nelle
 classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la classifica finale reale
-
-\begin{table}[H]
-    \centering
-    \begingroup
-\resizebox{\linewidth}{!}{%
-    \begin{tabular}{|p|p|p|p|}
-
-    \hline
-    \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} 
- 
-
-\end{tabular}}
-    \endgroup
-
-    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
-    I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
-    \label{table:classifichegeneralireali2023}
-\end{table}
-
-
 %%2023
 \begin{table}[H]
     \centering
     \begingroup
-\resizebox{\linewidth}{!}{%
+    \resizebox{\linewidth}{!}{%
+    \begin{tabular}{|p{0.25\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|}
+
+    \hline
+    \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
+    1.	 & 	Max-Verstappen & 	 Max-Verstappen & 	 Max-Verstappen 	 \\ \hline
+    2.	 & 	Sergio-Pérez & 	 Sergio-Pérez & 	 Sergio-Pérez 	 \\ \hline
+    3.	 & 	Lewis-Hamilton & 	 Lewis-Hamilton & 	 Lewis-Hamilton 	 \\ \hline
+    4.	 & 	Fernando-Alonso & 	 Fernando-Alonso \newline Carlos-Sainz \newline Charles-Leclerc & 	 Fernando-Alonso 	 \\ \hline
+    5.	 & 	Charles-Leclerc & 	 Lando-Norris & 	 Carlos-Sainz 	 \\ \hline
+    6.	 & 	Lando-Norris & 	 George-Russell & 	 Lando-Norris 	 \\ \hline
+    7.	 & 	Carlos-Sainz & 	 Lance-Stroll \newline Oscar-Piastri & 	 George-Russell 	 \\ \hline
+    8.	 & 	George-Russell & 	 Pierre-Gasly & 	 Charles-Leclerc 	 \\ \hline
+    9.	 & 	Oscar-Piastri & 	 Alexander-Albon \newline Esteban-Ocon & 	 Pierre-Gasly 	 \\ \hline
+    10.	 & 	Lance-Stroll & 	 Yuki-Tsunoda & 	 Oscar-Piastri 	 \\ \hline
+    11.	 & 	Pierre-Gasly & 	 Valtteri-Bottas \newline Nico-Hülkenberg & 	 Lance-Stroll 	 \\ \hline
+    12.	 & 	Esteban-Ocon & 	 Guanyu-Zhou & 	 Esteban-Ocon 	 \\ \hline
+    13.	 & 	Alexander-Albon & 	 Kevin-Magnussen & 	 Alexander-Albon 	 \\ \hline
+    14.	 & 	Yuki-Tsunoda & 	 Logan-Sargeant & 	 Yuki-Tsunoda 	 \\ \hline
+    15.	 & 	Valtteri-Bottas & 	 Nyck-de Vries & 	 Valtteri-Bottas 	 \\ \hline
+    16.	 & 	Nico-Hülkenberg & 	 Daniel-Ricciardo & 	 Guanyu-Zhou 	 \\ \hline
+    17.	 & 	Daniel-Ricciardo & 	 Liam-Lawson &	 Nico-Hülkenberg 	 \\ \hline
+    18.	 & 	Guanyu-Zhou & 	 Assente &	 Kevin-Magnussen 	 \\ \hline
+    19.	 & 	Kevin-Magnussen & 	 Assente &	 Logan-Sargeant 	 \\ \hline
+    20.	 & 	Liam-Lawson & 	 Assente &	 Daniel-Ricciardo 	 \\ \hline
+    21.	 & 	Logan-Sargeant & 	 Assente &	 Nyck-de Vries 	 \\ \hline
+    22.	 & 	Nyck-de Vries & 	 Assente &	 Liam-Lawson 	 \\ \hline
+    
+    
+
+    \end{tabular}}
+    \endgroup
+
+    \caption{Classifica finale reale e classifiche finali ottenute con 
+    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale \textit{F1} 2023 }
+    \label{table:classifichefinali2023}
+\end{table}
+
+
+
+\begin{table}[H]
+    \centering
+    \begingroup
+    \resizebox{\linewidth}{!}{%
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 
     \hline
@@ -897,7 +920,7 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{F1} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
     \label{table:classifichegeneralireali2023}
 \end{table}
@@ -905,7 +928,7 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/realstandings2023.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali2023} }
  \end{figure}
 
 
@@ -942,7 +965,7 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{F1} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -952,7 +975,7 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/condorcetstandings2023.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet2023} }
  \end{figure}
 
 
@@ -989,7 +1012,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{F1} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -999,7 +1022,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/schultzestandings2023.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze2023} }
  \end{figure}
 
  \begin{table}[H]
@@ -1026,8 +1049,54 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \label{table:distanzef12023}
 \end{table}
 
+\subsection{Elaborazione del mondiale \textit{F1} 2008}
 
+Si è provveduto alla generazione delle classifiche parziali e della classifica finale 
+seguendo il flusso rappresentato in \label{chapter:elaborazionemondiale}.
+
+Si riporta in tabella \ref{tabella:classificafinale2008} gli ordinamenti ottenuti nelle
+classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la classifica finale reale
 %%2008
+\begin{table}[H]
+    \centering
+    \begingroup
+    \resizebox{\linewidth}{!}{%
+    \begin{tabular}{|p{0.25\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|}
+
+    \hline
+    \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
+    
+    1.	Lewis-Hamilton & 	 Felipe-Massa & 	 Lewis-Hamilton 	 \\ \hline
+    2.	Felipe-Massa & 	 Lewis-Hamilton & 	 Robert-Kubica 	 \\ \hline
+    3.	Kimi-Räikkönen & 	 Kimi-Räikkönen \newline Robert-Kubica & 	 Felipe-Massa 	 \\ \hline
+    4.	Robert-Kubica & 	 Nick-Heidfeld & 	 Nick-Heidfeld 	 \\ \hline
+    5.	Fernando-Alonso & 	 Heikki-Kovalainen & 	 Kimi-Räikkönen 	 \\ \hline
+    6.	Nick-Heidfeld & 	 Fernando-Alonso & 	 Fernando-Alonso 	 \\ \hline
+    7.	Heikki-Kovalainen & 	 Jarno-Trulli & 	 Heikki-Kovalainen 	 \\ \hline
+    8.	Sebastian-Vettel & 	 Timo-Glock \newline Mark-Webber & 	 Jarno-Trulli 	 \\ \hline
+    9.	Jarno-Trulli & 	 Nico-Rosberg \newline Sebastian-Vettel & 	 Mark-Webber 	 \\ \hline
+    10.	Timo-Glock & 	 David-Coulthard & 	 Timo-Glock 	 \\ \hline
+    11.	Mark-Webber & 	 Kazuki-Nakajima\newline Rubens-Barrichello & 	 Nico-Rosberg 	 \\ \hline
+    12.	Nelson-Piquet Jr. & 	 Sébastien-Bourdais \newline Nelson-Piquet Jr.\newline Jenson-Button & 	 Sebastian-Vettel 	 \\ \hline
+    13.	Nico-Rosberg & 	 Giancarlo-Fisichella & 	 Kazuki-Nakajima 	 \\ \hline
+    14.	Rubens-Barrichello & 	 Adrian-Sutil & 	 Nelson-Piquet Jr. 	 \\ \hline
+    15.	Kazuki-Nakajima & 	 Takuma-Sato & 	 David-Coulthard 	 \\ \hline
+    16.	David-Coulthard & 	 Anthony-Davidson & 	 Jenson-Button 	 \\ \hline
+    17.	Sébastien-Bourdais & 	 Assente & 	 Rubens-Barrichello 	 \\ \hline
+    18.	Jenson-Button & 	 Assente & 	 Sébastien-Bourdais 	 \\ \hline
+    19.	Giancarlo-Fisichella & 	 Assente & 	 Giancarlo-Fisichella 	 \\ \hline
+    20.	Adrian-Sutil & 	 Assente & 	 Adrian-Sutil 	 \\ \hline
+    21.	Takuma-Sato & 	 Assente & 	 Takuma-Sato 	 \\ \hline
+    22.	Anthony-Davidson & 	 Assente & 	 Anthony-Davidson 	 \\ \hline
+    
+    \end{tabular}}
+    \endgroup
+
+    \caption{Classifica finale reale e classifiche finali ottenute con 
+    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale \textit{F1} 2008 }
+    \label{table:classifichefinali2008}
+\end{table}
+
 \begin{table}[H]
     \centering
     \begingroup
@@ -1061,7 +1130,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
     
-    \caption{Tabella relativa al Mondiale \ac{f1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
     \label{table:classifichegeneralireali2008}
 \end{table}
@@ -1069,7 +1138,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/realstandings2008.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali2008} }
  \end{figure}
 
 
@@ -1106,7 +1175,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
   
-    \caption{Tabella relativa al Mondiale \ac{f1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -1116,7 +1185,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/condorcetstandings2008.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet2008} }
  \end{figure}
 
 
@@ -1153,7 +1222,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -1163,7 +1232,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/schultzestandings2008.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze2008} }
  \end{figure}
 
  \begin{table}[H]
@@ -1183,7 +1252,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}   }
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }

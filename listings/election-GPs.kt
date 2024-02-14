@@ -17,7 +17,7 @@ var election =
                             +competitor(it) {}
                         }
                     }
-                    -chosenLOPAlgorithm{}
+                    -chosenLOPAlgorithm{} //-condorcetAlgorithm{} or -schultzeAlgorithm
 
                     // incremental set of votes
                     currentGPs.entries.forEach { (runningField, competitors) ->
