@@ -36,6 +36,7 @@ in nuovi contesti
 \acrodef{cd}[CD]{Continuous Delivery}
 
 \acrodef{dsl}[DSL]{Domain Specific Language}
+\acrodef{f1}[F1]{Formula 1}
 
 \acrodef{npm}[NPM]{Node Package Manager}
 
@@ -327,7 +328,7 @@ circa le specifiche impostate e le caratteristiche dei concorrenti.
 
 Ciascuna votazione avrà associata una competizione con un metrica che caratterizza l'operato del concorrenti.
 Prendendo esempi di riferimento legati al mondo del \textit{motor sport},
-si potrebbe pensare ai punti totalizzati per ogni gara, come nel caso di \textit{Formula 1} o \textit{Moto GP}.
+si potrebbe pensare ai punti totalizzati per ogni gara, come nel caso di \textit{\ac{f1}} o \textit{Moto GP}.
 
 Seppur in molti casi le regole non cambiano in modo drastico, ciascuno sport è influenzato da molti fattori:
 i concorrenti, gli ambienti di gara, i tifosi, e altri aspetti, che contribuiscono a rendere 
@@ -744,7 +745,123 @@ Descrivere le varie situazioni che sono andato a controllare,
 mettendo dettagli solo per i casi più complicati
 
 \section{Sperimentazione con Ergast API}
-Estratti di demo che ho realizzato usando i dati della Formula 1
+La sperimentazione della libreria \texttt{EleKtion} è stata effettuata applicando ad essa un
+caso di studio reale, nello specifico applicando gli algoritmi di votazione ai risultati 
+delle gare di \textit{\ac{f1}}.
+
+I dati sono accessibili attraverso un API REST pubblica chiamata Ergast API \cite{WebsiteErgastAPI},
+disponibile per scopi non-commerciali,
+che mette a disposizione dati inerenti ai mondiali di \textit{\ac{f1}} a partire dal primo (1950).
+Per ognuno di questi sono a disposizione numerose informazioni come l'elenco delle gare (Gran Premi),
+e per ognuna di esse le gare di qualifica, le classifiche generali dei piloti, i risultati delle gare ufficiali, lo storico
+dei piloti, le classifiche generali dei costruttori e molto altro.
+
+Allo scopo di questa tesi, sono risultate utili le informazioni riguardo ai risultati delle gare ufficiali (legate ad uno specifico anno)
+e le classifiche generali (legate ad uno specifico anno) al termine di ogni gara.
+
+Attaverso appositi endpoint, è stato possibile scaricare i dati necessari per predisporre le informazioni necessarie
+ad \texttt{EleKtion}, utilizzando come voti gli esiti delle varie gare, e applicando gli algoritmi a lista di preferenze.
+L'elemento più favorito nel voto è rappresentato dal pilota che si è classificato primo in gara, mentre l'elemento più sfavorito
+è stato cosiderato il pilota classificatosi in gara.
+
+Nei seguenti sottocapitoli vengono mostrati i passaggi effettuati per elaborare i dati di un mondiale,
+in particolare vengono generate come output delle votazioni le classifiche parziali al termine di ogni gara in modo da avere uno storico,
+che verrà confrontato con lo storico delle classifiche reali.
+Verrà infine svolto un calcolo utile ad indicare
+la differenza in termini qualitativi tra i dati generati dalle votazioni con differenti algoritmi 
+e quelli ottenuti al termine della votazione.
+
+\subsection{Elaborazione dati di un mondiale \textit{F1}}
+\label{chapter:elaborazionemondiale}
+Si è provveduto ad ottenere l'elenco delle gare svoltesi nel corso del mondiale AAAA (anno del mondiale), disponibili
+al seguente indirizzo \texttt{https://ergast.com/api/f1/AAAA.json}.
+
+In questo mondiale sono state effettuate in totale \textit{k} gare, per ognuna di esse sono stati scaricati i
+dati di gara, tenendo in considerazione solamente il nominativo del pilota e la posizione di arrivo.
+Eventuali ritiri a causa di guasti o altri motivi non sono trattati, facendo fede alla posizione restituita dall'API.
+
+Al termine si ha quindi una \texttt{Map<String, List<Pair<String, Int>>>}, nella quale le chiavi sono rappresentate 
+dal nome della gara (es. Australian-Grand-Prix-1-2008, Malaysian-Grand-Prix-2-2008, ecc...) i valori liste in cui per
+ogni elemento contiene una tupla rappresentata dal nominativo del pilota e la posizione di arrivo.
+
+Come visibile nell'estratto di codice \ref{lst:election-GPs}, si organizzano tante votazioni indipendenti quante sono le
+gare presenti nel mondiale:
+Viene definito l'elenco complessivo dei nominativi presenti nelle varie gare, in modo da
+avere un censimento di tutti i possibili candidati. Per la prima votazione vengono definiti tutti i candidati ammissibili,
+che per motivi di funzionamento dell'algoritmo, vengono passati anche coloro che effettivamente non sono presenti in quella gara
+ma in altre sì (ad esempio infortuni, sostituzioni, ecc...). Si definisce l'algoritmo da utilizzare, in questo caso sono
+ammissibili l'algoritmo di Condorcet o l'algoritmo di Schultze. 
+Succesivamente si definisce l'elenco di voti, che consiste in un unico voto
+identificabile nell'elenco dei nominativi dei piloti secondo l'ordine di arrivo reale (dal primo all'ultimo), e come votante si può definire il nome del circuito
+di gara. Se un pilota è assente in quella gara ma presente in altre, tramite l'elenco dei possibili candidati
+vengono definiti chi sono in questa situazione e vengono "virtualmente" posti ad ultimi in modo da avere la lunghezza della lista 
+di preferenze uniforme al numero dei possibili candidati.
+Infine, questa votazione viene inserita nell'elenco delle votazioni da elaborare.
+
+Per la seconda votazione viene considerata anche la seconda gara, e mantenendo stabile l'insieme dei possibili candidati e l'algoritmo da usare,
+vengono considerati come voti l'elenco dei nominativi dei piloti (secondo l'ordine di arrivo reale) della prima gara
+e l'elenco dei nominativi dei piloti (secondo l'ordine di arrivo reale) della seconda gara.
+Proseguendo nell'esecuzione, si arriva ad avere \textit{k} votazioni indipendenti, in cui l'ultima conterrà
+come voti gli esiti delle varie gare dalla prima all' \textit{k}-esima.
+
+La generazione delle classifiche parziali secondo l'algoritmo selezionato, fornisce una serie di risultati in
+cui il primo consiste nella classifica parziale al termine dell'ultima gara, il secondo nella classifica parziale al termine 
+della seconda gara, fino ad arrivare alla classifica finale.
+
+I dati delle classifiche reali sono ottenuti contattando l'endpoint \texttt{https://ergast.com/api/f1/AAAA/GP/driverStandings.json}",
+dove AAAA è l'anno del mondiale e GP è il numero della gara
+
+\lstinputlisting[float,language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche parziali utilizzando \texttt{EleKtion}}]{listings/election-GPs.kt}
+
+Per confrontare gli esiti ottenuti tra i differenti algoritmi, e tra questi e i dati reali estratti dall'API,
+è necessario organizzare i dati secondo una matrice \textit{r x k}, dove ogni riga \textit{r} identifica un pilota,
+e ogni colonna \textit{k} identifica una gara (o il suo numero progressivo). Nell'incrocio è presente la
+posizione nella classifica parziale (reale o generata) ottenuta dal \textit{r}-esimo pilota al termine della
+\textit{k}-esima gara.
+
+Per fare un confronto qualitativo tra matrici è fondamentale organizzarle in modo tale le righe e le colonne
+siano ordinate allo stesso modo. Nel caso delle righe è possibile adottare un ordinamento lessicografico o 
+l'ordinamento presente in una delle matrici, che viene preso come riferimento per le altre.
+Nei casi d'uso realizzati, sono state calcolate per prime le classifiche ottenute applicando l'algoritmo di Condorcet,
+poi l'ordine dei piloti nella classifica finale è stato preso come riferimento di ordinamento.
+Le classifiche ottenute con l'algoritmo di Schultze è stato organizzato secondo lo stesso riferimento e così anche
+la classifiche reali. Si rimanda agli estratti di codice \ref{lst:ordering-rankings-condorcet}, \ref{lst:ordering-rankings-schultze},
+\ref{lst:ordering-rankings-real} per approfondire l'implementazione di questi criteri.
+
+Esistono numerose metriche di confronto tra matrici, in questo caso si è optato per la \textit{norma di Frobenius}\cite{golub2013matrix},
+rappresentata dalla formula $\sqrt{\sum_{i,j}^{} abs(a_{i,j})^2}$, dove $a$ è una matrice che ricavata dalla
+differenza tra le matrici trattate.
+
+\lstinputlisting[language=Kotlin,label={lst:ordering-rankings-condorcet}, caption={Ordinamento propedeutico al confronto (Condorcet)}]{listings/ordering-rankings-Condorcet.kt}
+\lstinputlisting[language=Kotlin,label={lst:ordering-rankings-schultze}, caption={Ordinamento propedeutico al confronto (Schultze)}]{listings/ordering-rankings-Schultze.kt}
+\lstinputlisting[language=Kotlin,label={lst:ordering-rankings-real},caption={Ordinamento propedeutico al confronto (Dati reali)}]{listings/ordering-rankings-real.kt}
+
+\subsection{Elaborazione del mondiale F1 2023}
+
+Si è provveduto alla generazione delle classifiche parziali e della classifica finale 
+seguendo il flusso rappresentato in \label{chapter:elaborazionemondiale}.
+
+Si riporta in tabella \ref{tabella:classificafinale2023} gli ordinamenti ottenuti nelle
+classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la classifica finale reale
+
+\begin{table}[H]
+    \centering
+    \begingroup
+\resizebox{\linewidth}{!}{%
+    \begin{tabular}{|p|p|p|p|}
+
+    \hline
+    \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} 
+ 
+
+\end{tabular}}
+    \endgroup
+
+    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
+    \label{table:classifichegeneralireali2023}
+\end{table}
+
 
 %%2023
 \begin{table}[H]
@@ -780,7 +897,7 @@ Estratti di demo che ho realizzato usando i dati della Formula 1
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
     \label{table:classifichegeneralireali2023}
 \end{table}
@@ -825,7 +942,7 @@ Estratti di demo che ho realizzato usando i dati della Formula 1
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -872,7 +989,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -902,7 +1019,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -944,7 +1061,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
     
-    \caption{Tabella relativa al Mondiale F1 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \ac{f1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
     \label{table:classifichegeneralireali2008}
 \end{table}
@@ -989,7 +1106,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
   
-    \caption{Tabella relativa al Mondiale F1 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \ac{f1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -1036,7 +1153,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale F1 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -1066,7 +1183,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}   }
     \endgroup
 
-    \caption{Tabella relativa al Mondiale F1 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
