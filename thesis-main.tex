@@ -745,67 +745,67 @@ Descrivere le varie situazioni che sono andato a controllare,
 mettendo dettagli solo per i casi più complicati
 
 \section{Sperimentazione con Ergast API}
-La sperimentazione della libreria \texttt{EleKtion} è stata effettuata applicando ad essa un
+La sperimentazione della libreria \texttt{EleKtion} è stata estesa ad un
 caso di studio reale, nello specifico applicando gli algoritmi di votazione ai risultati 
 delle gare di \textit{\ac{f1}}.
 
 I dati sono accessibili attraverso un API REST pubblica chiamata Ergast API \cite{WebsiteErgastAPI},
 disponibile per scopi non-commerciali,
 che mette a disposizione dati inerenti ai mondiali di \textit{\ac{f1}} a partire dal primo (1950).
-Per ognuno di questi sono a disposizione numerose informazioni come l'elenco delle gare (Gran Premi),
-e per ognuna di esse le gare di qualifica, le classifiche generali dei piloti, i risultati delle gare ufficiali, lo storico
+Per ognuno di questi sono a disposizione numerose informazioni come l'elenco delle gare ufficiali (Gran Premi),
+le gare di qualifica, le classifiche generali dei piloti, lo storico
 dei piloti, le classifiche generali dei costruttori e molto altro.
 
 Allo scopo di questa tesi, sono risultate utili le informazioni riguardo ai risultati delle gare ufficiali (legate ad uno specifico anno)
-e le classifiche generali (legate ad uno specifico anno) al termine di ogni gara.
+e le classifiche generali dei piloti (legate ad uno specifico anno) al termine di ogni gara.
 
-Attaverso appositi endpoint, è stato possibile scaricare i dati necessari per predisporre le informazioni necessarie
-ad \texttt{EleKtion}, utilizzando come voti gli esiti delle varie gare, e applicando gli algoritmi a lista di preferenze.
+Attaverso appositi endpoint, è stato possibile ottenere i dati necessari per predisporre le informazioni necessarie
+ad \texttt{EleKtion}, utilizzandoli come gli esiti delle varie gare come voti  e applicando di conseguenza gli algoritmi a lista di preferenze.
 L'elemento più favorito nel voto è rappresentato dal pilota che si è classificato primo in gara, mentre l'elemento più sfavorito
-è stato cosiderato il pilota classificatosi in gara.
+è stato considerato il pilota classificatosi ultimo in gara.
 
 Nei seguenti sottocapitoli vengono mostrati i passaggi effettuati per elaborare i dati di un mondiale,
-in particolare vengono generate come output delle votazioni le classifiche parziali al termine di ogni gara in modo da avere uno storico,
+in particolare vengono generate, come output delle votazioni, le classifiche parziali al termine di ogni gara in modo da avere uno storico,
 che verrà confrontato con lo storico delle classifiche reali.
 Verrà infine svolto un calcolo utile ad indicare
-la differenza in termini qualitativi tra i dati generati dalle votazioni con differenti algoritmi 
-e quelli ottenuti al termine della votazione.
+la differenza, in termini qualitativi, tra i risultati ottenuti, impiegando differenti algoritmi,
+e quelli reali.
 
 \subsection{Elaborazione dati di un mondiale \textit{F1}}
-\label{chapter:elaborazionemondiale}
+\label{capitoloelaborazionemondiale}
 Si è provveduto ad ottenere l'elenco delle gare svoltesi nel corso del mondiale AAAA (anno del mondiale), disponibili
-l'endpoint di Ergast API \newline https://ergast.com/api/f1/AAAA.json.
+all'endpoint di Ergast API \newline https://ergast.com/api/f1/AAAA.json.
 
 In questo mondiale sono state effettuate in totale \textit{k} gare, per ognuna di esse sono stati scaricati i
-dati di gara, tenendo in considerazione solamente il nominativo del pilota e la posizione di arrivo.
-Eventuali ritiri a causa di guasti o altri motivi non sono trattati, facendo fede alla posizione restituita dall'API.
+dati, filtrandoli per tenere in considerazione solamente il nominativo del pilota e la posizione di arrivo.
+Eventuali ritiri a causa di guasti o altri motivi non sono gestiti, ciascun pilota in ogni caso ha attribuita una posizione di arrivo.
 
-Al termine si ha quindi una \texttt{Map<String, List<Pair<String, Int>>>}, nella quale le chiavi sono rappresentate 
-dal nome della gara (es. Australian-Grand-Prix-1-2008, Malaysian-Grand-Prix-2-2008, ecc...) i valori liste in cui per
-ogni elemento contiene una tupla rappresentata dal nominativo del pilota e la posizione di arrivo.
+I dati sono associati ad una mappa \texttt{Map<String, List<Pair<String, Int>>>}, nella quale le chiavi rappresentano
+il nome della gara (es. Australian-Grand-Prix-1-AAAA, Malaysian-Grand-Prix-2-AAAA, ecc...) mentre i valori rappresentano liste,ù
+nelle quali ogni elemento è una tupla contenente il nominativo del pilota e la posizione di arrivo.
 
 Come visibile nell'estratto di codice \ref{lst:election-GPs}, si organizzano tante votazioni indipendenti quante sono le
 gare presenti nel mondiale:
-Viene definito l'elenco complessivo dei nominativi presenti nelle varie gare, in modo da
-avere un censimento di tutti i possibili candidati. Per la prima votazione vengono definiti tutti i candidati ammissibili,
-che per motivi di funzionamento dell'algoritmo, vengono passati anche coloro che effettivamente non sono presenti in quella gara
+viene definito l'insieme dei nominativi presenti nel mondiale, in modo da
+avere il censimento di tutti i candidati, poichè per motivi di funzionamento degli algoritmi a lista di preferenze, nei voti devono essere presenti 
+anche coloro che effettivamente non hanno partecipato in una determinata gara
 ma in altre sì (ad esempio infortuni, sostituzioni, ecc...). Si definisce l'algoritmo da utilizzare, in questo caso sono
 ammissibili l'algoritmo di Condorcet o l'algoritmo di Schultze. 
-Succesivamente si definisce l'elenco di voti, che consiste in un unico voto
-identificabile nell'elenco dei nominativi dei piloti secondo l'ordine di arrivo reale (dal primo all'ultimo), e come votante si può definire il nome del circuito
-di gara. Se un pilota è assente in quella gara ma presente in altre, tramite l'elenco dei possibili candidati
-vengono definiti chi sono in questa situazione e vengono "virtualmente" posti ad ultimi in modo da avere la lunghezza della lista 
-di preferenze uniforme al numero dei possibili candidati.
+Successivamente si definisce l'elenco dei voti, in cui i votati
+sono costituiti dall'elenco dei nominativi dei piloti secondo l'ordine di arrivo reale (dal primo all'ultimo), e come votante viene utilizzato il nome del circuito
+della gara. Se uno o più piloti sono assenti in quella gara ma presenti in altre, tramite un confronto con l'insieme dei candidati
+vengono identificati e posti "virtualmente" ad ultimi in modo da avere la lunghezza della lista 
+di preferenze uniforme al numero dei candidati.
 Infine, questa votazione viene inserita nell'elenco delle votazioni da elaborare.
 
-Per la seconda votazione viene considerata anche la seconda gara, e mantenendo stabile l'insieme dei possibili candidati e l'algoritmo da usare,
-vengono considerati come voti l'elenco dei nominativi dei piloti (secondo l'ordine di arrivo reale) della prima gara
-e l'elenco dei nominativi dei piloti (secondo l'ordine di arrivo reale) della seconda gara.
-Proseguendo nell'esecuzione, si arriva ad avere \textit{k} votazioni indipendenti, in cui l'ultima conterrà
-come voti gli esiti delle varie gare dalla prima all' \textit{k}-esima.
+Per la seconda votazione viene considerata anche la seconda gara, e mantenendo stabile l'insieme dei candidati e l'algoritmo selezionato,
+vengono considerati come voti l'elenco dei nominativi (secondo l'ordine di arrivo reale) della prima gara
+e l'elenco dei nominativi (secondo l'ordine di arrivo reale) della seconda gara.
+Proseguendo nelle iterazioni, si arriva ad avere \textit{k} votazioni indipendenti, in cui l'ultima conterrà
+come voti gli esiti dalla prima alla \textit{k}-esima gara.
 
-La generazione delle classifiche parziali secondo l'algoritmo selezionato, fornisce una serie di risultati in
-cui il primo consiste nella classifica parziale al termine dell'ultima gara, il secondo nella classifica parziale al termine 
+La generazione delle classifiche parziali, dipendenti dall'algoritmo scelto, fornisce una serie di risultati in
+cui il primo consiste nella classifica provvisoria al termine dell'ultima gara, il secondo nella classifica provvisoria al termine 
 della seconda gara, fino ad arrivare alla classifica finale.
 
 I dati delle classifiche reali sono ottenuti contattando l'endpoint \newline https://ergast.com/api/f1/AAAA/GP/driverStandings.json,
@@ -813,17 +813,17 @@ dove AAAA è l'anno del mondiale e GP è il numero della gara
 
 \lstinputlisting[float,language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche parziali utilizzando \texttt{EleKtion}}]{listings/election-GPs.kt}
 
-Per confrontare gli esiti ottenuti tra i differenti algoritmi, e tra questi e i dati reali estratti dall'API,
-è necessario organizzare i dati secondo una matrice \textit{r x k}, dove ogni riga \textit{r} identifica un pilota,
-e ogni colonna \textit{k} identifica una gara (o il suo numero progressivo). Nell'incrocio è presente la
-posizione nella classifica parziale (reale o generata) ottenuta dal \textit{r}-esimo pilota al termine della
+Per confrontare gli esiti ottenuti impiegando i differenti algoritmi, e tra questi e i dati reali estratti dall'API,
+è necessario organizzarli secondo matrici \textit{r x k}, dove ogni riga \textit{r} identifica un pilota,
+e ogni colonna \textit{k} identifica una gara. Nell'intersezione è presente la
+posizione nella classifica provvisoria (reale o generata) ottenuta dal \textit{r}-esimo pilota al termine della
 \textit{k}-esima gara.
 
-Per fare un confronto qualitativo tra matrici è fondamentale organizzarle in modo tale le righe e le colonne
+Per effettuare un confronto qualitativo tra matrici è fondamentale organizzarle in modo tale che le righe e le colonne
 siano ordinate allo stesso modo. Nel caso delle righe è possibile adottare un ordinamento lessicografico o 
 l'ordinamento presente in una delle matrici, che viene preso come riferimento per le altre.
-Nei casi d'uso realizzati, sono state calcolate per prime le classifiche ottenute applicando l'algoritmo di Condorcet,
-poi l'ordine dei piloti nella classifica finale è stato preso come riferimento di ordinamento.
+Nella sperimentazione effettuata, sono state calcolate per prime le classifiche che impiegano l'algoritmo di Condorcet,
+poi la sequenza dei piloti nella classifica finale è stato preso come riferimento di ordinamento.
 Le classifiche ottenute con l'algoritmo di Schultze è stato organizzato secondo lo stesso riferimento e così anche
 la classifiche reali. Si rimanda agli estratti di codice \ref{lst:ordering-rankings-condorcet}, \ref{lst:ordering-rankings-schultze},
 \ref{lst:ordering-rankings-real} per approfondire l'implementazione di questi criteri.
@@ -838,11 +838,11 @@ differenza tra le matrici trattate.
 
 \subsection{Elaborazione del mondiale \textit{F1} 2023}
 
-Si è provveduto alla generazione delle classifiche parziali e della classifica finale 
-seguendo il flusso rappresentato in \label{chapter:elaborazionemondiale}.
+Si è provveduto alla generazione delle classifiche provvisorie e della classifica finale 
+seguendo il flusso rappresentato in \label{capitoloelaborazionemondiale}.
 
-Si riporta in tabella \ref{tabella:classificafinale2023} gli ordinamenti ottenuti nelle
-classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la classifica finale reale
+Si riporta in tabella \ref{table:classificafinali2023} la classifica finale reale ed i risultati ottenuti nelle
+classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
 %%2023
 \begin{table}[H]
     \centering
