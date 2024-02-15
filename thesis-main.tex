@@ -829,7 +829,7 @@ la classifiche reali. Si rimanda agli estratti di codice \ref{lst:ordering-ranki
 \ref{lst:ordering-rankings-real} per approfondire l'implementazione di questi criteri.
 
 Esistono numerose metriche di confronto tra matrici, in questo caso si è optato per la \textit{norma di Frobenius}\cite{golub2013matrix},
-rappresentata dalla formula $\sqrt{\sum_{i,j}^{} abs(a_{i,j})^2}$, dove $a$ è una matrice che ricavata dalla
+rappresentata dalla formula $\sqrt{\sum_{i,j}^{} abs(a_{i,j})^2}$, dove $a_{i,j}$ è l'elemento di una matrice $A$ ricavata dalla
 differenza tra le matrici trattate.
 
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-condorcet}, caption={Ordinamento propedeutico al confronto (Condorcet)}]{listings/ordering-rankings-Condorcet.kt}
@@ -838,7 +838,7 @@ differenza tra le matrici trattate.
 
 \subsection{Elaborazione del mondiale \textit{F1} 2023}
 
-Si è provveduto alla generazione delle classifiche provvisorie e della classifica finale 
+Si è provveduto alla generazione delle classifiche provvisorie
 seguendo il flusso rappresentato in \label{capitoloelaborazionemondiale}.
 
 Si riporta in tabella \ref{table:classificafinali2023} la classifica finale reale ed i risultati ottenuti nelle
@@ -852,23 +852,23 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
 
     \hline
     \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
-    1.	 & 	Max-Verstappen & 	 Max-Verstappen & 	 Max-Verstappen 	 \\ \hline
-    2.	 & 	Sergio-Pérez & 	 Sergio-Pérez & 	 Sergio-Pérez 	 \\ \hline
-    3.	 & 	Lewis-Hamilton & 	 Lewis-Hamilton & 	 Lewis-Hamilton 	 \\ \hline
-    4.	 & 	Fernando-Alonso & 	 Fernando-Alonso \newline Carlos-Sainz \newline Charles-Leclerc & 	 Fernando-Alonso 	 \\ \hline
-    5.	 & 	Charles-Leclerc & 	 Lando-Norris & 	 Carlos-Sainz 	 \\ \hline
-    6.	 & 	Lando-Norris & 	 George-Russell & 	 Lando-Norris 	 \\ \hline
-    7.	 & 	Carlos-Sainz & 	 Lance-Stroll \newline Oscar-Piastri & 	 George-Russell 	 \\ \hline
-    8.	 & 	George-Russell & 	 Pierre-Gasly & 	 Charles-Leclerc 	 \\ \hline
-    9.	 & 	Oscar-Piastri & 	 Alexander-Albon \newline Esteban-Ocon & 	 Pierre-Gasly 	 \\ \hline
-    10.	 & 	Lance-Stroll & 	 Yuki-Tsunoda & 	 Oscar-Piastri 	 \\ \hline
-    11.	 & 	Pierre-Gasly & 	 Valtteri-Bottas \newline Nico-Hülkenberg & 	 Lance-Stroll 	 \\ \hline
-    12.	 & 	Esteban-Ocon & 	 Guanyu-Zhou & 	 Esteban-Ocon 	 \\ \hline
-    13.	 & 	Alexander-Albon & 	 Kevin-Magnussen & 	 Alexander-Albon 	 \\ \hline
-    14.	 & 	Yuki-Tsunoda & 	 Logan-Sargeant & 	 Yuki-Tsunoda 	 \\ \hline
-    15.	 & 	Valtteri-Bottas & 	 Nyck-de Vries & 	 Valtteri-Bottas 	 \\ \hline
-    16.	 & 	Nico-Hülkenberg & 	 Daniel-Ricciardo & 	 Guanyu-Zhou 	 \\ \hline
-    17.	 & 	Daniel-Ricciardo & 	 Liam-Lawson &	 Nico-Hülkenberg 	 \\ \hline
+    1.	 & 	Max-Verstappen  & 	 Max-Verstappen (C1.)& 	 Max-Verstappen 	 \\ \hline
+    2.	 & 	Sergio-Pérez & 	 Sergio-Pérez (C2.) & 	 Sergio-Pérez 	 \\ \hline
+    3.	 & 	Lewis-Hamilton & 	 Lewis-Hamilton (C3.)& 	 Lewis-Hamilton 	 \\ \hline
+    4.	 & 	Fernando-Alonso & 	 Fernando-Alonso (C4.)\newline Carlos-Sainz (C5.) \newline Charles-Leclerc (C6.) & 	 Fernando-Alonso 	 \\ \hline
+    5.	 & 	Charles-Leclerc & 	 Lando-Norris (C7.) & 	 Carlos-Sainz 	 \\ \hline
+    6.	 & 	Lando-Norris & 	 George-Russell (C8.)& 	 Lando-Norris 	 \\ \hline
+    7.	 & 	Carlos-Sainz & 	 Lance-Stroll (C9.)\newline Oscar-Piastri (C10.) & 	 George-Russell 	 \\ \hline
+    8.	 & 	George-Russell & 	 Pierre-Gasly (C11.) & 	 Charles-Leclerc 	 \\ \hline
+    9.	 & 	Oscar-Piastri & 	 Alexander-Albon (C12.) \newline Esteban-Ocon (C13.) & 	 Pierre-Gasly 	 \\ \hline
+    10.	 & 	Lance-Stroll & 	 Yuki-Tsunoda (C14.) & 	 Oscar-Piastri 	 \\ \hline
+    11.	 & 	Pierre-Gasly & 	 Valtteri-Bottas (C15.)\newline Nico-Hülkenberg (C16.) & 	 Lance-Stroll 	 \\ \hline
+    12.	 & 	Esteban-Ocon & 	 Guanyu-Zhou (C17.) & 	 Esteban-Ocon 	 \\ \hline
+    13.	 & 	Alexander-Albon & 	 Kevin-Magnussen (C18.) & 	 Alexander-Albon 	 \\ \hline
+    14.	 & 	Yuki-Tsunoda & 	 Logan-Sargeant (C19.) & 	 Yuki-Tsunoda 	 \\ \hline
+    15.	 & 	Valtteri-Bottas & 	 Nyck-de Vries (C20.)& 	 Valtteri-Bottas 	 \\ \hline
+    16.	 & 	Nico-Hülkenberg & 	 Daniel-Ricciardo (C21.)& 	 Guanyu-Zhou 	 \\ \hline
+    17.	 & 	Daniel-Ricciardo & 	 Liam-Lawson (C22.) &	 Nico-Hülkenberg 	 \\ \hline
     18.	 & 	Guanyu-Zhou & 	 Assente &	 Kevin-Magnussen 	 \\ \hline
     19.	 & 	Kevin-Magnussen & 	 Assente &	 Logan-Sargeant 	 \\ \hline
     20.	 & 	Liam-Lawson & 	 Assente &	 Daniel-Ricciardo 	 \\ \hline
@@ -881,9 +881,26 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
     \endgroup
 
     \caption{Classifica finale reale e classifiche finali ottenute con 
-    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale \textit{F1} 2023 }
+    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale \textit{F1} 2023.
+    Nella colonna relativa all'algoritmo di Condorcet viene fornito un acronimo ad ogni concorrente. }
     \label{table:classifichefinali2023}
 \end{table}
+
+Nelle tabelle \ref{table:classifichegeneralireali2023tabella}, \ref{table:classifichegeneralicondorcet2023tabella} e \ref{table:classifichegeneralischultze2023tabella}
+viene mostrato il contenuto delle matrici per ogni concorrente e classifica provvisoria.
+
+In ogni tabella le righe sono ordinate secondo il posizionamento nella classifica finale calcolata utilizzando l'algoritmo
+di Condorcet, mentre le colonne rappresentano il numero sequenziale della gara nel campionato.
+Per motivi prettamente grafici, a ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2023}
+
+Infine, per ciascuna tabella è stato generato il relativo grafico, nel quale le linee rappresentano i concorrenti,
+l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica provvisoria
+al termine della relativa gara.
+
+Per la tabella \ref{table:classifichegeneralireali2023tabella} il grafico di riferimento è in figura \ref{fig:classifichegeneralireali2023figura},
+mentre per le tabelle \ref{table:classifichegeneralicondorcet2023tabella} e \ref{table:classifichegeneralischultze2023tabella} i grafici sono rispettivamente
+in figura \ref{fig:classifichegeneralicondorcet2023figura} ed in figura {fig:classifichegeneralischultze2023figura}.
+
 
 
 
@@ -920,15 +937,16 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{F1} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa ai valori reali del Mondiale \textit{F1} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
-    \label{table:classifichegeneralireali2023}
+    \label{table:classifichegeneralireali2023tabella}
 \end{table}
 
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/realstandings2023.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali2023} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali2023tabella} }
+     \label{figura:classifichegeneralireali2023figura}
  \end{figure}
 
 
@@ -969,13 +987,14 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
-    \label{table:classifichegeneralicondorcet2023}
+    \label{table:classifichegeneralicondorcet2023tabella}
 \end{table}
 
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/condorcetstandings2023.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet2023} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet2023tabella} }
+     \label{fig:classifichegeneralicondorcet2023figura}
  \end{figure}
 
 
@@ -1016,14 +1035,29 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
-    \label{table:classifichegeneralischultze2023}
+    \label{table:classifichegeneralischultze2023tabella}
 \end{table}
 
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/schultzestandings2023.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze2023} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze2023tabella} }
+     \label{fig:classifichegeneralischultze2023figura}
  \end{figure}
+
+ Si può notare che entrambi gli algoritmi impiegati tendono ad una soluzione iniziale che porta i concorrenti ad essere
+ molto simili come posizionamento nelle prime fasi del campionato, causando numerosi pareggi ma proseguendo con le gare
+ questi tendono a stabilizzatsi per via del numero incrementali di voti. Tuttavia, i risultati evidenziati da Condorcet 
+ nell'ultima classifica manifestano numerosi pareggi, mentre Schultze riesce a discriminare in maniera più accurata
+ gli esiti.
+
+ In tabella \ref{table:distanzef12023} vengono mostrati i valori di distanza ottenuti applicando la 
+ \textit{norma di Frobenius} alla distanza tra le matrici rappresentati nelle prime due colonne.
+ Si può notare che l'insieme delle classifiche generate sono significativamente diverse dall'insieme delle classifiche reale,
+ mentre se ci si focalizza sulle classifiche finali la distanza è significativamente minore ma i valori generati da 
+ Condorcet continuano a distinguersi maggiormente, soprattutto a causa dei pareggi, che nella classifica finale reale
+ non sono presenti.
+
 
  \begin{table}[H]
     \centering
@@ -1031,14 +1065,16 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \resizebox{\linewidth}{!}{%
     \begin{tabular}{|c|c|c|}
 
+
+
     \hline
     \multicolumn{1}{|l|}{Elemento 1} & \multicolumn{1}{l|}{Elemento 2} & \multicolumn{1}{l|}{Valore distanza euclidea} \\ \hline
     Matrice "reale" & Matrice Condorcet &  68.23 \\ \hline
     Matrice "reale" & Matrice Schultze &  44.72 \\ \hline
-    Matrice Condorcet & Matrice Schultze &  48.04 \\ \hline
+   % Matrice Condorcet & Matrice Schultze &  48.04 \\ \hline
     Classifica finale "reale" & Classifica finale Condorcet &  14.35 \\ \hline
     Classifica finale "reale" & Classifica finale Schultze &  8.31 \\ \hline
-    Classifica finale Condorcet & Classifica finale Schultze &  14.04 \\ \hline
+    %Classifica finale Condorcet & Classifica finale Schultze &  14.04 \\ \hline
     \end{tabular}}
     \endgroup
 
@@ -1051,11 +1087,13 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
 
 \subsection{Elaborazione del mondiale \textit{F1} 2008}
 
-Si è provveduto alla generazione delle classifiche parziali e della classifica finale 
-seguendo il flusso rappresentato in \label{chapter:elaborazionemondiale}.
 
-Si riporta in tabella \ref{tabella:classificafinale2008} gli ordinamenti ottenuti nelle
-classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la classifica finale reale
+È stata effettuata l'elaborazione del campionato \textit{F1} 2008, che rispetto al campionato 2023 ha visto
+una maggior competizione tra i podisti. Si è provveduto a generare le classifiche provvisorie 
+replicando il flusso rappresentato in \label{capitoloelaborazionemondiale}.
+
+Si riporta in tabella \ref{table:classificafinali2008} la classifica finale reale ed i risultati ottenuti nelle
+classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
 %%2008
 \begin{table}[H]
     \centering
@@ -1066,22 +1104,22 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
     \hline
     \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
     
-    1.	Lewis-Hamilton & 	 Felipe-Massa & 	 Lewis-Hamilton 	 \\ \hline
-    2.	Felipe-Massa & 	 Lewis-Hamilton & 	 Robert-Kubica 	 \\ \hline
-    3.	Kimi-Räikkönen & 	 Kimi-Räikkönen \newline Robert-Kubica & 	 Felipe-Massa 	 \\ \hline
-    4.	Robert-Kubica & 	 Nick-Heidfeld & 	 Nick-Heidfeld 	 \\ \hline
-    5.	Fernando-Alonso & 	 Heikki-Kovalainen & 	 Kimi-Räikkönen 	 \\ \hline
-    6.	Nick-Heidfeld & 	 Fernando-Alonso & 	 Fernando-Alonso 	 \\ \hline
-    7.	Heikki-Kovalainen & 	 Jarno-Trulli & 	 Heikki-Kovalainen 	 \\ \hline
-    8.	Sebastian-Vettel & 	 Timo-Glock \newline Mark-Webber & 	 Jarno-Trulli 	 \\ \hline
-    9.	Jarno-Trulli & 	 Nico-Rosberg \newline Sebastian-Vettel & 	 Mark-Webber 	 \\ \hline
-    10.	Timo-Glock & 	 David-Coulthard & 	 Timo-Glock 	 \\ \hline
-    11.	Mark-Webber & 	 Kazuki-Nakajima\newline Rubens-Barrichello & 	 Nico-Rosberg 	 \\ \hline
-    12.	Nelson-Piquet Jr. & 	 Sébastien-Bourdais \newline Nelson-Piquet Jr.\newline Jenson-Button & 	 Sebastian-Vettel 	 \\ \hline
-    13.	Nico-Rosberg & 	 Giancarlo-Fisichella & 	 Kazuki-Nakajima 	 \\ \hline
-    14.	Rubens-Barrichello & 	 Adrian-Sutil & 	 Nelson-Piquet Jr. 	 \\ \hline
-    15.	Kazuki-Nakajima & 	 Takuma-Sato & 	 David-Coulthard 	 \\ \hline
-    16.	David-Coulthard & 	 Anthony-Davidson & 	 Jenson-Button 	 \\ \hline
+    1.	Lewis-Hamilton & 	 Felipe-Massa (C1.)& 	 Lewis-Hamilton 	 \\ \hline
+    2.	Felipe-Massa & 	 Lewis-Hamilton (C2.)& 	 Robert-Kubica 	 \\ \hline
+    3.	Kimi-Räikkönen & 	 Kimi-Räikkönen (C3.)\newline Robert-Kubica (C4.)& 	 Felipe-Massa 	 \\ \hline
+    4.	Robert-Kubica & 	 Nick-Heidfeld (C5.)& 	 Nick-Heidfeld 	 \\ \hline
+    5.	Fernando-Alonso & 	 Heikki-Kovalainen (C6.)& 	 Kimi-Räikkönen 	 \\ \hline
+    6.	Nick-Heidfeld & 	 Fernando-Alonso (C7.) & 	 Fernando-Alonso 	 \\ \hline
+    7.	Heikki-Kovalainen & 	 Jarno-Trulli (C8.)& 	 Heikki-Kovalainen 	 \\ \hline
+    8.	Sebastian-Vettel & 	 Timo-Glock (C9.)\newline Mark-Webber (C10.) & 	 Jarno-Trulli 	 \\ \hline
+    9.	Jarno-Trulli & 	 Nico-Rosberg (C11.)\newline Sebastian-Vettel (C12.) & 	 Mark-Webber 	 \\ \hline
+    10.	Timo-Glock & 	 David-Coulthard (C13.) & 	 Timo-Glock 	 \\ \hline
+    11.	Mark-Webber & 	 Kazuki-Nakajima (C14.)\newline Rubens-Barrichello (C15.) & 	 Nico-Rosberg 	 \\ \hline
+    12.	Nelson-Piquet Jr. & 	 Sébastien-Bourdais (C16.) \newline Nelson-Piquet Jr. (C17.)\newline Jenson-Button (C18.) & 	 Sebastian-Vettel 	 \\ \hline
+    13.	Nico-Rosberg & 	 Giancarlo-Fisichella (C19.) & 	 Kazuki-Nakajima 	 \\ \hline
+    14.	Rubens-Barrichello & 	 Adrian-Sutil (C20.)& 	 Nelson-Piquet Jr. 	 \\ \hline
+    15.	Kazuki-Nakajima & 	 Takuma-Sato (C21.) & 	 David-Coulthard 	 \\ \hline
+    16.	David-Coulthard & 	 Anthony-Davidson (C22.)& 	 Jenson-Button 	 \\ \hline
     17.	Sébastien-Bourdais & 	 Assente & 	 Rubens-Barrichello 	 \\ \hline
     18.	Jenson-Button & 	 Assente & 	 Sébastien-Bourdais 	 \\ \hline
     19.	Giancarlo-Fisichella & 	 Assente & 	 Giancarlo-Fisichella 	 \\ \hline
@@ -1096,6 +1134,23 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
     l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale \textit{F1} 2008 }
     \label{table:classifichefinali2008}
 \end{table}
+
+Nelle tabelle \ref{table:classifichegeneralireali2008tabella}, \ref{table:classifichegeneralicondorcet2008tabella} e \ref{table:classifichegeneralischultze2008tabella}
+viene mostrato il contenuto delle matrici per ogni concorrente e classifica provvisoria.
+
+Le righe sono ordinate sempre secondo il posizionamento nella classifica finale calcolata utilizzando l'algoritmo
+di Condorcet.
+A ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2008}.
+
+Sono stati generati dei grafici, nei quali le linee rappresentano i concorrenti,
+l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica provvisoria
+al termine della relativa gara.
+
+Per la tabella \ref{table:classifichegeneralireali2008tabella} il grafico di riferimento è in figura \ref{fig:classifichegeneralireali2008figura},
+mentre per le tabelle \ref{table:classifichegeneralicondorcet2008tabella} e \ref{table:classifichegeneralischultze2008tabella} i grafici sono rispettivamente
+in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura {fig:classifichegeneralischultze2008figura}.
+
+
 
 \begin{table}[H]
     \centering
@@ -1132,13 +1187,14 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
     
     \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
-    \label{table:classifichegeneralireali2008}
+    \label{table:classifichegeneralireali2008tabella}
 \end{table}
 
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/realstandings2008.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali2008} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali2008tabella} }
+     \label{fig:classifichegeneralireali2008figura}
  \end{figure}
 
 
@@ -1179,13 +1235,14 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
-    \label{table:classifichegeneralicondorcet2008}
+    \label{table:classifichegeneralicondorcet2008tabella}
 \end{table}
 
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/condorcetstandings2008.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet2008} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralicondorcet2008tabella} }
+     \label{fig:classifichegeneralicondorcet2008figura}
  \end{figure}
 
 
@@ -1226,15 +1283,28 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
     I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
-    \label{table:classifichegeneralischultze2008}
+    \label{table:classifichegeneralischultze2008tabella}
 \end{table}
 
 \begin{figure}[H]
     \centering
      \includegraphics[scale=1.0]{figures/schultzestandings2008.png}
-     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze2008} }
+     \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze2008tabella} }
+     \label{fig:classifichegeneralischultze2008figura}
  \end{figure}
+ TODO MODIFICARE PER 2008
+ Si può notare che entrambi gli algoritmi impiegati tendono ad una soluzione iniziale che porta i concorrenti ad essere
+ molto simili come posizionamento nelle prime fasi del campionato, causando numerosi pareggi ma proseguendo con le gare
+ questi tendono a stabilizzatsi per via del numero incrementali di voti. Tuttavia, i risultati evidenziati da Condorcet 
+ nell'ultima classifica manifestano numerosi pareggi, mentre Schultze riesce a discriminare in maniera più accurata
+ gli esiti.
 
+ In tabella \ref{table:distanzef12008} vengono mostrati i valori di distanza ottenuti applicando la 
+ \textit{norma di Frobenius} alla distanza tra le matrici rappresentati nelle prime due colonne.
+ Si può notare che l'insieme delle classifiche generate sono significativamente diverse dall'insieme delle classifiche reale,
+ mentre se ci si focalizza sulle classifiche finali la distanza è significativamente minore ma i valori generati da 
+ Condorcet continuano a distinguersi maggiormente, soprattutto a causa dei pareggi, che nella classifica finale reale
+ non sono presenti.
  \begin{table}[H]
     \centering
     \begingroup
@@ -1245,10 +1315,10 @@ classifiche finali usando l'algoritmo di Condorcet, l'algoritmo di Schultze e la
     \multicolumn{1}{|l|}{Elemento 1} & \multicolumn{1}{l|}{Elemento 2} & \multicolumn{1}{l|}{Valore distanza euclidea} \\ \hline
     Matrice "reale" & Matrice Condorcet &  77.19 \\ \hline
     Matrice "reale" & Matrice Schultze &  52.53 \\ \hline
-    Matrice Condorcet & Matrice Schultze &  55.94 \\ \hline
+    %Matrice Condorcet & Matrice Schultze &  55.94 \\ \hline
     Classifica finale "reale" & Classifica finale Condorcet &  24.6 \\ \hline
     Classifica finale "reale" & Classifica finale Schultze &  12.45 \\ \hline
-    Classifica finale Condorcet & Classifica finale Schultze &  19.34 \\ \hline
+    %Classifica finale Condorcet & Classifica finale Schultze &  19.34 \\ \hline
     \end{tabular}   }
     \endgroup
 
