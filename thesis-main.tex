@@ -763,9 +763,11 @@ Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti,
 che replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
 Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, utilizzando come identificativo una stringa \texttt{UUID}.
 
+
 \lstinputlisting[language=Kotlin,label={lst:esempisingolapreferenza}, caption={Esempi di votazioni a singola preferenza, attraverso l'utilizzo di DSL}]{listings/esempiSingleVote.kt}
 
-
+Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che venga 
+restituito un errore nei casi in cui: %%elenco delle eccezioni da fare
 \subsection{Votazioni a lista di preferenze}
 %come ho utilizzato gli operator le lambda with receiver esempi di utilizzo del dsl
 %tanti esempi nei listings
