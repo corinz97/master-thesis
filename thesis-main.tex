@@ -191,7 +191,7 @@ Verrà esposto un approfondimento sui tipi di voto
 ed alcuni algoritmi applicabili per ciascun tipo; successivamente sarà definito un 
 elenco di requisiti che dovranno essere considerati nelle fasi successive e infine,
 sarà fornita una modellazione del dominio mediante diagramma UML.
-\section{Voto a singola preferenza}
+\section{Votazioni a singola preferenza}
 La tipologia di voto a singola preferenza impone al votante di effettuare una scelta tra un
 numero definito di concorrenti. Al termine della votazione, tipicamente si adotta il criterio
 della votazione maggioritaria: si contano i voti ottenuti da ciascun concorrente, e colui che ottiene il
@@ -199,7 +199,7 @@ numero più elevato, risulta vincitore. A seconda del contesto preso in consider
 è possibile avere più turni per diminuire di volta in volta il numero di concorrenti coinvolti.
 Se si arriva ad un pareggio, è possibile effettuare un nuovo ballottaggio oppure adottare
 criteri secondari, che variano in base al dominio trattato.
-\section{Voto a lista di preferenze}
+\section{Votazioni a lista di preferenze}
 La tipologia di voto a lista di preferenze non impone al votante di effettuare un'unica scelta,
 bensì di fissare un ordinamento tra i concorrenti che parta dal meno preferito al più preferito
 o viceversa. Questa logica permette di conservare più contenuto informativo sulle preferenze
@@ -418,6 +418,7 @@ il dominio descritto in questo capitolo.
 
 %----------------------------------------------------------------------------------------
 \chapter{Design}
+\label{designdsl}
 In questo capitolo, partendo dalla modellazione del dominio descritta nel capitolo \ref{modellodominio}, 
 sarà sviluppato un approfondimento sulla definizione delle metriche di punteggio e sulla porzione
 impattata dall'introduzione di \ac{dsl}, volto al miglioramento dell'utilizzabilità della libreria \texttt{EleKtion}.
@@ -556,7 +557,7 @@ In figura \ref{fig:competitionDSL} viene mostrato il diagramma UML delle interfa
     \label{fig:competitionDSL}
  \end{figure}
  \newpage
-\section{\ac{dsl} per la definizione del concorrente}
+\section{Domain Specific Language per la definizione del concorrente}
 Questo DSL è ideato per facilitare la creazione di un concorrente.
 Ciascun concorrente può avere un elenco di punteggi, e ciascuno di essi può essere
 assegnato al concorrente (vedi capitolo \ref{dslcompetizione} ) attraverso l'uso dell'operatore unario \texttt{+}. .
@@ -725,9 +726,49 @@ si differenzia in particolare dai precedenti in quanto non adotta il principio d
 In questo caso, la modifica o eliminazione di una versione di un pacchetto può avere impatti notevoli sugli utilizzatori,
 portando a potenziali disastri mondiali \cite{NPMChaos}.
 
-\section{DSL }
-come ho utilizzato gli operator le lambda with receiver esempi di utilizzo del dsl
-tanti esempi nei listings
+\section{Casi realizzati per i differenti tipi di algoritmi}
+
+Nel capitolo \ref{modellodominio} e nel capitolo \ref{designdsl} è stata presentata l'organizzazione del dominio
+da implementare, assieme ad un approfondimento sulle entità che compongono il linguaggio \ac{dsl}
+che è stato realizzando appositamente per questa libreria.
+In questo capitolo verranno mostrati dei casi d'uso realizzati per verificare il corretto funzionamento della libreria,
+spiegando anche come vengono gestiti eventuali conflitti a seconda della logica scelta.
+
+\subsection{Votazioni a singola preferenza}
+Per gestire le votazioni a singola preferenza è stato creato inizialmente il caso base per la votazione a maggioranza,
+nella quale il vincitore è il concorrente che riceve più voti. In alcuni casi è possibile avere parità tra i voti, pertanto
+ci sono più vincitori nella stessa posizione. 
+Successivamente è stata estesa la gestione dei pareggi, dando la possibilità all'utilizzatore della libreria di definire 
+una metrica per la competizione ed un elenco di punteggi realizzati da ciascun concorrente, basati su quella metrica.
+Nel caso in cui si ha un pareggio di voti è possibile decidere di effettuare un ulteriore sotto-confronto basato sui punteggi,
+per selezionare chi risulta vincitore sulla base del punteggio più basso o più alto realizzato nella competizione.
+Questo sotto-confronto può portare ad avere dei vincitori a pari merito, oppure di piazzarli in posizioni differenti, proprio
+per la differenza dei punteggi.
+La gestione quindi non garantisce l'assenza totale di pareggi, che può verificarsi anche a livello di punteggio.
+Inoltre, è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante , ma di negargli
+comunque l'opportunità di votare più volte lo stesso candidato .
+Le classi realizzate per gestire tutte queste casistiche sono \texttt{MajorityVotesAlgorithm.kt}, \texttt{MajorityVotesThenHighestScoreAlgorithm}
+e \texttt{MajorityVotesThenLowestScoreAlgorithm}. Nell'estratto di codice \ref{lst:controllisinglevote} vengono mostrati i controlli effettuati prima di 
+compiere la scelta del vincitore.
+
+\lstinputlisting[float,language=Kotlin,label={lst:controllisinglevote}, caption={Controlli effettuati prima della votazione a singola preferenza}]{listings/controlliSingleVote.kt}
+
+Successivamente, viene generata la classifica, che contiene l'insieme dei vincitori con il relativo numero di voti. Per ciascun vincitore,
+viene riportato il punteggio maggiore o quello minore. Nel caso in cui si utilizzi l'algoritmo a maggioranza senza sotto-confronto, vengono riportati
+tutti i punteggi realizzati, inoltre per quest'ultimo non è obbligatorio associare dei punteggi ai giocatori.
+
+Nell'estratto di codice \ref{lst:esempisingolapreferenza} vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
+è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
+Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
+che replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
+Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, utilizzando come identificativo una stringa \texttt{UUID}.
+
+\lstinputlisting[language=Kotlin,label={lst:esempisingolapreferenza}, caption={Esempi di votazioni a singola preferenza, attraverso l'utilizzo di DSL}]{listings/esempiSingleVote.kt}
+
+
+\subsection{Votazioni a lista di preferenze}
+%come ho utilizzato gli operator le lambda with receiver esempi di utilizzo del dsl
+%tanti esempi nei listings
 
 \section{Librerie multiplatform utilizzate}
 
@@ -738,13 +779,13 @@ alle pubblicazioni
 \section{Pubblicazione della documentazione}
 spiegare la creazione di un nuovo workflow, e collegato a quelli esistenti
 %----------------------------------------------------------------------------------------
-\chapter{Valutazione}
+%\chapter{Valutazione}
 
-\section{Test realizzati}
-Descrivere le varie situazioni che sono andato a controllare,
-mettendo dettagli solo per i casi più complicati
+%%\section{Test realizzati}
+%%Descrivere le varie situazioni che sono andato a controllare,
+%%mettendo dettagli solo per i casi più complicati
 
-\section{Sperimentazione con Ergast API}
+\chapter{Sperimentazione con i dati di Formula 1}
 La sperimentazione della libreria \texttt{EleKtion} è stata estesa ad un
 caso di studio reale, nello specifico applicando gli algoritmi di votazione ai risultati 
 delle gare di \textit{\ac{f1}}.
@@ -848,7 +889,7 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
     \centering
     \begingroup
     \resizebox{\linewidth}{!}{%
-    \begin{tabular}{|p{0.25\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|}
+    \begin{tabular}{|p{0.1\linewidth}|p{0.33\linewidth}|p{0.33\linewidth}|p{0.33\linewidth}|}
 
     \hline
     \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
@@ -888,15 +929,12 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
 
 Nelle tabelle \ref{table:classifichegeneralireali2023tabella}, \ref{table:classifichegeneralicondorcet2023tabella} e \ref{table:classifichegeneralischultze2023tabella}
 viene mostrato il contenuto delle matrici per ogni concorrente e classifica provvisoria.
-
 In ogni tabella le righe sono ordinate secondo il posizionamento nella classifica finale calcolata utilizzando l'algoritmo
 di Condorcet, mentre le colonne rappresentano il numero sequenziale della gara nel campionato.
 Per motivi prettamente grafici, a ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2023}
-
 Infine, per ciascuna tabella è stato generato il relativo grafico, nel quale le linee rappresentano i concorrenti,
 l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica provvisoria
 al termine della relativa gara.
-
 Per la tabella \ref{table:classifichegeneralireali2023tabella} il grafico di riferimento è in figura \ref{fig:classifichegeneralireali2023figura},
 mentre per le tabelle \ref{table:classifichegeneralicondorcet2023tabella} e \ref{table:classifichegeneralischultze2023tabella} i grafici sono rispettivamente
 in figura \ref{fig:classifichegeneralicondorcet2023figura} ed in figura {fig:classifichegeneralischultze2023figura}.
@@ -1099,33 +1137,33 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
     \centering
     \begingroup
     \resizebox{\linewidth}{!}{%
-    \begin{tabular}{|p{0.25\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|p{0.25\linewidth}|}
+    \begin{tabular}{|p{0.1\linewidth}|p{0.33\linewidth}|p{0.33\linewidth}|p{0.33\linewidth}|}
 
     \hline
     \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
     
-    1.	Lewis-Hamilton & 	 Felipe-Massa (C1.)& 	 Lewis-Hamilton 	 \\ \hline
-    2.	Felipe-Massa & 	 Lewis-Hamilton (C2.)& 	 Robert-Kubica 	 \\ \hline
-    3.	Kimi-Räikkönen & 	 Kimi-Räikkönen (C3.)\newline Robert-Kubica (C4.)& 	 Felipe-Massa 	 \\ \hline
-    4.	Robert-Kubica & 	 Nick-Heidfeld (C5.)& 	 Nick-Heidfeld 	 \\ \hline
-    5.	Fernando-Alonso & 	 Heikki-Kovalainen (C6.)& 	 Kimi-Räikkönen 	 \\ \hline
-    6.	Nick-Heidfeld & 	 Fernando-Alonso (C7.) & 	 Fernando-Alonso 	 \\ \hline
-    7.	Heikki-Kovalainen & 	 Jarno-Trulli (C8.)& 	 Heikki-Kovalainen 	 \\ \hline
-    8.	Sebastian-Vettel & 	 Timo-Glock (C9.)\newline Mark-Webber (C10.) & 	 Jarno-Trulli 	 \\ \hline
-    9.	Jarno-Trulli & 	 Nico-Rosberg (C11.)\newline Sebastian-Vettel (C12.) & 	 Mark-Webber 	 \\ \hline
-    10.	Timo-Glock & 	 David-Coulthard (C13.) & 	 Timo-Glock 	 \\ \hline
-    11.	Mark-Webber & 	 Kazuki-Nakajima (C14.)\newline Rubens-Barrichello (C15.) & 	 Nico-Rosberg 	 \\ \hline
-    12.	Nelson-Piquet Jr. & 	 Sébastien-Bourdais (C16.) \newline Nelson-Piquet Jr. (C17.)\newline Jenson-Button (C18.) & 	 Sebastian-Vettel 	 \\ \hline
-    13.	Nico-Rosberg & 	 Giancarlo-Fisichella (C19.) & 	 Kazuki-Nakajima 	 \\ \hline
-    14.	Rubens-Barrichello & 	 Adrian-Sutil (C20.)& 	 Nelson-Piquet Jr. 	 \\ \hline
-    15.	Kazuki-Nakajima & 	 Takuma-Sato (C21.) & 	 David-Coulthard 	 \\ \hline
-    16.	David-Coulthard & 	 Anthony-Davidson (C22.)& 	 Jenson-Button 	 \\ \hline
-    17.	Sébastien-Bourdais & 	 Assente & 	 Rubens-Barrichello 	 \\ \hline
-    18.	Jenson-Button & 	 Assente & 	 Sébastien-Bourdais 	 \\ \hline
-    19.	Giancarlo-Fisichella & 	 Assente & 	 Giancarlo-Fisichella 	 \\ \hline
-    20.	Adrian-Sutil & 	 Assente & 	 Adrian-Sutil 	 \\ \hline
-    21.	Takuma-Sato & 	 Assente & 	 Takuma-Sato 	 \\ \hline
-    22.	Anthony-Davidson & 	 Assente & 	 Anthony-Davidson 	 \\ \hline
+    1. &	Lewis-Hamilton & 	 Felipe-Massa (C1.)& 	 Lewis-Hamilton 	 \\ \hline
+    2.&	Felipe-Massa & 	 Lewis-Hamilton (C2.)& 	 Robert-Kubica 	 \\ \hline
+    3.&	Kimi-Räikkönen & 	 Kimi-Räikkönen (C3.)\newline Robert-Kubica (C4.)& 	 Felipe-Massa 	 \\ \hline
+    4.&	Robert-Kubica & 	 Nick-Heidfeld (C5.)& 	 Nick-Heidfeld 	 \\ \hline
+    5.&	Fernando-Alonso & 	 Heikki-Kovalainen (C6.)& 	 Kimi-Räikkönen 	 \\ \hline
+    6.&	Nick-Heidfeld & 	 Fernando-Alonso (C7.) & 	 Fernando-Alonso 	 \\ \hline
+    7.&	Heikki-Kovalainen & 	 Jarno-Trulli (C8.)& 	 Heikki-Kovalainen 	 \\ \hline
+    8.&	Sebastian-Vettel & 	 Timo-Glock (C9.)\newline Mark-Webber (C10.) & 	 Jarno-Trulli 	 \\ \hline
+    9.&	Jarno-Trulli & 	 Nico-Rosberg (C11.)\newline Sebastian-Vettel (C12.) & 	 Mark-Webber 	 \\ \hline
+    10.&	Timo-Glock & 	 David-Coulthard (C13.) & 	 Timo-Glock 	 \\ \hline
+    11.	&Mark-Webber & 	 Kazuki-Nakajima (C14.)\newline Rubens-Barrichello (C15.) & 	 Nico-Rosberg 	 \\ \hline
+    12.	&Nelson-Piquet Jr. & 	 Sébastien-Bourdais (C16.) \newline Nelson-Piquet Jr. (C17.)\newline Jenson-Button (C18.) & 	 Sebastian-Vettel 	 \\ \hline
+    13.&	Nico-Rosberg & 	 Giancarlo-Fisichella (C19.) & 	 Kazuki-Nakajima 	 \\ \hline
+    14.	&Rubens-Barrichello & 	 Adrian-Sutil (C20.)& 	 Nelson-Piquet Jr. 	 \\ \hline
+    15.&	Kazuki-Nakajima & 	 Takuma-Sato (C21.) & 	 David-Coulthard 	 \\ \hline
+    16.&	David-Coulthard & 	 Anthony-Davidson (C22.)& 	 Jenson-Button 	 \\ \hline
+    17.&	Sébastien-Bourdais & 	 Assente & 	 Rubens-Barrichello 	 \\ \hline
+    18.&	Jenson-Button & 	 Assente & 	 Sébastien-Bourdais 	 \\ \hline
+    19.&	Giancarlo-Fisichella & 	 Assente & 	 Giancarlo-Fisichella 	 \\ \hline
+    20.&	Adrian-Sutil & 	 Assente & 	 Adrian-Sutil 	 \\ \hline
+    21.&	Takuma-Sato & 	 Assente & 	 Takuma-Sato 	 \\ \hline
+    22.&	Anthony-Davidson & 	 Assente & 	 Anthony-Davidson 	 \\ \hline
     
     \end{tabular}}
     \endgroup
@@ -1137,20 +1175,15 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
 
 Nelle tabelle \ref{table:classifichegeneralireali2008tabella}, \ref{table:classifichegeneralicondorcet2008tabella} e \ref{table:classifichegeneralischultze2008tabella}
 viene mostrato il contenuto delle matrici per ogni concorrente e classifica provvisoria.
-
 Le righe sono ordinate sempre secondo il posizionamento nella classifica finale calcolata utilizzando l'algoritmo
 di Condorcet.
 A ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2008}.
-
 Sono stati generati dei grafici, nei quali le linee rappresentano i concorrenti,
 l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica provvisoria
 al termine della relativa gara.
-
 Per la tabella \ref{table:classifichegeneralireali2008tabella} il grafico di riferimento è in figura \ref{fig:classifichegeneralireali2008figura},
 mentre per le tabelle \ref{table:classifichegeneralicondorcet2008tabella} e \ref{table:classifichegeneralischultze2008tabella} i grafici sono rispettivamente
-in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura {fig:classifichegeneralischultze2008figura}.
-
-
+in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig:classifichegeneralischultze2008figura}.
 
 \begin{table}[H]
     \centering
@@ -1292,19 +1325,18 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura {fig:cla
      \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralischultze2008tabella} }
      \label{fig:classifichegeneralischultze2008figura}
  \end{figure}
- TODO MODIFICARE PER 2008
- Si può notare che entrambi gli algoritmi impiegati tendono ad una soluzione iniziale che porta i concorrenti ad essere
- molto simili come posizionamento nelle prime fasi del campionato, causando numerosi pareggi ma proseguendo con le gare
- questi tendono a stabilizzatsi per via del numero incrementali di voti. Tuttavia, i risultati evidenziati da Condorcet 
- nell'ultima classifica manifestano numerosi pareggi, mentre Schultze riesce a discriminare in maniera più accurata
- gli esiti.
+ 
+ Gli algoritmi impiegati hanno permesso di elaborare una migliore distribuzione della prima classifica provvisoria,
+ rispetto al caso reale in cui molti dei piloti erano finiti fuori gara per incidenti o problemi di motore.
+ Al pari del caso mostrato in \ref{} sul campionato 2023, si continua ad evidenziare una fase iniziale 
+ con numerosi pareggi per poi stabilizzarsi, tuttavia i risultati di Condorcet mostra limiti in merito alla capacità
+ di discriminazione di un vincitore unico per ogni posizione.
 
  In tabella \ref{table:distanzef12008} vengono mostrati i valori di distanza ottenuti applicando la 
  \textit{norma di Frobenius} alla distanza tra le matrici rappresentati nelle prime due colonne.
- Si può notare che l'insieme delle classifiche generate sono significativamente diverse dall'insieme delle classifiche reale,
- mentre se ci si focalizza sulle classifiche finali la distanza è significativamente minore ma i valori generati da 
- Condorcet continuano a distinguersi maggiormente, soprattutto a causa dei pareggi, che nella classifica finale reale
- non sono presenti.
+ Rispetto al caso del campionato 2023 si può notare un differenza più marcata in termini di distanze, sia nel caso
+ di Schultze che in Condorcet. Quest'ultimo mostra una maggior differenza sia nel caso in cui viene confrontata
+ la matrice delle classifiche provvisorie, sia nel caso della classifica finale.
  \begin{table}[H]
     \centering
     \begingroup
