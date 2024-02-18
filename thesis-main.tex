@@ -769,7 +769,7 @@ Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono es
 
 Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che, nell'ambito di una votazione, venga 
 restituito una eccezione nei casi in cui: 
-\begin{itemize}
+\begin{enumerate}
     \item{Nell'ambito degli algoritmi, in una determinata votazione
         \begin{itemize}
         \item{un candidato sia presente più di una volta nell'insieme dei candidati;}
@@ -790,7 +790,7 @@ restituito una eccezione nei casi in cui:
         \end{itemize}
     }
 
-\end{itemize}
+\end{enumerate}
 
 \subsection{Votazioni a lista di preferenze}
 Per gestire la votazioni a lista di preferenze è stato necessario procedere all'implementazione dell'algoritmo di
@@ -832,7 +832,7 @@ I voti possono essere anonimizzati, come nel caso delle votazioni a preferenza s
 
 Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che, nell'ambito di una votazione, venga 
 restituito una eccezione nei casi in cui: 
-\begin{itemize}
+\begin{enumerate}
     \item{Nell'ambito degli algoritmi, in una determinata votazione
         \begin{itemize}
         \item{un candidato sia presente più di una volta nell'insieme dei candidati;}
@@ -854,19 +854,54 @@ restituito una eccezione nei casi in cui:
         \end{itemize}
     }
 
-\end{itemize}
+\end{enumerate}
 
 Utilizzando il DSL, è possibile dichiarare voti in cui non appaiono tutti i possibili candidati e in tal caso,
 questi saranno piazzati in fondo alla lista, ossia come più sfavoriti.
 
 
-\section{Librerie multiplatform utilizzate}
+\section{Generazione multipiattaforma e pubblicazione degli artefatti}
 
-\section{Pubblicazione di artefatti}
+Il progetto è stato realizzando partendo da un template \cite{WebsiteTemplateKotlinMP} disponibile su \ac{gh}, che fornisce 
+la struttura di avvio per un progetto volto alla generazione finale di artefatti per molteplici piattaforme.
+
+I target sono tutti compilati in \texttt{Java} versione 1.8, successivamente vengono anche convertiti in \texttt{Javascript} per la generazione della
+libreria in ambito Web, e viene generata la versione \texttt{native}, compatibile in linguaggio nativo con i seguenti sistemi:
+\begin{itemize}
+    \item{linux x64}
+    \item{linux Arm64}
+    \item{mingw x64}
+    \item{macos X64}
+    \item{macos Arm64}
+    \item{ios Arm64}
+    \item{ios X64}
+    \item{iosSimulator Arm64}
+    \item{watchos Arm32}
+    \item{watchos X64}
+    \item{watchos Simulator Arm64}
+    \item{tvos Arm64}
+    \item{tvos X64}
+    \item{tvos Simulator Arm64}
+\end{itemize}
+
+Il processo di compilazione viene eseguito grazie ai workflow presenti nel repository \ac{gh}:
+il primo workflow, definito \texttt{dispatcher}, viene avviato al momento del ricevimento di un comando \textit{push} o della creazione di
+una \textit{richiesta pull}, e richiama in cascata i seguenti workflow
+\begin{enumerate}
+\item{build-and-deploy: questa azione si occupa di predisporre l'ambiente di pubblicazione, compilare i sorgenti per le piattaforme, eseguire
+i test nelle piattaforme, effettuare controlli di \texttt{code linting} e \texttt{bug detection}, ed infine pubblicare gli artefatti generati e finalizzare
+l'ambiente di pubblicazione;}
+\item{publish-docs: questa azione è dipendente da build-and-deploy, in quanto viene eseguita successivamente ad essa e solo nel caso in cui 
+sia terminata con esito positivo. Si occupa di generare la documentazione degli artefatti, interpretando gli appositi commenti scritti nel codice sorgente,
+e caricarla nel branch \textit{gh-pages} del repository \ac{gh}. Un workflow di default elabora il contenuto di questo branch e lo mette a 
+disposizione tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .}
+\end{enumerate}
+
+\subsection{Generazione e pubblicazione della libreria}
 Spiegare brevemente i passaggi necessari che sono stati fatti per arrivare
 alle pubblicazioni
 
-\section{Pubblicazione della documentazione}
+\subsection{Generazione e pubblicazione della documentazione}
 spiegare la creazione di un nuovo workflow, e collegato a quelli esistenti
 %----------------------------------------------------------------------------------------
 %\chapter{Valutazione}
