@@ -813,8 +813,8 @@ che verrà confrontato con lo storico delle classifiche reali.
 Verrà infine svolto un calcolo utile ad indicare
 la differenza, in termini qualitativi, confrontando i dati ottenuti.
 
-\subsection{Elaborazione dati di un mondiale \textit{F1}}
-\label{capitoloelaborazionemondiale}
+\section{Elaborazione dati di un mondiale \textit{F1}}
+
 Si è provveduto ad ottenere l'elenco delle gare svoltesi nel corso del mondiale AAAA (anno del mondiale), disponibili
 all'endpoint di Ergast API \newline https://ergast.com/api/f1/AAAA.json.
 
@@ -879,12 +879,11 @@ differenza tra le matrici trattate.
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-schultze}, caption={Ordinamento propedeutico al confronto (Schultze)}]{listings/ordering-rankings-Schultze.kt}
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-real},caption={Ordinamento propedeutico al confronto (Dati reali)}]{listings/ordering-rankings-real.kt}
 
-\subsection{Elaborazione del mondiale \textit{F1} 2023}
+\section{Elaborazione del mondiale \textit{F1} 2023}
 
-Si è provveduto alla generazione delle classifiche provvisorie
-seguendo il flusso rappresentato in \label{capitoloelaborazionemondiale}.
+Si è provveduto alla generazione delle classifiche provvisorie utilizzando i dati del mondiale \textit{F1} 2023.
 
-Si riporta in tabella \ref{classifichefinali2023} la classifica finale reale e quelle 
+Si riporta in tabella \ref{table:classifichefinali2023} la classifica finale reale e quelle 
 finali usando l'algoritmo di Condorcet e l'algoritmo di Schultze
 %%2023
 \begin{table}[H]
@@ -938,7 +937,7 @@ l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle
 al termine della relativa gara.
 Per la tabella \ref{table:classifichegeneralireali2023tabella} il grafico di riferimento è in figura \ref{fig:classifichegeneralireali2023figura},
 mentre per le tabelle \ref{table:classifichegeneralicondorcet2023tabella} e \ref{table:classifichegeneralischultze2023tabella} i grafici sono rispettivamente
-in figura \ref{fig:classifichegeneralicondorcet2023figura} ed in figura {fig:classifichegeneralischultze2023figura}.
+in figura \ref{fig:classifichegeneralicondorcet2023figura} ed in figura \ref{fig:classifichegeneralischultze2023figura}.
 
 
 
@@ -985,7 +984,7 @@ in figura \ref{fig:classifichegeneralicondorcet2023figura} ed in figura {fig:cla
     \centering
      \includegraphics[scale=1.0]{figures/realstandings2023.png}
      \caption{Rappresentazione grafica della tabella \ref{table:classifichegeneralireali2023tabella} }
-     \label{figura:classifichegeneralireali2023figura}
+     \label{fig:classifichegeneralireali2023figura}
  \end{figure}
 
 
@@ -1123,10 +1122,10 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \label{table:distanzef12023}
 \end{table}
 
-\subsection{Elaborazione del mondiale \textit{F1} 2008}
+\section{Elaborazione del mondiale \textit{F1} 2008}
 
 
-È stata effettuata l'elaborazione del campionato \textit{F1} 2008, che rispetto al campionato 2023 ha visto
+È stata effettuata l'elaborazione del mondiale \textit{F1} 2008, che rispetto al mondiale 2023 ha visto
 una maggior competizione tra i concorrenti per le prime posizioni. Si è provveduto a generare le classifiche provvisorie 
 replicando il flusso rappresentato in \label{capitoloelaborazionemondiale}.
 
@@ -1183,7 +1182,7 @@ l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle
 al termine della relativa gara.
 Per la tabella \ref{table:classifichegeneralireali2008tabella} il grafico di riferimento è in figura \ref{fig:classifichegeneralireali2008figura},
 mentre per le tabelle \ref{table:classifichegeneralicondorcet2008tabella} e \ref{table:classifichegeneralischultze2008tabella} i grafici sono rispettivamente
-in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura {fig:classifichegeneralischultze2008figura}.
+in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig:classifichegeneralischultze2008figura}.
 
 
 
