@@ -789,52 +789,52 @@ spiegare la creazione di un nuovo workflow, e collegato a quelli esistenti
 
 \chapter{Sperimentazione con i dati di Formula 1}
 La sperimentazione della libreria \texttt{EleKtion} è stata estesa ad un
-caso di studio reale, nello specifico applicando gli algoritmi di votazione ai risultati 
+caso di studio reale, applicando gli algoritmi di votazione ai risultati 
 delle gare di \textit{\ac{f1}}.
 
 I dati sono accessibili attraverso un API REST pubblica chiamata Ergast API \cite{WebsiteErgastAPI},
 disponibile per scopi non-commerciali,
-che mette a disposizione dati inerenti ai mondiali di \textit{\ac{f1}} a partire dal primo (1950).
+che mette a disposizione dati inerenti ai mondiali di \textit{\ac{f1}} a partire dall'anno 1950.
 Per ognuno di questi sono a disposizione numerose informazioni come l'elenco delle gare ufficiali (Gran Premi),
 le gare di qualifica, le classifiche generali dei piloti, lo storico
 dei piloti, le classifiche generali dei costruttori e molto altro.
 
-Allo scopo di questa tesi, sono risultate utili le informazioni riguardo ai risultati delle gare ufficiali (legate ad uno specifico anno)
-e le classifiche generali dei piloti (legate ad uno specifico anno) al termine di ogni gara.
+Allo scopo di questa tesi, sono risultate utili le informazioni riguardo ai risultati delle gare ufficiali
+e le classifiche generali dei piloti al termine di ogni gara, entrambe legate ad uno specifico anno.
 
 Attaverso appositi endpoint, è stato possibile ottenere i dati necessari per predisporre le informazioni necessarie
-ad \texttt{EleKtion}, utilizzandoli come gli esiti delle varie gare come voti  e applicando di conseguenza gli algoritmi a lista di preferenze.
+ad \texttt{EleKtion}, utilizzando gli esiti delle varie gare come voti e applicando di conseguenza gli algoritmi a lista di preferenze.
 L'elemento più favorito nel voto è rappresentato dal pilota che si è classificato primo in gara, mentre l'elemento più sfavorito
-è stato considerato il pilota classificatosi ultimo in gara.
+è il pilota classificatosi ultimo in gara.
 
 Nei seguenti sottocapitoli vengono mostrati i passaggi effettuati per elaborare i dati di un mondiale,
 in particolare vengono generate, come output delle votazioni, le classifiche parziali al termine di ogni gara in modo da avere uno storico,
 che verrà confrontato con lo storico delle classifiche reali.
 Verrà infine svolto un calcolo utile ad indicare
-la differenza, in termini qualitativi, tra i risultati ottenuti, impiegando differenti algoritmi,
-e quelli reali.
+la differenza, in termini qualitativi, confrontando i dati ottenuti.
 
 \subsection{Elaborazione dati di un mondiale \textit{F1}}
 \label{capitoloelaborazionemondiale}
 Si è provveduto ad ottenere l'elenco delle gare svoltesi nel corso del mondiale AAAA (anno del mondiale), disponibili
 all'endpoint di Ergast API \newline https://ergast.com/api/f1/AAAA.json.
 
-In questo mondiale sono state effettuate in totale \textit{k} gare, per ognuna di esse sono stati scaricati i
+In questo mondiale sono state effettuate in totale \textit{k} gare, per ognuna di esse sono stati scaricati i relativi
 dati, filtrandoli per tenere in considerazione solamente il nominativo del pilota e la posizione di arrivo.
 Eventuali ritiri a causa di guasti o altri motivi non sono gestiti, ciascun pilota in ogni caso ha attribuita una posizione di arrivo.
 
 I dati sono associati ad una mappa \texttt{Map<String, List<Pair<String, Int>>>}, nella quale le chiavi rappresentano
-il nome della gara (es. Australian-Grand-Prix-1-AAAA, Malaysian-Grand-Prix-2-AAAA, ecc...) mentre i valori rappresentano liste,ù
-nelle quali ogni elemento è una tupla contenente il nominativo del pilota e la posizione di arrivo.
+il nome della gara (es. Australian-Grand-Prix-1-AAAA, Malaysian-Grand-Prix-2-AAAA, ecc...) mentre i valori rappresentano liste,
+di tuple contenenti il nominativo del pilota e la posizione di arrivo.
 
-Come visibile nell'estratto di codice \ref{lst:election-GPs}, si organizzano tante votazioni indipendenti quante sono le
+Come mostrato nell'estratto di codice \ref{lst:election-GPs}, si organizzano tante votazioni indipendenti quante sono le
 gare presenti nel mondiale:
 viene definito l'insieme dei nominativi presenti nel mondiale, in modo da
-avere il censimento di tutti i candidati, poichè per motivi di funzionamento degli algoritmi a lista di preferenze, nei voti devono essere presenti 
-anche coloro che effettivamente non hanno partecipato in una determinata gara
-ma in altre sì (ad esempio infortuni, sostituzioni, ecc...). Si definisce l'algoritmo da utilizzare, in questo caso sono
+avere il censimento di tutti coloro che hanno partecipato almeno in una gara.%, poichè per motivi di funzionamento degli algoritmi a lista di preferenze, nei voti devono essere presenti 
+%anche coloro che effettivamente non hanno partecipato in una determinata gara.
+%ma in altre sì (ad esempio infortuni, sostituzioni, ecc...). 
+Si definisce l'algoritmo da utilizzare, e in questo caso di studio sono
 ammissibili l'algoritmo di Condorcet o l'algoritmo di Schultze. 
-Successivamente si definisce l'elenco dei voti, in cui i votati
+Successivamente si determina l'elenco dei voti, in cui i votati
 sono costituiti dall'elenco dei nominativi dei piloti secondo l'ordine di arrivo reale (dal primo all'ultimo), e come votante viene utilizzato il nome del circuito
 della gara. Se uno o più piloti sono assenti in quella gara ma presenti in altre, tramite un confronto con l'insieme dei candidati
 vengono identificati e posti "virtualmente" ad ultimi in modo da avere la lunghezza della lista 
@@ -847,8 +847,8 @@ e l'elenco dei nominativi (secondo l'ordine di arrivo reale) della seconda gara.
 Proseguendo nelle iterazioni, si arriva ad avere \textit{k} votazioni indipendenti, in cui l'ultima conterrà
 come voti gli esiti dalla prima alla \textit{k}-esima gara.
 
-La generazione delle classifiche parziali, dipendenti dall'algoritmo scelto, fornisce una serie di risultati in
-cui il primo consiste nella classifica provvisoria al termine dell'ultima gara, il secondo nella classifica provvisoria al termine 
+La generazione delle classifiche parziali fornisce una serie di risultati in
+cui il primo consiste nella classifica provvisoria al termine della prima gara, il secondo nella classifica provvisoria al termine 
 della seconda gara, fino ad arrivare alla classifica finale.
 
 I dati delle classifiche reali sono ottenuti contattando l'endpoint \newline https://ergast.com/api/f1/AAAA/GP/driverStandings.json,
@@ -856,7 +856,7 @@ dove AAAA è l'anno del mondiale e GP è il numero della gara
 
 \lstinputlisting[float,language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche parziali utilizzando \texttt{EleKtion}}]{listings/election-GPs.kt}
 
-Per confrontare gli esiti ottenuti impiegando i differenti algoritmi, e tra questi e i dati reali estratti dall'API,
+Per confrontare gli esiti ottenuti impiegando i differenti algoritmi e i dati reali estratti dall'API,
 è necessario organizzarli secondo matrici \textit{r x k}, dove ogni riga \textit{r} identifica un pilota,
 e ogni colonna \textit{k} identifica una gara. Nell'intersezione è presente la
 posizione nella classifica provvisoria (reale o generata) ottenuta dal \textit{r}-esimo pilota al termine della
@@ -867,11 +867,11 @@ siano ordinate allo stesso modo. Nel caso delle righe è possibile adottare un o
 l'ordinamento presente in una delle matrici, che viene preso come riferimento per le altre.
 Nella sperimentazione effettuata, sono state calcolate per prime le classifiche che impiegano l'algoritmo di Condorcet,
 poi la sequenza dei piloti nella classifica finale è stato preso come riferimento di ordinamento.
-Le classifiche ottenute con l'algoritmo di Schultze è stato organizzato secondo lo stesso riferimento e così anche
-la classifiche reali. Si rimanda agli estratti di codice \ref{lst:ordering-rankings-condorcet}, \ref{lst:ordering-rankings-schultze},
+Le classifiche ottenute con l'algoritmo di Schultze sono state organizzate secondo lo stesso riferimento e così anche
+le classifiche reali. Si rimanda agli estratti di codice \ref{lst:ordering-rankings-condorcet}, \ref{lst:ordering-rankings-schultze},
 \ref{lst:ordering-rankings-real} per approfondire l'implementazione di questi criteri.
 
-Esistono numerose metriche di confronto tra matrici, in questo caso si è optato per la \textit{norma di Frobenius}\cite{golub2013matrix},
+Esistono numerose metriche di confronto tra matrici \cite{golub2013matrix}, in questo caso si è optato per la \textit{norma di Frobenius},
 rappresentata dalla formula $\sqrt{\sum_{i,j}^{} abs(a_{i,j})^2}$, dove $a_{i,j}$ è l'elemento di una matrice $A$ ricavata dalla
 differenza tra le matrici trattate.
 
@@ -884,8 +884,8 @@ differenza tra le matrici trattate.
 Si è provveduto alla generazione delle classifiche provvisorie
 seguendo il flusso rappresentato in \label{capitoloelaborazionemondiale}.
 
-Si riporta in tabella \ref{table:classificafinali2023} la classifica finale reale ed i risultati ottenuti nelle
-classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
+Si riporta in tabella \ref{classifichefinali2023} la classifica finale reale e quelle 
+finali usando l'algoritmo di Condorcet e l'algoritmo di Schultze
 %%2023
 \begin{table}[H]
     \centering
@@ -930,12 +930,11 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze
 \end{table}
 
 Nelle tabelle \ref{table:classifichegeneralireali2023tabella}, \ref{table:classifichegeneralicondorcet2023tabella} e \ref{table:classifichegeneralischultze2023tabella}
-viene mostrato il contenuto delle matrici per ogni concorrente e classifica provvisoria.
-In ogni tabella le righe sono ordinate secondo il posizionamento nella classifica finale calcolata utilizzando l'algoritmo
-di Condorcet, mentre le colonne rappresentano il numero sequenziale della gara nel campionato.
+vengono mostrate le matrici complete con il posizionamento dei piloti in ogni classifica provvisoria.
+
 Per motivi prettamente grafici, a ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2023}
 Infine, per ciascuna tabella è stato generato il relativo grafico, nel quale le linee rappresentano i concorrenti,
-l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica provvisoria
+l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica
 al termine della relativa gara.
 Per la tabella \ref{table:classifichegeneralireali2023tabella} il grafico di riferimento è in figura \ref{fig:classifichegeneralireali2023figura},
 mentre per le tabelle \ref{table:classifichegeneralicondorcet2023tabella} e \ref{table:classifichegeneralischultze2023tabella} i grafici sono rispettivamente
@@ -1087,14 +1086,14 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
 
  Si può notare che entrambi gli algoritmi impiegati tendono ad una soluzione iniziale che porta i concorrenti ad essere
  molto simili come posizionamento nelle prime fasi del campionato, causando numerosi pareggi ma proseguendo con le gare
- questi tendono a stabilizzatsi per via del numero incrementali di voti. Tuttavia, i risultati evidenziati da Condorcet 
+ questi tendono a stabilizzarsi per via del numero incrementale di voti. Tuttavia, i risultati evidenziati da Condorcet 
  nell'ultima classifica manifestano numerosi pareggi, mentre Schultze riesce a discriminare in maniera più accurata
  gli esiti.
 
  In tabella \ref{table:distanzef12023} vengono mostrati i valori di distanza ottenuti applicando la 
- \textit{norma di Frobenius} alla distanza tra le matrici rappresentati nelle prime due colonne.
- Si può notare che l'insieme delle classifiche generate sono significativamente diverse dall'insieme delle classifiche reale,
- mentre se ci si focalizza sulle classifiche finali la distanza è significativamente minore ma i valori generati da 
+ \textit{norma di Frobenius} alla differenza delle matrici rappresentate nelle prime due colonne.
+ Si può notare che l'insieme delle classifiche generate sono significativamente diverse dall'insieme delle classifiche reali,
+ mentre se ci si focalizza sulle classifiche finali la distanza è minore ma i valori generati da 
  Condorcet continuano a distinguersi maggiormente, soprattutto a causa dei pareggi, che nella classifica finale reale
  non sono presenti.
 
@@ -1118,9 +1117,8 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{\ac{f1}} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
-    I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
-    Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
+    \caption{Campionato \textit{F1} 2023 - Valori di distanza ottenuti applicando la 
+    \textit{norma di Frobenius} alla differenza delle matrici rappresentate nelle prime due colonne.
     }
     \label{table:distanzef12023}
 \end{table}
@@ -1129,10 +1127,10 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
 
 
 È stata effettuata l'elaborazione del campionato \textit{F1} 2008, che rispetto al campionato 2023 ha visto
-una maggior competizione tra i podisti. Si è provveduto a generare le classifiche provvisorie 
+una maggior competizione tra i concorrenti per le prime posizioni. Si è provveduto a generare le classifiche provvisorie 
 replicando il flusso rappresentato in \label{capitoloelaborazionemondiale}.
 
-Si riporta in tabella \ref{table:classificafinali2008} la classifica finale reale ed i risultati ottenuti nelle
+Si riporta in tabella \ref{table:classifichefinali2008} la classifica finale reale ed i risultati ottenuti nelle
 classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
 %%2008
 \begin{table}[H]
@@ -1175,17 +1173,19 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
     \label{table:classifichefinali2008}
 \end{table}
 
+
 Nelle tabelle \ref{table:classifichegeneralireali2008tabella}, \ref{table:classifichegeneralicondorcet2008tabella} e \ref{table:classifichegeneralischultze2008tabella}
-viene mostrato il contenuto delle matrici per ogni concorrente e classifica provvisoria.
-Le righe sono ordinate sempre secondo il posizionamento nella classifica finale calcolata utilizzando l'algoritmo
-di Condorcet.
-A ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2008}.
-Sono stati generati dei grafici, nei quali le linee rappresentano i concorrenti,
-l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica provvisoria
+vengono mostrate le matrici complete con il posizionamento dei piloti in ogni classifica provvisoria.
+
+Per motivi prettamente grafici, a ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2008}
+Infine, per ciascuna tabella è stato generato il relativo grafico, nel quale le linee rappresentano i concorrenti,
+l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica
 al termine della relativa gara.
 Per la tabella \ref{table:classifichegeneralireali2008tabella} il grafico di riferimento è in figura \ref{fig:classifichegeneralireali2008figura},
 mentre per le tabelle \ref{table:classifichegeneralicondorcet2008tabella} e \ref{table:classifichegeneralischultze2008tabella} i grafici sono rispettivamente
-in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig:classifichegeneralischultze2008figura}.
+in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura {fig:classifichegeneralischultze2008figura}.
+
+
 
 \begin{table}[H]
     \centering
@@ -1328,17 +1328,18 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
      \label{fig:classifichegeneralischultze2008figura}
  \end{figure}
  
- Gli algoritmi impiegati hanno permesso di elaborare una migliore distribuzione della prima classifica provvisoria,
+ Gli algoritmi impiegati hanno permesso di elaborare una differente distribuzione della prima classifica provvisoria,
  rispetto al caso reale in cui molti dei piloti erano finiti fuori gara per incidenti o problemi di motore.
- Al pari del caso mostrato in \ref{} sul campionato 2023, si continua ad evidenziare una fase iniziale 
- con numerosi pareggi per poi stabilizzarsi, tuttavia i risultati di Condorcet mostra limiti in merito alla capacità
+
+ Al pari del caso inerente al campionato 2023, si continua ad evidenziare una fase iniziale 
+ con numerosi pareggi per poi distinguerli successivamente, tuttavia i risultati di Condorcet mostrano limiti in merito alla capacità
  di discriminazione di un vincitore unico per ogni posizione.
 
  In tabella \ref{table:distanzef12008} vengono mostrati i valori di distanza ottenuti applicando la 
- \textit{norma di Frobenius} alla distanza tra le matrici rappresentati nelle prime due colonne.
+ \textit{norma di Frobenius} alla distanza tra le matrici rappresentate nelle prime due colonne.
  Rispetto al caso del campionato 2023 si può notare un differenza più marcata in termini di distanze, sia nel caso
- di Schultze che in Condorcet. Quest'ultimo mostra una maggior differenza sia nel caso in cui viene confrontata
- la matrice delle classifiche provvisorie, sia nel caso della classifica finale.
+ di Schultze che in Condorcet. Quest'ultimo mostra una maggior differenza sia nel caso in cui viene confrontato
+ l'insieme delle classifiche provvisorie, sia nel caso della classifica finale.
  \begin{table}[H]
     \centering
     \begingroup
@@ -1356,9 +1357,8 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
     \end{tabular}   }
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
-    I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
-    Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
+    \caption{Campionato \textit{F1} 2008 - Valori di distanza ottenuti applicando la 
+    \textit{norma di Frobenius} alla differenza delle matrici rappresentate nelle prime due colonne.
     }
     \label{table:distanzef12008}
 \end{table}
