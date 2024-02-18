@@ -1,4 +1,4 @@
-  if (candidates.groupingBy { it.name }.eachCount().any { it.value > 1 }) {
+   if (candidates.groupingBy { it.name }.eachCount().any { it.value > 1 }) {
             error("Candidate already declared")
         }
 

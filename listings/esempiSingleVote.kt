@@ -1,4 +1,4 @@
- var election = PollManagerInstance<BestTimeInMatch, SinglePreferenceVote<BestTimeInMatch>>() initializedAs {
+    var election = PollManagerInstance<BestTimeInMatch, SinglePreferenceVote<BestTimeInMatch>>() initializedAs {
             +poll {
                 -competition("Race 1") {
                     +competitor("competitor1") {

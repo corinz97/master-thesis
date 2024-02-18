@@ -200,6 +200,7 @@ numero più elevato, risulta vincitore. A seconda del contesto preso in consider
 Se si arriva ad un pareggio, è possibile effettuare un nuovo ballottaggio oppure adottare
 criteri secondari, che variano in base al dominio trattato.
 \section{Votazioni a lista di preferenze}
+\label{chapter:votazionilistapreferenze}
 La tipologia di voto a lista di preferenze non impone al votante di effettuare un'unica scelta,
 bensì di fissare un ordinamento tra i concorrenti che parta dal meno preferito al più preferito
 o viceversa. Questa logica permette di conservare più contenuto informativo sulle preferenze
@@ -751,7 +752,7 @@ Le classi realizzate per gestire tutte queste casistiche sono \texttt{MajorityVo
 e \texttt{MajorityVotesThenLowestScoreAlgorithm}. Nell'estratto di codice \ref{lst:controllisinglevote} vengono mostrati i controlli effettuati prima di 
 compiere la scelta del vincitore.
 
-\lstinputlisting[float,language=Kotlin,label={lst:controllisinglevote}, caption={Controlli effettuati prima della votazione a singola preferenza}]{listings/controlliSingleVote.kt}
+\lstinputlisting[language=Kotlin,label={lst:controllisinglevote}, caption={Controlli effettuati prima della votazione a singola preferenza}]{listings/controlliSingleVote.kt}
 
 Successivamente, viene generata la classifica, che contiene l'insieme dei vincitori con il relativo numero di voti. Per ciascun vincitore,
 viene riportato il punteggio maggiore o quello minore. Nel caso in cui si utilizzi l'algoritmo a maggioranza senza sotto-confronto, vengono riportati
@@ -766,11 +767,98 @@ Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono es
 
 \lstinputlisting[language=Kotlin,label={lst:esempisingolapreferenza}, caption={Esempi di votazioni a singola preferenza, attraverso l'utilizzo di DSL}]{listings/esempiSingleVote.kt}
 
-Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che venga 
-restituito un errore nei casi in cui: %%elenco delle eccezioni da fare
+Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che, nell'ambito di una votazione, venga 
+restituito una eccezione nei casi in cui: 
+\begin{itemize}
+    \item{Nell'ambito degli algoritmi, in una determinata votazione
+        \begin{itemize}
+        \item{un candidato sia presente più di una volta nell'insieme dei candidati;}
+        \item{non siano presenti voti;}
+        \item{un votante effettui più di un voto, a meno di passare all'algoritmo l'apposito parametro;}
+        \item{il parametro, quando presente, sia dichiarato più di una volta;}
+        \item{un votante voti due volte lo stesso candidato, seppur in presenza del parametro;}
+        \item{un votante voti un candidato non esistente;}
+        \item{la classifica generata non contenga alcun elemento;}
+        \item{la classifica generata restituisca i risultati ordinati in modo non decrescente di voti;}
+        \item{gli algoritmi che utilizzano il sotto-criterio rilevino che ci sono concorrenti senza alcun punteggio.}
+        \end{itemize}}
+    \item{Nell'ambito del DSL
+        \begin{itemize}
+            \item{non siano presenti voti;}
+            \item{si dichiari lo stesso candidato più di una volta nell'insieme di candidati;}
+            \item{si dichiari un voto per un candidato non esistente}
+        \end{itemize}
+    }
+
+\end{itemize}
+
 \subsection{Votazioni a lista di preferenze}
-%come ho utilizzato gli operator le lambda with receiver esempi di utilizzo del dsl
-%tanti esempi nei listings
+Per gestire la votazioni a lista di preferenze è stato necessario procedere all'implementazione dell'algoritmo di
+Condorcet e dell'algoritmo di Schultze. Come è stato descritto in \ref{chapter:votazionilistapreferenze}, quest'ultimo
+è una variante del primo, pertanto condividono buona parte della logica.
+
+Inizialmente usando una matrice di dimensione \textit{n x n}, dove \textit{n} è il numero dei candidati, ed esaminando l'indice in cui si posizionano i 
+candidati in un voto, si evidenzia chi dei due abbiamo ottenuto un punto. Si ottiene quindi una matrice che indica quante volte 
+sono stati vinti gli scontri di coppia tra due determinati candidati.
+
+Successivamente, l'algoritmo di Condorcet effettua tante iterazioni quanti sono i concorrenti rimasti da piazzare in graduatoria,
+ed in ogni iterazione si esamina quali siano i candidati che hanno battuto tutti gli altri nello scontro a coppie.
+Anche l'algoritmo di Schultze effettua tante iterazioni quanti sono i concorrenti rimasti da piazzare in graduatoria, ed in ogni iterazione
+si determinano quali sono i candidati che hanno ottenuto il maggior numero di vittorie negli scontri a coppie.
+Pertanto, è stata ammessa la possibilità di ottenere dei pareggi a parità di posizionamento.
+
+Anche per questa tipologia di votazione è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante , ma di negargli
+comunque l'opportunità di votare più volte lo stesso candidato.
+
+Le classi realizzate per gestire le casistiche sono \texttt{CondorcetAlgorithm.kt} e \texttt{SchultzeAlgorithm.kt}.
+Nell'estratto di codice \ref{lst:controllilopvote} vengono mostrati i controlli effettuati prima di 
+eseguire l'algoritmo di votazione.
+
+
+\lstinputlisting[language=Kotlin,label={lst:controllilopvote}, caption={Controlli effettuati prima della votazione a lista di preferenze}]{listings/controlliLOPVote.kt}
+
+Infine viene generata la classifica contenente l'elenco dei vincitori, posti in ordine decrescente secondo la logica dell'algoritmo scelto.
+A parità di posizione è possibile trovare
+più di un candidato e non è previsto riportare il numero di voti, poichè è scollegato dalla logica algoritmica.
+
+Nell'estratto di codice \ref{lst: esempilistepreferenze} vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
+è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
+Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
+che replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
+Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. 
+I voti possono essere anonimizzati, come nel caso delle votazioni a preferenza singola.
+
+\lstinputlisting[language=Kotlin,label={lst:esempilistepreferenze}, caption={Esempi di votazioni a lista di preferenze, attraverso l'utilizzo di DSL}]{listings/esempiLOPVote.kt}
+
+Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che, nell'ambito di una votazione, venga 
+restituito una eccezione nei casi in cui: 
+\begin{itemize}
+    \item{Nell'ambito degli algoritmi, in una determinata votazione
+        \begin{itemize}
+        \item{un candidato sia presente più di una volta nell'insieme dei candidati;}
+        \item{un votante effettui più di un voto, a meno di passare all'algoritmo l'apposito parametro;}
+        \item{il parametro, quando presente, sia dichiarato più di una volta;}
+        \item{un votante voti due volte la stessa lista, seppur in presenza del parametro;}
+        \item{un votante voti una lista in cui appaia un candidato non esistente;}
+        \item{un votante voti una lista in cui sia stato omesso almeno un candidato;}
+        \item{un votante voti una lista in cui un candidato appaia più volte;}
+        \item{non siano presenti voti;}
+        \item{la classifica generata non contenga alcun elemento.}
+       \end{itemize}}
+    \item{Nell'ambito del DSL
+        \begin{itemize}
+            \item{si dichiari un candidato più di una volta nell'insieme di candidati;}
+            \item{si dichiari un voto per un candidato non esistente;}
+            \item{si dichiari un voto in cui un candidato appaia più volte;}
+            \item{non siano presenti voti.}
+        \end{itemize}
+    }
+
+\end{itemize}
+
+Utilizzando il DSL, è possibile dichiarare voti in cui non appaiono tutti i possibili candidati e in tal caso,
+questi saranno piazzati in fondo alla lista, ossia come più sfavoriti.
+
 
 \section{Librerie multiplatform utilizzate}
 
@@ -854,7 +942,7 @@ della seconda gara, fino ad arrivare alla classifica finale.
 I dati delle classifiche reali sono ottenuti contattando l'endpoint \newline https://ergast.com/api/f1/AAAA/GP/driverStandings.json,
 dove AAAA è l'anno del mondiale e GP è il numero della gara
 
-\lstinputlisting[float,language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche parziali utilizzando \texttt{EleKtion}}]{listings/election-GPs.kt}
+\lstinputlisting[language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche parziali utilizzando \texttt{EleKtion}}]{listings/election-GPs.kt}
 
 Per confrontare gli esiti ottenuti impiegando i differenti algoritmi e i dati reali estratti dall'API,
 è necessario organizzarli secondo matrici \textit{r x k}, dove ogni riga \textit{r} identifica un pilota,
