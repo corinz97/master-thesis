@@ -149,7 +149,7 @@ vi sono esempi notabili anche nel campo della digitalizzazione pervasiva, ad ese
 Ricollegandosi al fenomeno dei cambiamenti climatici che stanno inesorabilmente continuando a proliferare,
 in certe zone del mondo l'acqua potabile sta diventando un bene sempre meno reperibile e se sempre più da salvaguardare.
 \cite{smartwater} pone il focus sull'adozione di sistemi di "IdroInformatica". Questo tipo di sistemi permettono di analizzare 
-e monitorare, attraverso sensori e sistemi real-time SCADA (Supervisory Control And Data Acquisition), gli attuali flussi e pressioni nella
+e monitorare, attraverso sensori e sistemi real-time \texttt{SCADA} (Supervisory Control And Data Acquisition), gli attuali flussi e pressioni nella
 rete di distribuzione ed effettuare predizioni sui futuri guasti. Questi strumenti di analisi possono fornire ai cittadini
 informazioni su come ottimizzare l'utilizzo delle risorse. L'unione di questi sistemi, ad una politica di gestione elettronica e democratica
 che porti a prendere parte alle decisioni per i cambiamenti che coinvolgono il regime di gestione presente in una determinata area,
@@ -461,7 +461,7 @@ Per facilitarne la creazione è utile definire una funzione di supporto contenut
 \end{center}
 \vfill
 
-I tipi \textit{S} e \textit{V} vincolano i seguenti componenti che verranno trattati, pertanto non è possibile adottare diversi metriche di punteggio tra i concorrenti,
+I tipi \texttt{S} e \texttt{V} vincolano i seguenti componenti che verranno trattati, pertanto non è possibile adottare diversi metriche di punteggio tra i concorrenti,
 o diversi tipologie di voto, tra le varie votazioni presenti nel medesimo gestore.
 
 Il punto di ingresso dell'intero flusso è rappresentato dalla funzione \texttt{initializedAs}, al suo interno è possibile inizializzare una votazione attraverso 
@@ -514,7 +514,7 @@ In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfa
  l'uso dell' operatore unario \texttt{+}.
 
  Per motivi di spazio, nelle figure \ref{fig:pollAlgorithmDSL} e \ref{fig:pollDSL} sono stati utilizzati gli
- acronimi \textit{SP} e \textit{LOP}, al posto di, rispettivamente, \textit{SinglePreference} e \textit{ListOfPreferences}.
+ acronimi \texttt{SP} e \texttt{LOP}, al posto di, rispettivamente, \texttt{SinglePreference} e \texttt{ListOfPreferences}.
 
  \vfill
  \begin{center} 
@@ -615,7 +615,7 @@ che semplificano la generazione dell'output finale adattandolo alle specifiche p
 
 \subsection{Kotlin Multiplatform}
 Kotlin Multiplatform è un tool che favorisce il riuso di codice tra molteplici piattaforme.
-Grazie ad esso, riutilizzando la logica applicativa scritta in \textit{Kotlin}, è possibile produrre artefatti compatibili
+Grazie ad esso, riutilizzando la logica applicativa scritta in \texttt{Kotlin}, è possibile produrre artefatti compatibili
 in molteplici piattaforme, dette anche \textit{target}, come \texttt{JVM}, \texttt{JS}, \texttt{Android}, \texttt{iOS} e piattaforme native come \texttt{Linux}.
 I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
 Per ogni \textit{target} viene definito un \textit{source set}, ossia un insieme di file sorgente, che definisce anche le dipendenze e le compatibilità.
@@ -623,9 +623,9 @@ Il \textit{source set} predefinito è \texttt{commonMain}, e contiene il codice 
 Al suo interno è possibile utilizzare funzioni e dipendenze che siano compilabili verso tutte le piattaforme dichiarate, mentre quelle che
 sono legate ad uno specifico linguaggio o architettura vanno definite ed utilizzate all'interno degli opportuni \textit{source sets},
 come \texttt{jvmMain} e \texttt{jsMain}. 
-Un esempio è visibile in figura \ref{fig:targets}, in cui i \textit{target} intermedi sono colorati in azzurro: \textit{apple} conterrà
+Un esempio è visibile in figura \ref{fig:targets}, in cui i \textit{target} intermedi sono colorati in azzurro: \texttt{apple} conterrà
 codice compatibile solamente con i \textit{target} che lo estendono, oltre a quello ereditato dai livelli superiori. Pertanto, è ammesso 
-che \textit{macos} utilizzi funzioni che non siano disponibili in \textit{tvos} ma entrambi accedono al codice messo a disposizione da \textit{apple}.
+che \texttt{macos} utilizzi funzioni che non siano disponibili in \texttt{tvos} ma entrambi accedono al codice messo a disposizione da \texttt{apple}.
 
 \begin{figure}[H]
     \centering
@@ -639,9 +639,9 @@ Inoltre, questo meccanismo permette di applicare un \textit{template method} arc
 } \texttt{commonMain} funzioni agnostiche 
 tramite la direttiva \texttt{expected}, senza definirne il contenuto, che sarà valorizzato in un successivo momento.
 In fase di compilazione, nelle versioni platform-specific, saranno valorizzate tramite funzioni che adottano la direttiva \texttt{actual},
-che posso richiamare funzionalità altrimenti non adottabili in \textit{commonMain}.
+che posso richiamare funzionalità altrimenti non adottabili in \texttt{commonMain}.
 
-Una logica analoga è applicabile anche alla sezione dei test: è disponibile un \textit{source set} di base, detto \textit{commonTest}, e altri
+Una logica analoga è applicabile anche alla sezione dei test: è disponibile un \textit{source set} di base, detto \texttt{commonTest}, e altri
 eventuali che contengono codice compatibile solo in quella determinata piattaforma.
 In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output ottenuti utilizzando i \textit{target} \texttt{JVM} e \texttt{JS}.
 
@@ -703,7 +703,7 @@ Le dipendenze vengono identificate in modo univoco con una tripletta \texttt{gro
 dove \texttt{groupId} identifica un gruppo di artefatti, \texttt{artifactId} si riferisce al nome della libreria
 e \texttt{version} identifica univocamente ogni rilascio della libreria.
 Ad esempio, la tripletta 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0' 
-identifica la versione 1.6.0 di un serializzatore json per \textit{Kotlin}, gestito da \textit{JetBrains}.
+identifica la versione 1.6.0 di un serializzatore json per \texttt{Kotlin}, gestito da \texttt{JetBrains}.
 
 Tutte le versioni di una libreria rilasciate su Maven Central, una volta pubblicate sono sempre disponibili nel repository. 
 Gli utenti della libreria sono liberi di decidere quale versione utilizzare e per quanto tempo e a questi ultimi è delegata la responsabilità di aggiornare le proprie dipendenze per 
@@ -720,9 +720,9 @@ Un' alternativa all'uso di Maven Central può risiedere in \ac{gh} Packages. Que
 semplificata per la pubblicazione degli artefatti, in quanto strettamente connesso all'uso di repository \ac{gh},
 il che permette di avere un controllo degli accessi efficace come quello disponibile per i repo.
 Al pari di Maven Central viene mantenuto il concetto di artefatti immutabili, e in più viene dato il supporto
-per l'archiviazione di pacchetti in numerosi linguaggi, tra cui \textit{C\#}.
+per l'archiviazione di pacchetti in numerosi linguaggi, tra cui \texttt{C\#}.
 
-Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulle diffusione di librerie \textit{Javascript} e \textit{Node.js},
+Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulle diffusione di librerie \texttt{Javascript} e \texttt{Node.js},
 si differenzia in particolare dai precedenti in quanto non adotta il principio di immutabilità.
 In questo caso, la modifica o eliminazione di una versione di un pacchetto può avere impatti notevoli sugli utilizzatori,
 portando a potenziali disastri mondiali \cite{NPMChaos}.
@@ -868,38 +868,61 @@ la struttura di avvio per un progetto volto alla generazione finale di artefatti
 I target sono tutti compilati in \texttt{Java} versione 1.8, successivamente vengono anche convertiti in \texttt{Javascript} per la generazione della
 libreria in ambito Web, e viene generata la versione \texttt{native}, compatibile in linguaggio nativo con i seguenti sistemi:
 \begin{itemize}
-    \item{linux x64}
-    \item{linux Arm64}
-    \item{mingw x64}
-    \item{macos X64}
-    \item{macos Arm64}
-    \item{ios Arm64}
-    \item{ios X64}
-    \item{iosSimulator Arm64}
-    \item{watchos Arm32}
-    \item{watchos X64}
-    \item{watchos Simulator Arm64}
-    \item{tvos Arm64}
-    \item{tvos X64}
-    \item{tvos Simulator Arm64}
+    \label{list:elencotargetgenerati}
+    \item{Linux x64;}
+    \item{linux arm64;}
+    \item{mingw x64;}
+    \item{macos x64;}
+    \item{macos arm64;}
+    \item{ios arm64;}
+    \item{ios x64;}
+    \item{ios simulator arm64;}
+    \item{watchos arm32;}
+    \item{watchos x64;}
+    \item{watchos simulator arm64;}
+    \item{tvos arm64;}
+    \item{tvos x64;}
+    \item{tvos simulator arm64 .}
 \end{itemize}
 
 Il processo di compilazione viene eseguito grazie ai workflow presenti nel repository \ac{gh}:
 il primo workflow, definito \texttt{dispatcher}, viene avviato al momento del ricevimento di un comando \textit{push} o della creazione di
 una \textit{richiesta pull}, e richiama in cascata i seguenti workflow
 \begin{enumerate}
-\item{build-and-deploy: questa azione si occupa di predisporre l'ambiente di pubblicazione, compilare i sorgenti per le piattaforme, eseguire
+\item{\texttt{build-and-deploy}: questa azione si occupa di predisporre l'ambiente di pubblicazione, compilare i sorgenti per le piattaforme, eseguire
 i test nelle piattaforme, effettuare controlli di \texttt{code linting} e \texttt{bug detection}, ed infine pubblicare gli artefatti generati e finalizzare
 l'ambiente di pubblicazione;}
-\item{publish-docs: questa azione è dipendente da build-and-deploy, in quanto viene eseguita successivamente ad essa e solo nel caso in cui 
+\item{\texttt{publish-docs}: questa azione è dipendente da build-and-deploy, in quanto viene eseguita successivamente ad essa e solo nel caso in cui 
 sia terminata con esito positivo. Si occupa di generare la documentazione degli artefatti, interpretando gli appositi commenti scritti nel codice sorgente,
-e caricarla nel branch \textit{gh-pages} del repository \ac{gh}. Un workflow di default elabora il contenuto di questo branch e lo mette a 
+e caricarla nel branch \texttt{gh-pages} del repository \ac{gh}. Un workflow di default elabora il contenuto di questo branch e lo mette a 
 disposizione tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .}
 \end{enumerate}
 
 \subsection{Generazione e pubblicazione della libreria}
-Spiegare brevemente i passaggi necessari che sono stati fatti per arrivare
-alle pubblicazioni
+Il workflow \texttt{build-and-deploy} si occupa inizialmente di
+richiamare un'apposita \texttt{action} \cite{WebsitePrecomputeSemanticReleaseVersionAction}, che calcola la versione da associare
+alla libreria per il rilascio, ed inizializzare un repository di stage su Maven Central.
+e memorizzare l'id generato dal servizio. Ciò è fatto mediante l'uso di una \texttt{action} preposta alla compilazione e
+pubblicazione di progetti basati su Gradle \cite{WebsiteBuildCheckDeployGradleAction}.
+
+Successivamente viene lanciata il task \texttt{gradle build} utilizzando una matrice di tre sistemi operativi
+ \texttt{windows-2022}, \texttt{macos-12}, \texttt{ubuntu-22.04}. Ciò permette di compilare il codice sorgente, 
+ eseguire i test, effettuare i controlli di \texttt{code linting} e \texttt{bug detection} e generare gli artefatti
+ in ciascun ambiente. Questi sono generati basandosi sui target definiti nella lista al paragrafo \ref{list:elencotargetgenerati};
+ciascun ambiente di compilazione, a seconda del sistema operativo in esecuzione, genera un \textit{subset} di artefatti e li carica sul repository di stage.
+
+Infine, se la libreria deve essere pubblicata nel branch \texttt{master} del repository \ac{gh}, e la action \cite{WebsitePrecomputeSemanticReleaseVersionAction}
+abbia calcolato che la versione è candidabile al rilascio, viene chiuso e finalizzato il repository di stage su Maven Central,
+Altrimenti questo viene chiuso e scartato. 
+
+La finalizzazione del repository porta all'effettiva pubblicazione su Maven Central e si prosegue a pubblicare gli artefatti
+anche su \ac{npm} e \ac{gh} Packages, i quali non seguono l'iter di creazione del repository di stage ma operano con una pubblicazione diretta.
+
+Solo in quest'ultimo caso di successo si prosegue ad invocare il workflow \texttt{publish-docs}.
+
+
+
+
 
 \subsection{Generazione e pubblicazione della documentazione}
 spiegare la creazione di un nuovo workflow, e collegato a quelli esistenti
