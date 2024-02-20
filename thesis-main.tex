@@ -925,7 +925,25 @@ Solo in quest'ultimo caso di successo si prosegue ad invocare il workflow \textt
 
 
 \subsection{Generazione e pubblicazione della documentazione}
-spiegare la creazione di un nuovo workflow, e collegato a quelli esistenti
+Il workflow \texttt{publish-docs} provvede alla generazione della documentazione, sulla base del codice presente
+nel branch \texttt{master}. 
+
+Al termine del workflow \texttt{build-and-deploy} viene generato un \textit{tag}
+associato al \textit{commit} effettuato sul branch \texttt{master}. Questo \textit{tag}
+rappresenta il nuovo valore della versione della libreria, il quale viene riportato nelle pagine
+generate attraverso il task \texttt{gradle dokkaHtml}.
+Queste pagine rappresentano un sito web statico e vengono copiate nel branch \texttt{gh-pages} grazie ad un'
+apposita action \ref{WebsiteGithubPagesDeployAction}. 
+La presenza di una modifica in questo branch scatena l'esecuzione di un workflow di default,
+che mette a disposizione il contenuto tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/
+In figura \ref{fig:dokkaSchermata} viene mostrato come appare il sito web statico al termine delle operazioni.
+
+\begin{figure}[H]
+    \centering
+     \includegraphics[scale=0.8]{figures/schermatadocumentazione.png}
+     \caption{Sito web della documentazione, reso disponibile tramite \ac{ghp} }
+     \label{fig:classifichegeneralireali2023figura}
+ \end{figure}
 %----------------------------------------------------------------------------------------
 %\chapter{Valutazione}
 
