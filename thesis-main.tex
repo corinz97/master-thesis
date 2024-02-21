@@ -29,7 +29,9 @@ in Nuovi Contesti \\
 
 \acrodef{gha}[GH Actions]{GitHub Actions}
 
-\acrodef{ghp}[GH Pages]{GitHub Pages}
+\acrodef{ghpages}[GH Pages]{GitHub Pages}
+
+\acrodef{ghpackages}[GH Packages]{GitHub Packages}
 
 \acrodef{ci}[CI]{Continuous Integration}
 
@@ -42,8 +44,10 @@ in Nuovi Contesti \\
 
 \acrodef{jvm}[JVM]{Java Virtual Machine}
 
+\acrodef{js}[JS]{Javascript}
 
-\mainlinespacing{1.3} % line spacing in mainmatter, comment to default (1)
+
+\mainlinespacing{1.2} % line spacing in mainmatter, comment to default (1)
 
 \begin{document}
 
@@ -53,13 +57,13 @@ in Nuovi Contesti \\
 \begin{abstract}	
 
     La tesi si concentra sull'evoluzione della democrazia nell'era digitale, 
-    con l'implementazione di \texttt{EleKtion}, una libreria multipiattaforma per votazioni. 
+    con l'implementazione di EleKtion, una libreria multipiattaforma per votazioni. 
     Dopo una panoramica storica sulla democrazia, si esplora il dominio delle votazioni 
     e si progetta un linguaggio di dominio per facilitare la definizione del contesto di votazione.
-    La libreria è sviluppata per affrontare aspetti cruciali come la gestione degli artefatti 
+    La libreria è sviluppata affrontando aspetti cruciali come la gestione degli artefatti 
     e l'implementazione di casi di test. 
-    La sperimentazione della libreria, basata su dati della \textit{Formula 1}, evidenzia come logiche algoritmiche
-    personalizzabili possano influenzare i risultati, confrontandoli con dati reali per una valutazione qualitativa 
+    La sperimentazione della libreria, basata su dati della Formula 1, evidenzia come logiche algoritmiche
+    personalizzabili possano influenzare i risultati, confrontandoli infine con i dati reali per una valutazione qualitativa 
     del sistema.
 \end{abstract}
 
@@ -83,19 +87,19 @@ Ai miei genitori
 \chapter{Introduzione}
 \label{chap:introduction}
 Nell'ultimo ventennio, l'informatica sta perpetuando un progresso tecnologico sempre più pervasivo
-nella quotidianità delle persone. Si rendono possibili nuovi scenari, si semplificano i processi 
+nella quotidianità delle persone. Si aprono nuovi scenari, si semplificano i processi 
 e la tendenza è ad arrivare ad una digitalizzazione completa di qualunque aspetto.
 Questo fenomeno ha impattato, pur con qualche difficoltà, anche alcuni dei processi che tradizionalmente
-sono più legati ad una lavorazione manuale ed una maggior attenzione da parte del pubblico,
+sono più legati ad una lavorazione analogica e ad una maggior attenzione da parte del pubblico,
 ossia il contesto delle votazioni e dell'applicazione del potere democratico all'interno di uno Stato.
 La digitalizzazione delle votazioni è stata adattata a molteplici contesti, dalle votazioni per le  
 elezioni dei rappresentanti politici, a decisioni interne tra gruppi di lavoro e consultazioni
-della volontà popolare. L'espansione potrà in futuro coinvolgere altri settori, come quello sportivo, ponendo un maggior
-potere sugli esiti sulla base di nuovi criteri e volontà popolari.
+della volontà popolare. L'espansione potrà in futuro coinvolgere altri settori, come quello sportivo, ponendo sugli esiti un maggior
+potere in base a nuovi criteri e volontà popolari.
 
-Lo scopo della tesi è realizzare una libreria multipiattaforma, chiamata \texttt{EleKtion}, la quale permette di creare una votazione
+Lo scopo della tesi è realizzare una libreria multipiattaforma, chiamata EleKtion, la quale permette di creare una votazione
 lasciando al gestore ampia possibilità di parametrizzazione.
-La dispobilità degli artefatti finali su molteplici piattaforme permette di massimizzare la diffusione, garantendo
+La disponibilità degli artefatti finali su molteplici piattaforme permette di massimizzarne la diffusione, garantendo
 allo stesso tempo che il prodotto sia stato generando seguendo criteri di qualità, sia a livello di logiche di funzionamento
 che correttezza sintattica del codice sorgente.
 
@@ -106,56 +110,56 @@ Successivamente viene effettuata l'analisi e la modellazione di dominio per le g
 approfondendo le differenti tipologie di voto e presentando diagrammi UML architetturali.
 Viene illustrata la progettazione di un linguaggio di dominio utile a definire con maggior facilità il contesto di votazione,
 per poi vagliare gli aspetti implementantivi della libreria, partendo dagli strumenti che semplificano la gestione e l'evoluzione
-degli artefatti fino ad arrivare ai casi di test che sono stati realizzati.
+degli artefatti fino ad arrivare ai casi di test realizzati.
 
 Infine, viene mostrata una sperimentazione della libreria, utilizzando dati relativi ai campionati sportivi, nello specifico
-viene scelto come sport la \textit{Formula 1}. L'applicazione di logiche algoritmiche, definibili dal gestore, e la possibilità
-di definire un elenco di voti, pone nuovi scenari che possono modificare e mutare la storia di uno campionato sportivo.
-Questi risultati vengono confrontati con quelli reali per otterne un' evidenza utile ad una valutazione qualitativa.
+scegliendo come sport la Formula 1. L'applicazione di logiche algoritmiche, definibili dal gestore, e la possibilità
+di dichiarare un elenco di voti, pone nuovi scenari che possono modificare e mutare la storia di uno campionato sportivo.
+Questi risultati vengono confrontati con quelli reali per ottenere un' evidenza utile ad una valutazione qualitativa.
 
 
 %----------------------------------------------------------------------------------------
 \chapter{Democrazia Digitale}
-Il termine \textit{Democrazia}, derivante dal greco \textit{governo del popolo},
+Il termine \textit{Democrazia}, derivante dal greco \textit{démoskrátos} (governo del popolo),
 indica un forma di governo nella quale il potere appartiene al popolo ed è esercitato attraverso forme dirette, che coinvolgono attivamente
-i cittadini, e attraverso forme rappresentantive, che prevedono un sistema di rappresentanza, la quale viene rinnovata ciclicamente
+i cittadini, e attraverso forme rappresentantive, che prevedono un sistema di rappresentanza rinnovata ciclicamente
 attraverso apposite elezioni.
 
-In una qualunque forma di \textit{democrazia}, sono fondamentali le basi dei principi di elezioni libere in cui i cittadini sono considerati equi, partecipazione
+In una qualunque forma di \textit{democrazia}, sono fondamentali i principi di elezioni libere in cui i cittadini sono considerati equi, partecipazione
 attiva dei cittadini alla vita politica, protezione dei diritti fondamentali e della libertà personale attraverso costituzioni \cite{vinod2017state}.
 
 Nelle epoche successive alle prime forme di democrazia "unanime" (per quanto il concetto di cittadinanza fosse assai diverso da quello attuale,
-ad esempio, erano escluse donne, schiavi e minori di 20 anni), complice anche la complessità
-delle materie da amministrare e il numero dei partecipanti fisici, la democrazia
+ad esempio, erano escluse donne, schiavi e minori di 20 anni), complice la complessità
+delle materie da amministrare e il numero crescente di partecipanti fisici, la democrazia
 rappresentativa ha preso la maggior diffusione. 
 
 La modernizzazione tecnologica, accelerata di recente con l'avvento della pandemia da Covid-19 che ha evidenziato notevole problemi
-logistici, tra cui la gestione del distanziamento \cite{sotoacosta} e ha aperto un ventaglio di possibilità tali da
-permettere un ritorno ad un controllo più diretto da parte della collettività.
+logistici tra cui la gestione del distanziamento \cite{sotoacosta}, ha riacceso l'opportunità di
+permettere il ritorno ad un controllo più diretto da parte della collettività.
 
 La \textit{democrazia digitale} (o \textit{e-democracy}) è definibile come "l'esercizio di processi decisionali democratici attraverso 
 l'uso di informazioni e tecnologie abilitanti alla comunicazione, in particolare Internet"\cite{rotzocki}.
 
-Queste tecnologie, abilitanti a rompere i vincoli geo-fisici e territoriali,
-permettono di facilitare l'esercizio di ulteriori forme di democrazie,
+Queste tecnologie, abilitanti a superare i vincoli geofisici e territoriali,
+facilitano l'esercizio di ulteriori forme di democrazie,
 come quella partecipata, in cui i cittadini, piuttosto che
-sostituirsi ai rappresentanti, forniscono idee sullo sviluppo dell'indirizzo di governo
+sostituirsi ai rappresentanti, forniscono idee sullo sviluppo dell'indirizzo di governo,
 permettendo così di creare un collettore di confronto ed analisi di situazioni differenti.
 
-Tuttavia, è necessario considerare che un uso eccessivamente estensivo di questi strumenti
-può portare al rischi di coinvolgere persone che non hanno abbastanza competenze relativamente 
-a temi delicati, ad esempio le politiche sociali. 
+%Tuttavia, è necessario considerare che un uso eccessivamente estensivo di questi strumenti
+%può portare al rischio di coinvolgere persone che non hanno abbastanza competenze relativamente 
+%a temi delicati, ad esempio le politiche sociali. 
 
-Inoltre, nonostante la virtualizzazione della partecipazione permette alle fasce più disagiate di essere
-maggiormente coinvolte, introduce un motivo di scetticismo relativamente alla componente tecnologica
+Nonostante la virtualizzazione della partecipazione permette alle fasce più disagiate di essere
+maggiormente coinvolte, introduce un motivo di scetticismo relativo alla componente tecnologica
 in ambito di sicurezza informatica, usabilità, segretezza e manipolazione del voto \cite{aichholzer2020experience}.
 
 Stabilire un legame di fiducia con queste tecnologie, normarne la verificabilità, stabilire principi di 
-\textit{accountability}, sono i fattore principali e quindi una pre-condizioni essenziali
-per la loro diffusione. 
-Alcuni autori (\cite{mcgaley}) sostengono che è impossibile avere leggitimità in quanto "la natura dei computer è tale che il loro funzionamento interno è segreto.
+\textit{accountability}, sono i fattori principali e quindi una pre-condizioni essenziali
+per una diffusione efficace. 
+Alcuni autori sostengono che è impossibile avere leggitimità in quanto "la natura dei computer è tale che il loro funzionamento interno è segreto.
 Poiché le transazioni e i calcoli avvengono a livello elettronico, 
-non è fisicamente possibile per gli esseri umani osservare esattamente ciò che un computer sta facendo."
+non è fisicamente possibile per gli esseri umani osservare esattamente ciò che un computer sta facendo"\cite{mcgaley}.
 
 L'applicazione più comune di queste tecnologie emergenti è legata al mondo della politica\cite{aichholzer2020experience}:
 sono degni di nota casi come l'Estonia, che dal 2005 rende possibili via Internet le votazioni
@@ -173,93 +177,79 @@ di proposte tra i membri di un organizzazione, le quali saranno portate in sede 
 Sistemi come LiquidFeedback, OpenDCN, Airesis, essendo strutturati come applicativi end-to-end,
 pongo molta enfasi sull'interazione tra utenti, la presentazione e validazione di proposte,
 l'eventuale presenza di deleghe, l'espressione del voto tramite una lista di preferenze, ma
-non permettono la variazione delle logiche di selezione del vincitore da applicare\cite{Trapanese:2018}.
+non permettono la variazione delle logiche da applicare per la selezione del vincitore \cite{Trapanese:2018}.
 
-In altri, una fase di analisi iniziale poco trasversale ha portato a dar maggior risalto
-ad aspetti non funzionali, come la privacy, rispetto a quelli funzionali come il modello di democrazia
+In altri sistemi, una fase di analisi iniziale poco trasversale ha portato a dar molto risalto
+ad aspetti non funzionali, come la privacy, e troppo poco approfondimento a quelli funzionali, come il modello di democrazia
 da applicare, che per alcuni aspetti rimane implicito\cite{Pianini:2019}.
 Ciò è dovuto anche al fatto che il maggior coinvolgimento si concentra 
 principalmente alle fasi iniziali e finali del ciclo di votazione \cite{hennen2020european}.
 La mancanza di elementi formalizzanti, che descrivono dettagliatamente tutti gli step applicati nel
-processo, unita alle variazioni ed evoluzioni che vengono apportate nel tempo, portano alla divergenza di \textit{logica del flusso} rispetto all'idea iniziale, 
-che conseguentemente non risulterà chiara agli utilizzatori e potenzialmente potrebbe scoraggiare l'utilizzo della piattaforma\cite{Pianini:2019}.
+processo, unita alle variazioni ed evoluzioni che vengono apportate nel tempo, portano alla divergenza del flusso rispetto all'idea iniziale, 
+che conseguentemente non risulterà chiaro agli utilizzatori e potenzialmente potrebbe scoraggiare l'utilizzo della piattaforma\cite{Pianini:2019}.
 
 
 
-Al di là dell'applicazione di e-democracy nel mondo della politica, che riscontra
-ostacoli più legati all'aspetto organizzativo e umano, che all'aspetto tecnico,
-vi sono esempi notabili anche nel campo della digitalizzazione pervasiva, ad esempio nell'ambito delle \textit{smart cities}.
-Ricollegandosi al fenomeno dei cambiamenti climatici che stanno inesorabilmente continuando a proliferare,
-in certe zone del mondo l'acqua potabile sta diventando un bene sempre meno reperibile e se sempre più da salvaguardare.
-\cite{smartwater} pone il focus sull'adozione di sistemi di "IdroInformatica". Questo tipo di sistemi permettono di analizzare 
-e monitorare, attraverso sensori e sistemi real-time \texttt{SCADA} (Supervisory Control And Data Acquisition), gli attuali flussi e pressioni nella
+Al di là dell'applicazione di \textit{e-democracy} nel mondo della politica, che riscontra
+ostacoli più legati all'aspetto organizzativo e umano, che all'aspetto tecnologico,
+vi sono esempi notabili anche nel campo del \textit{pervasive computing}, ad esempio nell'ambito delle \textit{smart cities}.
+Ricollegandosi al fenomeno dei cambiamenti climatici che stanno inesorabilmente continuando ad avanzare,
+in certe zone del mondo l'acqua potabile sta diventando un bene sempre meno reperibile e degno di salvaguardia.
+\cite{smartwater} pone il focus sull'adozione di sistemi di \textit{Idroinformatica}. Questo tipo di sistema permette di analizzare 
+e monitorare, attraverso sensori e componenti real-time \texttt{SCADA} (Supervisory Control And Data Acquisition), gli attuali flussi e pressioni nella
 rete di distribuzione ed effettuare predizioni sui futuri guasti. Questi strumenti di analisi possono fornire ai cittadini
-informazioni su come ottimizzare l'utilizzo delle risorse. L'unione di questi sistemi, ad una politica di gestione elettronica e democratica
-che porti a prendere parte alle decisioni per i cambiamenti che coinvolgono il regime di gestione presente in una determinata area,
+informazioni su come ottimizzare l'utilizzo delle risorse. L'unione di questi sistemi, ad una politica di gestione digitale e democratica
+che porti i cittadini a prendere parte alle decisioni per i cambiamenti della gestione presente in una determinata area,
 permetterebbe una miglior localizzazione circa le soluzioni da intraprendere, ed ai cittadini una maggior consapevolezza, in quanto sono i principali \textit{stakeholders} 
 e a loro viene attribuito anche un principio di responsabilità.
-In altri Stati, come Canada e Paesi Bassi, la gestione dell'acqua è delegata ad un gestione locale, che promuove la collaborazione tra soggetti pubblici e privati.
+In altri Stati, come Canada e Paesi Bassi, la gestione dell'acqua è delegata a gestioni locali che promuovono la collaborazione tra soggetti pubblici e privati.
 
-Questi nuovi approcci alla gestione democratica degli interessi dei cittadini aprono nuovi
-scenari di trasparenza e fiducia reciproca, permettendo un maggior capacità espressione di espressione
-verso i rappresentanti ma anche da parte di chi è ora in grado di percepire, in ottica di miglioramento continuo,
+Questi nuovi approcci alla gestione democratica degli interessi dei cittadini migliorano i rapporti di trasparenza e fiducia reciproca, permettendo un maggior capacità espressione
+verso i rappresentanti ma anche da parte di chi ora è in grado di recepire, in ottica di miglioramento continuo,
 le esigenze del mondo "reale". 
 L'intermediazione, applicata a questi nuovi contesti, continua a rimanere essenziale.
 Piuttosto che diventare un nuovo "medium" per imporre decisioni, risulta più efficace per
 favorire lo scambio costruttivo, mantenendo comunque le opportune autonomie riguardo alle
 decisioni finali, tutelando gli interessi collettivi e al contempo educando le persone a mantenere
 la libertà di pensiero\cite{castelfranchi2019problematic}.
-%strumento utile per mettere al centro dell'attenzione il cittadino ma deve essere mantenuto il rapporto bilaterale
-%articolo rino
-%Seppur aventi regole simili in taluni casi, ciascuno sport è influenzato da molti fattori:
-%i concorrenti, gli ambienti di gara, i tifosi, e altri aspetti, che contribuiscono a rendere 
-%ogni campionato come un capitolo a sè stante. 
-%Non per ultimo, ognuno di essi ha un proprio metodo di calcolo ed organizzazione delle competizioni. 
-%Soprattutto in caso di pareggi, è opportuno avere una logica per risolvere il conflitto e determinare un ordine specifico per
-%le classifiche. Se si considerasse l'esito di ciascuna gara come un votazione, cambiando
-%l'algoritmo utilizzato per un campionato, si otterrebbero esiti differenti, o ancora,
-%se si cambiasse la logica di vittoria nelle fasi di un campionato, si potrebbe simulare come
-%sarebbe stato l'esito finale con regole differenti.
-%modello implicito, sforzi iniziali ma analisi poco dettagliata lascia punti scoperti, si da maggior risalito a req non funzionali che funzionali
-%aumentare curva apprendimento e incertezza aumenta con il numero di funzionalità e impatto negativo sull' usabilità
+
 
 %----------------------------------------------------------------------------------------
 
 %----------------------------------------------------------------------------------------
 \chapter{Analisi}
-In questo capitolo verrà descritta l'analisi sugli aspetti che dovranno 
-caratterizzare la libreria multipiattaforma \texttt{EleKtion}.
+In questo capitolo viene descritta l'analisi sugli aspetti caratterizzanti la libreria multipiattaforma EleKtion.
 
-Verrà esposto un approfondimento sui tipi di voto
-ed alcuni algoritmi applicabili per ciascun tipo; successivamente sarà definito un 
-elenco di requisiti che dovranno essere considerati nelle fasi successive e infine,
-sarà fornita una modellazione del dominio mediante diagramma UML.
+Viene esposto un approfondimento sui tipi di voto
+ed alcuni algoritmi applicabili per ciascun tipo; successivamente viene definito un 
+elenco di requisiti fondamentali per le fasi successive e infine,
+viene fornita una modellazione del dominio mediante diagramma UML.
 \section{Votazioni a singola preferenza}
 La tipologia di voto a singola preferenza impone al votante di effettuare una scelta tra un
-numero definito di concorrenti. Al termine della votazione, tipicamente si adotta il criterio
-della votazione maggioritaria: si contano i voti ottenuti da ciascun concorrente, e colui che ottiene il
+numero definito di candidati. Al termine della votazione, tipicamente si adotta il criterio
+della votazione maggioritaria: si contano i voti ottenuti da ciascun candidato, e colui che ottiene il
 numero più elevato, risulta vincitore. A seconda del contesto preso in considerazione,
-è possibile avere più turni per diminuire di volta in volta il numero di concorrenti coinvolti.
+è possibile avere più turni per diminuire di volta in volta il numero di candidati coinvolti.
 Se si arriva ad un pareggio, è possibile effettuare un nuovo ballottaggio oppure adottare
 criteri secondari, che variano in base al dominio trattato.
 \section{Votazioni a lista di preferenze}
 \label{chapter:votazionilistapreferenze}
 La tipologia di voto a lista di preferenze non impone al votante di effettuare un'unica scelta,
-bensì di fissare un ordinamento tra i concorrenti che parta dal meno preferito al più preferito
+bensì di fissare un ordinamento tra i candidati che parta dal meno preferito al più preferito
 o viceversa. Questa logica permette di conservare più contenuto informativo sulle preferenze
-rispetto alla singola scelta, e offre anche una panoramica di gradimento degli altri concorrenti.
+rispetto alla singola scelta, e offre anche una panoramica di gradimento degli altri candidati.
 Questo tipo di voto è stato introdotto inizialmente dall'algoritmo di Condorcet ed adottato
 anche nelle sue varianti. Di seguito viene data una spiegazione sul funzionamento dell'algoritmo
 di Condorcet, e di un suo derivato, l'algoritmo di Schultze.
 \subsection{Algoritmo di Condorcet}
-L'algoritmo di Condorcet permette di estrarre un vincitore tra ${n}$ concorrenti,
-applicando il criterio di maggioranza nei confronti tra le coppie di concorrenti.
+L'algoritmo di Condorcet permette di estrarre un vincitore tra ${n}$ candidati,
+applicando il criterio di maggioranza nei confronti tra le coppie di candidati.
 Si generano le possibili coppie, si confrontano e si valuta quale coppia ha ottenuto il
 maggior numero di preferenze. Nello scontro a coppie, un concorrente è vincitore se in un
 voto occupa una posizione preferenziale rispetto all'altro.
 
-Di seguito viene riportato un esempio, supponendo di avere tre possibili concorrenti, A, B, C,
-e 60 differenti votanti, che ordinano i concorrenti dalla posizione 1 alla posizione 3 dove la posizione 1 
+Di seguito viene riportato un esempio, supponendo di avere tre possibili candidati, A, B, C,
+e 60 differenti votanti, che ordinano i candidati dalla posizione 1 alla posizione 3 dove la posizione 1 
 indica la posizione di maggior preferenza.
 Si ottengono delle liste di preferenze come rappresentato in tabella \ref{table:voticondorcet}, in cui
 è mostrata l'occorrenza di ciascuna lista.
@@ -287,10 +277,10 @@ Ora è possibile effettuare confronti tra le coppie, partendo ad esempio dalla c
     \item{Nella quarta lista C è in una posizione favorevole rispetto a B, quindi C ottiene 2 punti}
 \end{itemize}
 
-Si ha che il concorrente C batte il concorrente B con un punteggio di 41 a 19.
+Si ha che il candidato C batte il candidato B con un punteggio di 41 a 19.
 
-Facendo i confronti tra le coppie (A,B) e (A,C) si ottiene che il concorrente
-B batte il concorrente A con un punteggio di 35 a 25, e il concorrente C batte il concorrente
+Facendo i confronti tra le coppie (A,B) e (A,C) si ottiene che il candidato
+B batte il candidato A con un punteggio di 35 a 25, e il candidato C batte il candidato
 A con un punteggio di 37 a 23. Il risultato finale è quindi il seguente:
 \begin{itemize}
     \item{Posizione 1: C}
@@ -333,9 +323,8 @@ indica la posizione di maggior preferenza, si può avere il seguente risultato:
 \end{itemize}    
 In questa lista A ottiene 2 punti, B ottiene 1 punto mentre C nessuno.
 
-Riprendendo la situazione presente in tabella \ref{table:voticondorcet} e moltiplicando
-i punti per il numero di occorrenze della lista, si ha un totale dei punti pari a 48
-per la lista in oggetto. Proseguendo con l'algoritmo, la situazione finale è mostrata in tabella \ref{table:risultatischultze}
+Riprendendo i voti presenti in tabella \ref{table:voticondorcet} e moltiplicando
+i punti per il numero di occorrenze, si ottiene la situazione finale mostrata in tabella \ref{table:risultatischultze}
 
 \begin{table}[H]
     \centering
@@ -362,23 +351,23 @@ Il risultato di Schultze non coincide sempre con il risultato di Condorcet.
 
 \newpage
 \section{Requisiti}
-La libreria \texttt{EleKtion} fornirà la possibilità di creare ed effettuare votazioni.
-Essa non tratterà la parte preliminare ad una votazione, quale fase di proposta, discussione,
-eventuali pre-votazioni o quorum, ma porrà l'obiettivo sulla definizione e gestione dei concorrenti coinvolti,
+La libreria EleKtion fornisce la possibilità di creare ed effettuare votazioni.
+Essa non tratta la parte preliminare ad una votazione, quale fase di proposta, discussione,
+eventuali pre-votazioni o quorum, ma pone l'obiettivo sulla definizione e gestione dei concorrenti coinvolti,
 la tipologia di algoritmo utilizzato per ottenere il risultato finale ed i voti presenti nella fase di votazione.
-Al termine della stessa, sarà disponibile una classifica che riporta informazioni 
+Al termine della stessa, viene resa disponibile una classifica che riporta informazioni 
 circa le specifiche impostate e le caratteristiche dei concorrenti.
 
 
-Ciascuna votazione avrà associata una competizione con un metrica che caratterizza l'operato del concorrenti.
-Prendendo esempi di riferimento legati al mondo del \textit{motor sport},
-si potrebbe pensare ai punti totalizzati per ogni gara, come nel caso di \textit{\ac{f1}} o \textit{Moto GP}.
+Ciascuna votazione ha associata una competizione con un metrica che caratterizza l'operato dei concorrenti.
+Prendendo esempi di riferimento legati al mondo del motor sport,
+si potrebbe pensare ai punti totalizzati per ogni gara, come nel caso di \ac{f1} o Moto GP.
 
 Seppur in molti casi le regole non cambiano in modo drastico, ciascuno sport è influenzato da molti fattori:
-i concorrenti, gli ambienti di gara, i tifosi, e altri aspetti, che contribuiscono a rendere 
+i concorrenti, gli ambienti di gara, i tifosi e altri aspetti che contribuiscono a rendere 
 ogni campionato come un capitolo a sè stante. 
 
-Non per ultimo, ognuno di essi ha un proprio metodo di calcolo ed organizzazione delle competizioni. 
+Inoltre ognuno di essi ha un proprio metodo di calcolo ed organizzazione delle competizioni. 
 Soprattutto in caso di pareggi, è opportuno avere una logica per risolvere il conflitto e determinare un ordine specifico per
 le classifiche. 
 Se si considerasse l'esito di ciascuna gara come un votazione, cambiando
@@ -388,66 +377,66 @@ sarebbe stato l'esito finale con regole differenti.
 
     \subsection{Requisiti funzionali}
     \begin{itemize}
-        \item{Definizione di un gestore di votazioni, intesi come contenitore delle stesse. Ciascuna votazione
-        dovrà essere indipendente dalle altre. L'eventuale collegamento tra le stesse sarà demandato all'utilizzatore della libreria.}
-        \item{Definizione dei concorrenti che rappresenteranno i candidati disponibili, delle relative caratteristiche e di
-        eventuali punteggi, che potranno essere presenti a seconda del dominio della votazione.
-        Gli eventuali punteggi saranno collegati ad una specifica metrica di interesse.
+        \item{Definizione di un gestore di votazioni, inteso come contenitore delle stesse. Ciascuna votazione
+        deve essere indipendente dalle altre. L'eventuale collegamento tra esse viene demandato all'utilizzatore della libreria;}
+        \item{Definizione dei concorrenti che rappresentano i candidati disponibili, assieme alle relative caratteristiche e di
+        eventuali punteggi.
+        I punteggi sono collegati ad una specifica metrica di interesse.
         }
-        \item{Definizione dell'algoritmo da utilizzare. L'algoritmo dovrà determinare la logica con cui saranno
-        confrontati e selezionati i concorrenti. L'algoritmo potrà utilizzare la metrica disponibile per
+        \item{Definizione dell'algoritmo da utilizzare. L'algoritmo deve determinare la logica con cui sono
+        confrontati e selezionati i concorrenti. L'algoritmo può utilizzare la metrica disponibile per
         effettuare ulteriori valutazioni in occasione di pareggio o altre casistiche definibili dall'utilizzatore.
-        L'algoritmo potrà essere parametrizzato, per impattare il proprio funzionamento.   }
-        \item{Definizione dei voti presenti nella votazione. La tipologia di voto dovrà essere dipendente dall'algoritmo utilizzato,
-        e in ogni caso potrà essere dei seguenti tipi:
+        L'algoritmo può essere parametrizzato, per impattare il proprio funzionamento.   }
+        \item{Definizione dei voti presenti nella votazione. La tipologia di voto deve essere dipendente dall'algoritmo utilizzato,
+        e in ogni caso può essere dei seguenti tipi:
         \begin{enumerate}
             \label{tipidivoto}
             \item{Voto a singola preferenza}
             \item{Voto a lista di preferenze}
         \end{enumerate}
 
-        Dovrà essere data la possibilita si anonimizzare il votante, in modo tale che successivamente non sia possibile risalire al suo identificativo.
+        Deve essere data la possibilita si anonimizzare il votante, in modo tale che successivamente non sia possibile risalire al suo identificativo;
 
         
         }
-        \item{Le fasi di definizione dovranno essere correlate ad opportuni controlli di congruità, al fine di elaborare la votazione in modo coerente.}
-        \item{La classifica finale dovrà essere disponibile e visualizzabile dall'utilizzatore. Dovrà esser data evidenza
+        \item{Le fasi di definizione devono essere corredate da opportuni controlli di congruità, al fine di elaborare la votazione in modo coerente;}
+        \item{La classifica finale deve essere disponibile e visualizzabile dall'utilizzatore. Deve esser data evidenza
         di eventuali situazioni di pareggio, di quale algoritmo è stato utilizzato e delle caratteristiche dei concorrenti.}
     \end{itemize}
     \subsection{Requisiti non funzionali}
     \begin{itemize}
-        \item{Dovrà essere possibile definire tutti gli elementi necessari attraverso l'uso di costrutti che agevolino la rapidità di creazione,
-        evitando che l'utilizzatore effettui manualmente i controlli minimi ed obbligatori.}
-    \item{La libreria dovrà essere disponibile su molteplici piattaforme, facilmente importabile in esse ed avere una documentazione
-    a corredo.}
+        \item{Deve essere possibile definire tutti gli elementi necessari attraverso l'uso di costrutti che agevolino la rapidità di creazione,
+        evitando che l'utilizzatore effettui manualmente i controlli minimi ed obbligatori;}
+    \item{La libreria deve essere disponibile su molteplici piattaforme, facilmente importabile in esse ed avere una documentazione
+    a supporto.}
     \end{itemize}
 
 
 \section{Modello del dominio}
 \label{modellodominio}
-\texttt{EleKtion} avrà a disposizione uno o più gestori di votazioni. 
+EleKtion ha a disposizione uno o più gestori di votazioni. 
 I gestori sono indipendenti tra loro e così anche le votazioni all'interno degli stessi,
 fatto salvo l'uso coerente della tipologia di votazione e della metrica di punteggio,
 che rimane stabile in ogni gestore.
 
 Non è contemplata l'ipotesi di più turni nella stessa votazione, 
-quindi in tal caso dovranno essere gestiti come votazioni separate.
+quindi in tal caso devono essere gestiti come votazioni separate.
 
-Una votazione avrà associata una determinata competizione, 
+Una votazione ha associata una determinata competizione, 
 alla quale è associato l'elenco dei concorrenti. 
 
 Ciascun concorrente può avere una serie di punteggi,
- e la tipologia di punteggio è strettamente collegato alla tipologia di competizione.
+ e la tipologia di punteggio è strettamente correlato alla tipologia di competizione.
 
 La votazione, inoltre, ha associato l'elenco dei voti,
-i quali hanno riferimento sia del votato che del votante,
-in caso di votazione non anonima.
+i quali hanno i riferimenti sia del votato che del votante,
+quest'ultimo solo in caso di votazione non anonima.
 È importante che un voto, per essere considerato valido, 
 sia riferito ad un candidato esistente e sia della tipologia ammessa dalla votazione.
 
 Infine, ci può essere un solo algoritmo collegato alla votazione,
 il quale può contenere dei parametri per effettuare variazioni nella configurazione per il suo funzionamento.
-La votazione avrà un' unica classifica finale, la quale può essere consultata.
+La votazione ha un'unica classifica finale, la quale può essere consultata.
 
 In figura \ref{fig:modellodominio} viene rappresentato il diagramma UML con le interfacce che modellano
 il dominio descritto in questo capitolo.
@@ -456,7 +445,7 @@ il dominio descritto in questo capitolo.
 \begin{figure}
    \centering
     \includegraphics[width=1.1\linewidth]{figures/modellodominio.png}
-    \caption{Diagramma UML del modello di dominio di \texttt{EleKtion}}
+    \caption{Diagramma UML del modello di dominio di EleKtion}
    \label{fig:modellodominio}
 \end{figure}
 
@@ -464,10 +453,10 @@ il dominio descritto in questo capitolo.
 \chapter{Design}
 \label{designdsl}
 In questo capitolo, partendo dalla modellazione del dominio descritta nel capitolo \ref{modellodominio}, 
-sarà sviluppato un approfondimento sulla definizione delle metriche di punteggio e sulla porzione
-impattata dall'introduzione di \ac{dsl}, volto al miglioramento dell'utilizzabilità della libreria \texttt{EleKtion}.
-Per ciascuna funzionalità verrà evidenzata un'apposita descrizione e un diagramma UML
-che esplichi come saranno organizzate le interfacce e le classi astratte.
+viene sviluppato un approfondimento sulla definizione delle metriche di punteggio e sulla porzione
+impattata dall'introduzione di \ac{dsl}, volto al miglioramento dell'utilizzabilità della libreria EleKtion.
+Per ciascuna funzionalità viene approfondita in un apposito paragrafo, contenente un diagramma UML
+che esplica l'organizzazione di interfacce e classi astratte.
 
 Questi diagrammi sono realizzati con il presupposto di poter adottare l'utilizzo
 dei seguenti costrutti:
@@ -482,16 +471,16 @@ Si rimanda alle fonti per l'approfondimento specifico in \texttt{Kotlin}, la sin
 è generica ed astrae dal linguaggio specifico.
 
 
-\section{Domain Specific Language per la definizione del gestore di votazioni }
-Questo \ac{dsl} è pensato per facilitare la creazione del gestore di votazioni.
-Un gestore di votazioni viene vincolato ad adottare uno specifico tipo \texttt{S}, sottotipo di \texttt{ScoreMetric}, ed uno specifico
+\section{Domain Specific Language per la definizione del gestore delle votazioni }
+Questo \ac{dsl} è pensato per facilitare la creazione del gestore delle votazioni.
+Il gestore delle votazioni adotta uno specifico tipo \texttt{S}, sottotipo di \texttt{ScoreMetric}, ed uno specifico
 tipo di voto \texttt{V}, sottotipo di \texttt{Vote}.
 
 Una metrica è definibile come il criterio tale per cui un concorrente può essere messo a confronto con un altro, sulla base della
 sua prestazione nella competizione. Pertanto, è rappresentabile come una comparazione tra valori.
 Dall'interfaccia \texttt{ScoreMetric} possono essere definiti numerosi sottotipi utili alla competizione trattata, ad esempio il punteggio di un concorrente
 può essere legato ai punti assegnati in una gara, alle vittorie ottenute in campionato, oppure a criteri legati al tempo.
-Per facilitarne la creazione è utile definire una funzione di supporto contenuta in un \texttt{companion object}, come mostrato in figura \ref{fig:metrica}.
+Per semplificarne la creazione è utile definire una funzione di supporto contenuta in un \texttt{companion object}, come mostrato in figura \ref{fig:metrica}.
 
 \vfill
 \begin{center} 
@@ -525,35 +514,39 @@ In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfa
 
  \section{Domain Specific Language per la definizione della votazione}
  Questo \ac{dsl} è pensato per facilitare la creazione di una votazione.
- In una votazione è obbligatorio scegliere l'algoritmo con cui sarà elaborato l'esito, 
- l'algoritmo può ricevere parametri utili al uso funzionamento, attraverso l'utilizzo dell'
+
+ In una votazione è obbligatorio scegliere l'algoritmo da utilizzare 
+ il quale può ricevere parametri utili al uso funzionamento, attraverso l'utilizzo dell'
  operatore unario \texttt{+} presente in \texttt{PollAlgorithmDSL}.
- In base al tipo di voto (vedi capitolo \ref{tipidivoto}) è utile definire un costrutto
+
+ In base al tipo di voto (vedi capitolo \ref{tipidivoto}) viene definito un costrutto
  per agevolarne la creazione.
  Nel caso in cui il voto sia a singola preferenza, è necessario specificare
- l'identificativo del votato e l'identificativo del votante (vedi funzione \texttt{votedBy} in \texttt{SPVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL}). Nel caso in cui quest'ultimo non 
- sia richiesto, corrisponderà ad un identificativo casuale (vedi funzione \texttt{asAnonymousVote} in \texttt{SPVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL}).
+ l'identificativo del votato e l'identificativo del votante (vedi funzione \texttt{votedBy} in \texttt{SPVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL}). Se quest'ultimo non 
+ deve essere pubblico, corrisponderà ad un identificativo casuale (vedi funzione \texttt{asAnonymousVote} in \texttt{SPVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL}).
  Nel caso in cui il voto sia a lista di preferenze, per costruire la lista è necessario specificare l'elenco degli identificativi dei votati,
  utilizzando la funzione \texttt{then} in concatenazione (vedi funzione \texttt{then} in \texttt{LOPVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL})).
  Allo stesso modo del voto a singola preferenza, è prevista la possibilità di anonimizzare il votante.
+
  Come visibile in figura \ref{fig:pollAlgorithmDSL}, sono previsti metodi per semplificare l'inizializzazione dei possibili algoritmi:
  \begin{itemize}
     \item{\texttt{majorityVotesAlgorithm}: rappresenta la creazione di un algoritmo a maggioranza, in cui il vincitore è colui che ricevuto più voti;}
     \item{\texttt{majorityVotesHScoreAlgorithm}: rappresenta la creazione di un algoritmo a maggioranza, in cui il vincitore è colui che ricevuto più voti.
     Se si verificano pareggi, viene selezionato il concorrente che ha il punteggio maggiore, secondo la metrica di punteggio definita;}
-    \item{\texttt{majorityVotesHScoreAlgorithm}: rappresenta la creazione di un algoritmo a maggioranza, in cui il vincitore è colui che ricevuto più voti.
+    \item{\texttt{majorityVotesLScoreAlgorithm}: rappresenta la creazione di un algoritmo a maggioranza, in cui il vincitore è colui che ricevuto più voti.
     Se si verificano pareggi, viene selezionato il concorrente che ha il punteggio minore, secondo la metrica di punteggio definita;}
     \item{\texttt{condorcetAlgorithm}: rappresenta la creazione dell'algoritmo di Condorcet;}
     \item{\texttt{schultzeAlgorithm}: rappresenta la creazione dell'algoritmo di Schultze.}
  \end{itemize}
 
  In figura \ref{fig:pollDSL} vengono mostrati gli altri metodi utili alla creazione di una votazione:
- La funzione \texttt{competition}, utile alla creazione della competizione,
- richiede che venga definito un nome alla competizione e un inizializzatore in cui saranno definiti i concorrenti.
- Quest'ultimo, così come l'algoritmo desiderato, sono effettivamente assegnati alla votazione
+ la funzione \texttt{competition} istanzia una competizione,
+ richiedendo che vengano definiti il nome della competizione ed un inizializzatore in cui saranno specificati i candidati presenti.
+ La competizione, così come l'algoritmo scelto, sono effettivamente assegnati alla votazione
  attraverso l'uso dell'operatore unario \texttt{-}.
- Infine è possibile aggiungere un elenco di voti, preferibilmente creati utilizzando i metodi descritti nella prima parte
- di questo sotto capitolo. Ciascun voto richiede di essere effettivamente aggiunto alla lista di voti attraverso
+
+ Infine è possibile aggiungere un elenco di voti, creati utilizzando i metodi descritti nella prima parte
+ di questo paragrafo. Ciascun voto viene effettivamente aggiunto alla lista di voti attraverso
  l'uso dell' operatore unario \texttt{+}.
 
  Per motivi di spazio, nelle figure \ref{fig:pollAlgorithmDSL} e \ref{fig:pollDSL} sono stati utilizzati gli
@@ -589,9 +582,9 @@ In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfa
 \section{Domain Specific Language per la definizione della competizione}
 \label{dslcompetizione}
 Questo DSL è pensato per facilitare la creazione ed il popolamento di una competizione.
-La funzione \texttt{competitor}, utile alla creazione del concorrente,
-richiede che venga definito l'identificativo del concorrente e un inizializzatore in cui saranno definiti i punteggi realizzati.
-Il concorrente istanziato, viene aggiunto alla lista dei concorrenti grazie all'uso dell'operatore unario \texttt{+}.
+La funzione \texttt{competitor} istanzia un concorrente,
+richiedendo che sia specificato il proprio identificativo ed un inizializzatore contenente i punteggi realizzati.
+Il concorrente istanziato, viene aggiunto alla lista dei concorrenti grazie all'uso dell'operatore unario \texttt{+} .
 
 In figura \ref{fig:competitionDSL} viene mostrato il diagramma UML delle interfacce e della classe astratta.
 \begin{figure}[H]
@@ -601,10 +594,11 @@ In figura \ref{fig:competitionDSL} viene mostrato il diagramma UML delle interfa
     \label{fig:competitionDSL}
  \end{figure}
  \newpage
+
 \section{Domain Specific Language per la definizione del concorrente}
 Questo DSL è ideato per facilitare la creazione di un concorrente.
 Ciascun concorrente può avere un elenco di punteggi, e ciascuno di essi può essere
-assegnato al concorrente (vedi capitolo \ref{dslcompetizione} ) attraverso l'uso dell'operatore unario \texttt{+}. .
+assegnato al concorrente (vedi paragrafo \ref{dslcompetizione} ) attraverso l'uso dell'operatore unario \texttt{+}.
 \begin{figure}[H]
     \centering
      \includegraphics[width=1.1\linewidth]{figures/competitorDSL.png}
@@ -616,27 +610,24 @@ assegnato al concorrente (vedi capitolo \ref{dslcompetizione} ) attraverso l'uso
 %----------------------------------------------------------------------------------------
 \chapter{Implementazione}
 
-\section{Build automation e versionamento degli artefatti}
+\section{Build automation}
 L'adozione di un sistema di build automation è un fattore chiave per la produzione
 efficace ed efficiente di software di qualità.
-
 Come principio base, è importante che ciascuna modifica apportata al codice
-sia testata a livello unitario e abbia documentazione correlata, che sia l'aggiunta 
-di una funzionalità piuttosto che la variazione di un campo, a titolo meramente
+sia testata a livello unitario e abbia documentazione correlata, che sia la pubblicazione 
+di una nuova funzionalità piuttosto che la variazione di un campo, a titolo meramente
 esemplificativo. 
-
 Inoltre, queste modifiche devono essere ulteriormente 
 verificate attraverso test di integrazione, in modo da garantire la piena
-compatibilità tra i componenti. 
+compatibilità con i componenti pre-esistenti. 
 
 Le verifiche possono essere effettuate 
 manualmente dallo sviluppatore, ma per ridurre il rischio di errori è
 possibile adottare un sistema di automazione, che attraverso una serie di task predefiniti
-e ripetibili, verifichi automaticamente le varie fasi,
-gestendo anche le dipendenze tra i task stessi.
+e ripetibili, verifichi automaticamente gli step,
+gestendo anche le dipendenze tra gli stessi.
 Così facendo, si può subito notare se tutto è andato a buon fine oppure 
 se è necessario effettuare ulteriori eventi correttivi.
-
 Una volta che il flusso di compilazione e verifica viene terminato con successo,
 è possibile procedere alla generazione di uno o più artefatti e della relativa documentazione.
 Questi prodotti possono essere sottoposti ad un operazione di versionamento,
@@ -646,23 +637,21 @@ e la tracciabilità.
 In questo progetto sono stati adottati \texttt{Kotlin} come linguaggio di programmazione
 e \texttt{Gradle} come build automator.
 
-Poichè gli artefatti che vengono generati sono dipendenti dall'architettura della macchina
-e dal sistema operativo sui quali avviene il processo di build, è opportuno eseguire tale processo
-su piattorme dedicate come Github.
-Github fornisce ambienti standard e personalizzabili
+Poichè gli artefatti generati sono dipendenti dall'architettura della macchina
+e dal sistema operativo sui quali avviene il processo di \textit{build}, è opportuno eseguirlo
+su piattorme dedicate come \ac{gh}.
+\ac{gh} fornisce ambienti standard e personalizzabili
 in base a direttive, gestendo il processo di \ac{ci}/\ac{cd} che è stato descritto in questo capitolo. 
 Infine, per favorire la distribuzione e la compatibilità verso molteplici sistemi,
 è utile adottare strumenti come \texttt{Kotlin Multiplatform},
 che semplificano la generazione dell'output finale adattandolo alle specifiche piattaforme. 
-
-
 \subsection{Kotlin Multiplatform}
 Kotlin Multiplatform è un tool che favorisce il riuso di codice tra molteplici piattaforme.
 Grazie ad esso, riutilizzando la logica applicativa scritta in \texttt{Kotlin}, è possibile produrre artefatti compatibili
-in molteplici piattaforme, dette anche \textit{target}, come \texttt{JVM}, \texttt{JS}, \texttt{Android}, \texttt{iOS} e piattaforme native come \texttt{Linux}.
+in molteplici piattaforme (dette \textit{target}), come \texttt{\ac{jvm}}, \texttt{\ac{js}}, \texttt{Android}, \texttt{iOS} ma piattaforme native come \texttt{Linux},\texttt{Windows},\texttt{macOS}.
 I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
 Per ogni \textit{target} viene definito un \textit{source set}, ossia un insieme di file sorgente, che definisce anche le dipendenze e le compatibilità.
-Il \textit{source set} predefinito è \texttt{commonMain}, e contiene il codice comune a tutti i \textit{target}.
+Il \textit{source set} predefinito è \texttt{commonMain} e contiene il codice comune a tutti i \textit{target}.
 Al suo interno è possibile utilizzare funzioni e dipendenze che siano compilabili verso tutte le piattaforme dichiarate, mentre quelle che
 sono legate ad uno specifico linguaggio o architettura vanno definite ed utilizzate all'interno degli opportuni \textit{source sets},
 come \texttt{jvmMain} e \texttt{jsMain}. 
@@ -684,57 +673,57 @@ tramite la direttiva \texttt{expected}, senza definirne il contenuto, che sarà 
 In fase di compilazione, nelle versioni platform-specific, saranno valorizzate tramite funzioni che adottano la direttiva \texttt{actual},
 che posso richiamare funzionalità altrimenti non adottabili in \texttt{commonMain}.
 
-Una logica analoga è applicabile anche alla sezione dei test: è disponibile un \textit{source set} di base, detto \texttt{commonTest}, e altri
-eventuali che contengono codice compatibile solo in quella determinata piattaforma.
+Una logica analoga è applicabile anche alla sezione dei test: sono disponibili un \textit{source set} di base, detto \texttt{commonTest}, e altri
+eventuali che contengono codice compatibile solo nella relativa piattaforma.
 In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output ottenuti utilizzando i \textit{target} \texttt{JVM} e \texttt{JS}.
 
 \begin{figure}[H]
     \centering
      \includegraphics[width=1\linewidth]{figures/sourcesetscompilation.png}
      \caption{Esempio di output ottenibili in un progetto multipiattaforma. Fonte: \cite{WebsiteKotlinMultiPlatformCompilations}}
-    \label{fig:targets}
+    \label{fig:sourcesetscompilation}
  \end{figure}
 
 \subsection{GitHub Actions}
  \ac{gha} è una piattaforma di \ac{ci}/\ac{cd} basata su repository \ac{gh},
- ai quali possono essere agganciati degli elementi detti workflow.
+ ai quali possono essere agganciati degli elementi detti \textit{workflow}.
 
- Un \texttt{workflow}, definibile attraverso la sintassi \texttt{YAML}, rappresenta una sequenza di azioni che possono essere eseguite
- all'occorrenza di un evento, ad esempio la creazione di un \texttt{tag} nel repository,
- una \texttt{richiesta pull}, un'esecuzione manuale richiesta dal proprietario del repository, ecc\dots
+ Un \textit{workflow}, definibile attraverso la sintassi \texttt{YAML}, rappresenta una sequenza di azioni che possono essere eseguite
+ all'occorrenza di un evento, ad esempio la creazione di un \textit{tag} nel repository,
+ una \textit{richiesta pull}, un'esecuzione manuale richiesta dal proprietario del repository, ecc\dots
 
-In ogni \texttt{workflow} va specificato il nome dello stesso e l'insieme di eventi che ne scatena 
+In ogni \textit{workflow} va specificato il nome dello stesso e l'insieme di eventi che ne scatena 
 l'esecuzione. 
-Di seguito a ciò, è possibile definire un insieme di \texttt{job}.
+Di seguito a ciò, è possibile definire un insieme di \textit{job}.
 
-Ciascun \texttt{job} è legato ad uno specifico ambiente di esecuzione: va definito che tipo di
+Ciascun \textit{job} è legato ad uno specifico ambiente di esecuzione: va definito che tipo di
 sistema operativo deve essere adottato (\texttt{Linux}, \texttt{Windows}, \texttt{macOS})
 e se al termine dello stesso debba essere restituito un output, che sarà accessibile da altri \texttt{job}.
 È possibile specificare delle variabili in una \texttt{matrice}, in modo eseguire parallelamente molteplici istanze di uno stesso \texttt{job} 
 in base alle combinazioni delle variabili; a titolo esemplificativo, eseguire la compilazione di codice utilizzando
-la stessa versione del compilatore ma su 3 sistemi operativi differenti.  
+la stessa versione del compilatore ma su tre sistemi operativi differenti.  
 
-Ciascun \texttt{job} è caratterizzato da un proprio flusso indipendente, di conseguenza
-per orchestare l'intero processo è opportuno specificare condizioni basate sulle variabili di output 
-oppure sull'indicazione del completamento di uno o più i \texttt{jobs} desiderati.
+Ciascun \textit{job} è caratterizzato da un proprio flusso indipendente, di conseguenza
+per orchestare i processi è opportuno specificare condizioni basate sulle variabili di output 
+oppure sull'indicazione del completamento di uno o più i \textit{jobs} desiderati.
 
-All'interno del \texttt{job} sono definibili uno o più \texttt{step}: questi vengono eseguiti in maniera sequenziale
+All'interno del \textit{job} sono definibili uno o più \textit{step}: questi vengono eseguiti in maniera sequenziale
 e sono impostabili per eseguire una sequenza arbitraria di comandi \texttt{bash} oppure
-per eseguire una \texttt{action} pubblica.
+per eseguire una \textit{action} pubblica.
 Quest'ultima rappresenta un ottimo modo di favorire il riuso
-e la condivisione di codice nella community \ac{gh}, in quanto è possibile, ad esempio, utilizzare un workflow complesso
-come se fosse un singolo step (\texttt{composite action}) oppure lanciare l'esecuzione di un container senza
-imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configurazioni (\texttt{docker container action}).
+e la condivisione di codice nella community \ac{gh}, in quanto è possibile, ad esempio, utilizzare un \textit{workflow} complesso
+come se fosse un singolo step (\textit{composite action}) oppure lanciare l'esecuzione di un container senza
+imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configurazioni (\textit{docker container action}).
 
 \subsection{GitHub Pages}
- \ac{ghp} è un servizio di hosting disponibile per ogni account ed organizzazione in \ac{gh},
- attraverso il quale è possibile pubblicare un sito web statico, che viene costruito e
- pubblica attraverso un apposito \texttt{workflow} predefinito. 
- Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato dare informazioni 
+ \ac{ghpages} è un servizio di hosting disponibile per ogni account ed organizzazione in \ac{gh},
+ attraverso il quale è possibile pubblicare un sito web statico e renderlo accessibile tramite un webserver.
+ La pubblicazione avviene attraverso un apposito \textit{workflow} predefinito.
+ Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato per dare informazioni 
  su come scaricare ed installare il software oppure per pubblicare la documentazione.
 
 \subsection{Maven Central, GitHub Packages e NPM}
-Maven Central è tra i repository centralizzati più popolari per distribuire e riutilizzare artefatti basati su \ac{jvm}.
+Maven Central è tra i repository centralizzati più popolari per distribuire e riutilizzare artefatti basati su \texttt{\ac{jvm}}.
 Un repository è definibile come "la directory che memorizza tutti i progetti e le librerie JAR, i plugin
 o qualsiasi altro artefatto specifico del progetto che può essere facilmente utilizzato da Maven"\cite{kozak2022three}.
 
@@ -742,13 +731,13 @@ Il sistema di gestione delle dipendenze di Maven è in grado di risolvere automa
 semplificando la gestione manuale delle dipendenze per gli sviluppatori. 
 Gli artefatti caricati su Maven Central, tra cui librerie di codice compilato, documentazione ed elenco di dipendenze,
 sono immutabili e non possono essere modificati né eliminati.
-Le dipendenze vengono identificate in modo univoco con una tripletta \texttt{groupId:artifactId:version},
-dove \texttt{groupId} identifica un gruppo di artefatti, \texttt{artifactId} si riferisce al nome della libreria
-e \texttt{version} identifica univocamente ogni rilascio della libreria.
+Le dipendenze vengono identificate in modo univoco con una tripletta \textit{groupId:artifactId:version},
+dove \textit{groupId} identifica un gruppo di artefatti, \textit{artifactId} si riferisce al nome della libreria
+e \textit{version} identifica univocamente ogni rilascio della libreria.
 Ad esempio, la tripletta 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0' 
 identifica la versione 1.6.0 di un serializzatore json per \texttt{Kotlin}, gestito da \texttt{JetBrains}.
 
-Tutte le versioni di una libreria rilasciate su Maven Central, una volta pubblicate sono sempre disponibili nel repository. 
+Tutte le versioni di una libreria rilasciate su Maven Central sono sempre disponibili nel repository. 
 Gli utenti della libreria sono liberi di decidere quale versione utilizzare e per quanto tempo e a questi ultimi è delegata la responsabilità di aggiornare le proprie dipendenze per 
 adeguarsi a problemi di sicurezza o evoluzioni dell'API.
 Nel lungo termine, queste decisioni determinano le librerie e le versioni più popolari nell'intero ecosistema software.
@@ -759,29 +748,29 @@ mentre quasi il 4\% non ha mai avuto alcun utente su Maven Central.
 Inoltre, si è scoperto che più del 90\% delle versioni più popolari non sono le ultime versioni rilasciate, 
 e sia le versioni attive che significativamente popolari sono distribuite lungo la storia delle versioni della libreria".
 
-Un' alternativa all'uso di Maven Central può risiedere in \ac{gh} Packages. Quest'ultimo pone una gestione 
+Un'alternativa all'uso di Maven Central può risiedere in \ac{ghpackages}. Quest'ultimo pone una gestione 
 semplificata per la pubblicazione degli artefatti, in quanto strettamente connesso all'uso di repository \ac{gh},
 il che permette di avere un controllo degli accessi efficace come quello disponibile per i repo.
 Al pari di Maven Central viene mantenuto il concetto di artefatti immutabili, e in più viene dato il supporto
 per l'archiviazione di pacchetti in numerosi linguaggi, tra cui \texttt{C\#}.
 
-Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulle diffusione di librerie \texttt{Javascript} e \texttt{Node.js},
-si differenzia in particolare dai precedenti in quanto non adotta il principio di immutabilità.
+Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulle diffusione di librerie \texttt{\ac{js}} e \texttt{Node.js},
+si differenzia dai precedenti in quanto non adotta il principio di immutabilità.
 In questo caso, la modifica o eliminazione di una versione di un pacchetto può avere impatti notevoli sugli utilizzatori,
 portando a potenziali disastri mondiali \cite{NPMChaos}.
 
-\section{Casi realizzati per i differenti tipi di algoritmi}
+\section{Casi realizzati per i differenti tipi di algoritmo}
 
-Nel capitolo \ref{modellodominio} e nel capitolo \ref{designdsl} è stata presentata l'organizzazione del dominio
+Nel paragrafo \ref{modellodominio} e nel capitolo \ref{designdsl} è stata presentata l'organizzazione del dominio
 da implementare, assieme ad un approfondimento sulle entità che compongono il linguaggio \ac{dsl}
-che è stato realizzando appositamente per questa libreria.
-In questo capitolo verranno mostrati dei casi d'uso realizzati per verificare il corretto funzionamento della libreria,
-spiegando anche come vengono gestiti eventuali conflitti a seconda della logica scelta.
+realizzato appositamente per questa libreria.
+In questo capitolo vengono mostrati alcuni dei casi d'uso che sono stati realizzati per verificare il corretto funzionamento della libreria,
+spiegando come vengono gestiti eventuali conflitti a seconda dell'algoritmo scelto.
 
 \subsection{Votazioni a singola preferenza}
 Per gestire le votazioni a singola preferenza è stato creato inizialmente il caso base per la votazione a maggioranza,
-nella quale il vincitore è il concorrente che riceve più voti. In alcuni casi è possibile avere parità tra i voti, pertanto
-ci sono più vincitori nella stessa posizione. 
+nella quale il vincitore è il concorrente che riceve più voti, a prescindere dalla presenza di altri criteri come i punteggi.
+In alcuni casi è possibile avere parità tra i voti, pertanto ci sono più vincitori nella stessa posizione. 
 Successivamente è stata estesa la gestione dei pareggi, dando la possibilità all'utilizzatore della libreria di definire 
 una metrica per la competizione ed un elenco di punteggi realizzati da ciascun concorrente, basati su quella metrica.
 Nel caso in cui si ha un pareggio di voti è possibile decidere di effettuare un ulteriore sotto-confronto basato sui punteggi,
@@ -789,9 +778,9 @@ per selezionare chi risulta vincitore sulla base del punteggio più basso o più
 Questo sotto-confronto può portare ad avere dei vincitori a pari merito, oppure di piazzarli in posizioni differenti, proprio
 per la differenza dei punteggi.
 La gestione quindi non garantisce l'assenza totale di pareggi, che può verificarsi anche a livello di punteggio.
-Inoltre, è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante , ma di negargli
+Inoltre, è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante, ma di negargli
 comunque l'opportunità di votare più volte lo stesso candidato .
-Le classi realizzate per gestire tutte queste casistiche sono \texttt{MajorityVotesAlgorithm.kt}, \texttt{MajorityVotesThenHighestScoreAlgorithm}
+Le classi realizzate per gestire tutte queste casistiche sono \texttt{MajorityVotesAlgorithm}, \texttt{MajorityVotesThenHighestScoreAlgorithm}
 e \texttt{MajorityVotesThenLowestScoreAlgorithm}. Nell'estratto di codice \ref{lst:controllisinglevote} vengono mostrati i controlli effettuati prima di 
 compiere la scelta del vincitore.
 
@@ -804,14 +793,14 @@ tutti i punteggi realizzati, inoltre per quest'ultimo non è obbligatorio associ
 Nell'estratto di codice \ref{lst:esempisingolapreferenza} vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
 è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
 Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
-che replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
+il quale replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
 Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, utilizzando come identificativo una stringa \texttt{UUID}.
 
 
 \lstinputlisting[language=Kotlin,label={lst:esempisingolapreferenza}, caption={Esempi di votazioni a singola preferenza, attraverso l'utilizzo di DSL}]{listings/esempiSingleVote.kt}
 
-Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che, nell'ambito di una votazione, venga 
-restituito una eccezione nei casi in cui: 
+Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che venga 
+restituita un' eccezione nei casi in cui: 
 \begin{enumerate}
     \item{Nell'ambito degli algoritmi, in una determinata votazione
         \begin{itemize}
@@ -853,18 +842,18 @@ Pertanto, è stata ammessa la possibilità di ottenere dei pareggi a parità di 
 Anche per questa tipologia di votazione è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante , ma di negargli
 comunque l'opportunità di votare più volte lo stesso candidato.
 
-Le classi realizzate per gestire le casistiche sono \texttt{CondorcetAlgorithm.kt} e \texttt{SchultzeAlgorithm.kt}.
+Le classi realizzate per gestire le casistiche sono \texttt{CondorcetAlgorithm} e \texttt{SchultzeAlgorithm}.
 Nell'estratto di codice \ref{lst:controllilopvote} vengono mostrati i controlli effettuati prima di 
 eseguire l'algoritmo di votazione.
 
 
 \lstinputlisting[language=Kotlin,label={lst:controllilopvote}, caption={Controlli effettuati prima della votazione a lista di preferenze}]{listings/controlliLOPVote.kt}
 
-Infine viene generata la classifica contenente l'elenco dei vincitori, posti in ordine decrescente secondo la logica dell'algoritmo scelto.
+Infine viene generata la classifica contenente l'elenco dei vincitori, posti in ordine di preferenza decrescente secondo la logica dell'algoritmo selezionato.
 A parità di posizione è possibile trovare
 più di un candidato e non è previsto riportare il numero di voti, poichè è scollegato dalla logica algoritmica.
 
-Nell'estratto di codice \ref{lst: esempilistepreferenze} vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
+Nell'estratto di codice \ref{lst:esempilistepreferenze} vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
 è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
 Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
 che replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
@@ -873,8 +862,8 @@ I voti possono essere anonimizzati, come nel caso delle votazioni a preferenza s
 
 \lstinputlisting[language=Kotlin,label={lst:esempilistepreferenze}, caption={Esempi di votazioni a lista di preferenze, attraverso l'utilizzo di DSL}]{listings/esempiLOPVote.kt}
 
-Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che, nell'ambito di una votazione, venga 
-restituito una eccezione nei casi in cui: 
+Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che venga 
+restituita un' eccezione nei casi in cui: 
 \begin{enumerate}
     \item{Nell'ambito degli algoritmi, in una determinata votazione
         \begin{itemize}
@@ -903,12 +892,12 @@ Utilizzando il DSL, è possibile dichiarare voti in cui non appaiono tutti i pos
 questi saranno piazzati in fondo alla lista, ossia come più sfavoriti.
 
 
-\section{Generazione multipiattaforma e pubblicazione degli artefatti}
+\section{Generazione multipiattaforma degli artefatti e pubblicazione}
 
-Il progetto è stato realizzando partendo da un template \cite{WebsiteTemplateKotlinMP} disponibile su \ac{gh}, che fornisce 
-la struttura di avvio per un progetto volto alla generazione finale di artefatti per molteplici piattaforme.
+La libreria EleKtion è stata realizzata partendo da un template \cite{WebsiteTemplateKotlinMP} disponibile su \ac{gh}, che fornisce 
+la struttura di avvio per un progetto multipiattaforma in \texttt{Kotlin}, volto alla generazione e pubblicazione di artefatti.
 
-I target sono tutti compilati in \texttt{Java} versione 1.8, successivamente vengono anche convertiti in \texttt{Javascript} per la generazione della
+I \textit{target} sono tutti compilati per \texttt{\ac{jvm} versione 1.8}, successivamente vengono anche convertiti in \texttt{\ac{js}} per la generazione della
 libreria in ambito Web, e viene generata la versione \texttt{native}, compatibile in linguaggio nativo con i seguenti sistemi:
 \begin{itemize}
     \label{list:elencotargetgenerati}
@@ -925,61 +914,63 @@ libreria in ambito Web, e viene generata la versione \texttt{native}, compatibil
     \item{watchos simulator arm64;}
     \item{tvos arm64;}
     \item{tvos x64;}
-    \item{tvos simulator arm64 .}
+    \item{tvos simulator arm64.}
 \end{itemize}
 
-Il processo di compilazione viene eseguito grazie ai workflow presenti nel repository \ac{gh}:
-il primo workflow, definito \texttt{dispatcher}, viene avviato al momento del ricevimento di un comando \textit{push} o della creazione di
-una \textit{richiesta pull}, e richiama in cascata i seguenti workflow
+Il processo di compilazione viene eseguito grazie ai \textit{workflow} presenti nel repository \ac{gh}:
+il primo \textit{workflow}, definito \texttt{dispatcher}, viene avviato al momento del ricevimento di un comando \textit{push} o della creazione di
+una \textit{richiesta pull}, e richiama in cascata i seguenti \textit{workflow}:
 \begin{enumerate}
 \item{\texttt{build-and-deploy}: questa azione si occupa di predisporre l'ambiente di pubblicazione, compilare i sorgenti per le piattaforme, eseguire
 i test nelle piattaforme, effettuare controlli di \texttt{code linting} e \texttt{bug detection}, ed infine pubblicare gli artefatti generati e finalizzare
 l'ambiente di pubblicazione;}
-\item{\texttt{publish-docs}: questa azione è dipendente da build-and-deploy, in quanto viene eseguita successivamente ad essa e solo nel caso in cui 
+\item{\texttt{publish-docs}: questa azione è dipendente da \texttt{build-and-deploy}, in quanto viene eseguita successivamente ad essa e solo nel caso in cui 
 sia terminata con esito positivo. Si occupa di generare la documentazione degli artefatti, interpretando gli appositi commenti scritti nel codice sorgente,
-e caricarla nel branch \texttt{gh-pages} del repository \ac{gh}. Un workflow di default elabora il contenuto di questo branch e lo mette a 
-disposizione tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .}
+e caricarla nel branch \texttt{gh-pages} del repository \ac{gh}. Un \textit{workflow} di default elabora il contenuto di questo branch e lo mette a 
+disposizione come sito web tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .}
 \end{enumerate}
+I \textit{workflow} \texttt{dispatcher} e \texttt{build-and-deploy} sono forniti dal template ma sono stati opportunamente configurati per lo scopo del progetto,
+mentre il \textit{workflow} \texttt{publish-docs} è stato creato ex-novo.
 
 \subsection{Generazione e pubblicazione della libreria}
-Il workflow \texttt{build-and-deploy} si occupa inizialmente di
-richiamare un'apposita \texttt{action} \cite{WebsitePrecomputeSemanticReleaseVersionAction}, che calcola la versione da associare
-alla libreria per il rilascio, ed inizializzare un repository di stage su Maven Central.
-e memorizzare l'id generato dal servizio. Ciò è fatto mediante l'uso di una \texttt{action} preposta alla compilazione e
-pubblicazione di progetti basati su Gradle \cite{WebsiteBuildCheckDeployGradleAction}.
+Il \textit{workflow} \texttt{build-and-deploy} si occupa inizialmente di
+richiamare un'apposita \textit{action} \cite{WebsitePrecomputeSemanticReleaseVersionAction}, che calcola la versione da associare
+alla libreria per il rilascio, per poi inizializzare un repository di stage su Maven Central,
+memorizzando l'identificativo generato dal servizio. Questi secondo passo è svolto mediante l'uso di una \textit{action} preposta alla compilazione e
+pubblicazione di progetti basati su \texttt{Gradle} \cite{WebsiteBuildCheckDeployGradleAction}.
 
-Successivamente viene lanciata il task \texttt{gradle build} utilizzando una matrice di tre sistemi operativi
+Successivamente viene lanciato il \textit{task} \texttt{gradle build} utilizzando una matrice con i sistemi operativi
  \texttt{windows-2022}, \texttt{macos-12}, \texttt{ubuntu-22.04}. Ciò permette di compilare il codice sorgente, 
  eseguire i test, effettuare i controlli di \texttt{code linting} e \texttt{bug detection} e generare gli artefatti
- in ciascun ambiente. Questi sono generati basandosi sui target definiti nella lista al paragrafo \ref{list:elencotargetgenerati};
+ in ciascun ambiente. Questi sono generati sulla base dei \textit{target} definiti nella lista al paragrafo \ref{list:elencotargetgenerati};
 ciascun ambiente di compilazione, a seconda del sistema operativo in esecuzione, genera un \textit{subset} di artefatti e li carica sul repository di stage.
 
-Infine, se la libreria deve essere pubblicata nel branch \texttt{master} del repository \ac{gh}, e la action \cite{WebsitePrecomputeSemanticReleaseVersionAction}
+Infine, se la libreria deve essere pubblicata nel branch \texttt{master} del repository \ac{gh}, e la \textit{action} \cite{WebsitePrecomputeSemanticReleaseVersionAction}
 abbia calcolato che la versione è candidabile al rilascio, viene chiuso e finalizzato il repository di stage su Maven Central,
 Altrimenti questo viene chiuso e scartato. 
 
 La finalizzazione del repository porta all'effettiva pubblicazione su Maven Central e si prosegue a pubblicare gli artefatti
 anche su \ac{npm} e \ac{gh} Packages, i quali non seguono l'iter di creazione del repository di stage ma operano con una pubblicazione diretta.
-Solo in quest'ultimo caso di successo si prosegue ad invocare il workflow \texttt{publish-docs}.
+Solo in quest'ultimo caso di successo si prosegue ad invocare il \textit{workflow} \texttt{publish-docs}.
 \subsection{Generazione e pubblicazione della documentazione}
-Il workflow \texttt{publish-docs} provvede alla generazione della documentazione, sulla base del codice presente
+Il \textit{workflow} \texttt{publish-docs} provvede alla generazione della documentazione, sulla base del codice presente
 nel branch \texttt{master}. 
 
-Al termine del workflow \texttt{build-and-deploy} viene generato un \textit{tag}
+Al termine del \textit{workflow} \texttt{build-and-deploy} viene generato un \textit{tag}
 associato al \textit{commit} effettuato sul branch \texttt{master}. Questo \textit{tag}
-rappresenta il nuovo valore della versione della libreria, il quale viene riportato nelle pagine
-generate attraverso il task \texttt{gradle dokkaHtml}.
+rappresenta il nuovo valore della versione appena rilasciata, il quale viene riportato nelle pagine di documentazione
+generate attraverso il \textit{task} \texttt{gradle dokkaHtml}.
 Queste pagine rappresentano un sito web statico e vengono copiate nel branch \texttt{gh-pages} grazie ad un'
-apposita action \ref{WebsiteGithubPagesDeployAction}. 
-La presenza di una modifica in questo branch scatena l'esecuzione di un workflow di default,
+apposita \textit{action} \cite{WebsiteGithubPagesDeployAction}. 
+La presenza di una modifica in questo branch scatena l'esecuzione di un \textit{workflow} di default,
 che mette a disposizione il contenuto tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/
 In figura \ref{fig:dokkaSchermata} viene mostrato come appare il sito web statico al termine delle operazioni.
 
 \begin{figure}
     \centering
      \includegraphics[scale=0.8]{figures/schermatadocumentazione.png}
-     \caption{Sito web della documentazione, reso disponibile tramite \ac{ghp} }
-     \label{fig:classifichegeneralireali2023figura}
+     \caption{Sito web della documentazione, reso disponibile tramite \ac{ghpages} }
+     \label{fig:dokkaSchermata}
  \end{figure}
 %----------------------------------------------------------------------------------------
 %\chapter{Valutazione}
@@ -988,52 +979,50 @@ In figura \ref{fig:dokkaSchermata} viene mostrato come appare il sito web static
 %%Descrivere le varie situazioni che sono andato a controllare,
 %%mettendo dettagli solo per i casi più complicati
 
-\chapter{Sperimentazione con i dati di Formula 1}
-La sperimentazione della libreria \texttt{EleKtion} è stata estesa ad un
+\chapter{Sperimentazione con i dati della Formula 1}
+La sperimentazione della libreria EleKtion è stata estesa ad un
 caso di studio reale, applicando gli algoritmi di votazione ai risultati 
-delle gare di \textit{\ac{f1}}.
+delle gare di \ac{f1}.
 
 I dati sono accessibili attraverso un API REST pubblica chiamata Ergast API \cite{WebsiteErgastAPI},
 disponibile per scopi non-commerciali,
-che mette a disposizione dati inerenti ai mondiali di \textit{\ac{f1}} a partire dall'anno 1950.
+che mette a disposizione dati inerenti ai mondiali di \ac{f1} a partire dall'anno 1950.
 Per ognuno di questi sono a disposizione numerose informazioni come l'elenco delle gare ufficiali (Gran Premi),
-le gare di qualifica, le classifiche generali dei piloti, lo storico
-dei piloti, le classifiche generali dei costruttori e molto altro.
+le gare di qualifica, le classifiche dei piloti, lo storico
+dei piloti, le classifiche dei costruttori e molto altro.
 
-Allo scopo di questa tesi, sono risultate utili le informazioni riguardo ai risultati delle gare ufficiali
-e le classifiche generali dei piloti al termine di ogni gara, entrambe legate ad uno specifico anno.
+Allo scopo di questa tesi, sono utili le informazioni riguardo ai risultati delle gare ufficiali
+e le classifiche provvisorie dei piloti al termine di ogni gara, entrambe legate ad uno specifico anno.
 
-Attaverso appositi endpoint, è stato possibile ottenere i dati necessari per predisporre le informazioni necessarie
-ad \texttt{EleKtion}, utilizzando gli esiti delle varie gare come voti e applicando di conseguenza gli algoritmi a lista di preferenze.
+Attaverso appositi endpoint, è possibile ottenere i dati necessari per predisporre le informazioni necessarie
+ad EleKtion, utilizzando gli esiti delle varie gare come voti e applicando di conseguenza gli algoritmi a lista di preferenze.
 L'elemento più favorito nel voto è rappresentato dal pilota che si è classificato primo in gara, mentre l'elemento più sfavorito
 è il pilota classificatosi ultimo in gara.
 
-Nei seguenti sottocapitoli vengono mostrati i passaggi effettuati per elaborare i dati di un mondiale,
-in particolare vengono generate, come output delle votazioni, le classifiche parziali al termine di ogni gara in modo da avere uno storico,
+Nei seguenti paragrafi vengono mostrati i passaggi effettuati per elaborare i dati di un mondiale,
+in particolare vengono generate, come output delle votazioni, le classifiche provvisorie al termine di ogni gara in modo da avere uno storico,
 che verrà confrontato con lo storico delle classifiche reali.
 Verrà infine svolto un calcolo utile ad indicare
 la differenza, in termini qualitativi, confrontando i dati ottenuti.
 
-\section{Elaborazione dati di un mondiale \textit{F1}}
-
+\section{Elaborazione dati di un mondiale F1}
+\label{paragrafoelaborazionemondiale}
 Si è provveduto ad ottenere l'elenco delle gare svoltesi nel corso del mondiale AAAA (anno del mondiale), disponibili
 all'endpoint di Ergast API \newline https://ergast.com/api/f1/AAAA.json.
 
 In questo mondiale sono state effettuate in totale \textit{k} gare, per ognuna di esse sono stati scaricati i relativi
-dati, filtrandoli per tenere in considerazione solamente il nominativo del pilota e la posizione di arrivo.
+dati, filtrandoli, tenendo in considerazione solamente il nominativo del pilota e la posizione di arrivo.
 Eventuali ritiri a causa di guasti o altri motivi non sono gestiti, ciascun pilota in ogni caso ha attribuita una posizione di arrivo.
 
 I dati sono associati ad una mappa \texttt{Map<String, List<Pair<String, Int>>>}, nella quale le chiavi rappresentano
-il nome della gara (es. Australian-Grand-Prix-1-AAAA, Malaysian-Grand-Prix-2-AAAA, ecc...) mentre i valori rappresentano liste,
+il nome della gara (es. Australian-Grand-Prix-1-AAAA, Malaysian-Grand-Prix-2-AAAA, ecc...) mentre i valori rappresentano liste
 di tuple contenenti il nominativo del pilota e la posizione di arrivo.
 
 Come mostrato nell'estratto di codice \ref{lst:election-GPs}, si organizzano tante votazioni indipendenti quante sono le
 gare presenti nel mondiale:
 viene definito l'insieme dei nominativi presenti nel mondiale, in modo da
-avere il censimento di tutti coloro che hanno partecipato almeno in una gara.%, poichè per motivi di funzionamento degli algoritmi a lista di preferenze, nei voti devono essere presenti 
-%anche coloro che effettivamente non hanno partecipato in una determinata gara.
-%ma in altre sì (ad esempio infortuni, sostituzioni, ecc...). 
-Si definisce l'algoritmo da utilizzare, e in questo caso di studio sono
+avere il censimento di tutti coloro che hanno partecipato almeno in una gara.
+ Si definisce l'algoritmo da utilizzare, e in questo caso di studio sono
 ammissibili l'algoritmo di Condorcet o l'algoritmo di Schultze. 
 Successivamente si determina l'elenco dei voti, in cui i votati
 sono costituiti dall'elenco dei nominativi dei piloti secondo l'ordine di arrivo reale (dal primo all'ultimo), e come votante viene utilizzato il nome del circuito
@@ -1048,14 +1037,14 @@ e l'elenco dei nominativi (secondo l'ordine di arrivo reale) della seconda gara.
 Proseguendo nelle iterazioni, si arriva ad avere \textit{k} votazioni indipendenti, in cui l'ultima conterrà
 come voti gli esiti dalla prima alla \textit{k}-esima gara.
 
-La generazione delle classifiche parziali fornisce una serie di risultati in
+La generazione delle classifiche provvisorie fornisce una serie di risultati in
 cui il primo consiste nella classifica provvisoria al termine della prima gara, il secondo nella classifica provvisoria al termine 
 della seconda gara, fino ad arrivare alla classifica finale.
 
-I dati delle classifiche reali sono ottenuti contattando l'endpoint \newline https://ergast.com/api/f1/AAAA/GP/driverStandings.json,
+I dati delle classifiche provvisorie reali sono ottenuti contattando l'endpoint \newline https://ergast.com/api/f1/AAAA/GP/driverStandings.json,
 dove AAAA è l'anno del mondiale e GP è il numero della gara
 
-\lstinputlisting[language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche parziali utilizzando \texttt{EleKtion}}]{listings/election-GPs.kt}
+\lstinputlisting[language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche provvisorie utilizzando EleKtion}]{listings/election-GPs.kt}
 
 Per confrontare gli esiti ottenuti impiegando i differenti algoritmi e i dati reali estratti dall'API,
 è necessario organizzarli secondo matrici \textit{r x k}, dove ogni riga \textit{r} identifica un pilota,
@@ -1070,7 +1059,7 @@ Nella sperimentazione effettuata, sono state calcolate per prime le classifiche 
 poi la sequenza dei piloti nella classifica finale è stato preso come riferimento di ordinamento.
 Le classifiche ottenute con l'algoritmo di Schultze sono state organizzate secondo lo stesso riferimento e così anche
 le classifiche reali. Si rimanda agli estratti di codice \ref{lst:ordering-rankings-condorcet}, \ref{lst:ordering-rankings-schultze},
-\ref{lst:ordering-rankings-real} per approfondire l'implementazione di questi criteri.
+\ref{lst:ordering-rankings-real} per approfondire l'implementazione di questo ordinamento.
 
 Esistono numerose metriche di confronto tra matrici \cite{golub2013matrix}, in questo caso si è optato per la \textit{norma di Frobenius},
 rappresentata dalla formula $\sqrt{\sum_{i,j}^{} abs(a_{i,j})^2}$, dove $a_{i,j}$ è l'elemento di una matrice $A$ ricavata dalla
@@ -1080,12 +1069,10 @@ differenza tra le matrici trattate.
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-schultze}, caption={Ordinamento propedeutico al confronto (Schultze)}]{listings/ordering-rankings-Schultze.kt}
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-real},caption={Ordinamento propedeutico al confronto (Dati reali)}]{listings/ordering-rankings-real.kt}
 
-\section{Elaborazione del mondiale \textit{F1} 2023}
-
-Si è provveduto alla generazione delle classifiche provvisorie utilizzando i dati del mondiale \textit{F1} 2023.
-
+\section{Elaborazione del mondiale F1 2023}
+Si è provveduto alla generazione delle classifiche provvisorie utilizzando i dati del mondiale F1 2023.
 Si riporta in tabella \ref{table:classifichefinali2023} la classifica finale reale e quelle 
-finali usando l'algoritmo di Condorcet e l'algoritmo di Schultze
+finali basate sull'algoritmo di Condorcet e l'algoritmo di Schultze.
 %%2023
 \begin{table}[H]
     \centering
@@ -1124,7 +1111,7 @@ finali usando l'algoritmo di Condorcet e l'algoritmo di Schultze
     \endgroup
 
     \caption{Classifica finale reale e classifiche finali ottenute con 
-    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale \textit{F1} 2023.
+    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale F1 2023.
     Nella colonna relativa all'algoritmo di Condorcet viene fornito un acronimo ad ogni concorrente. }
     \label{table:classifichefinali2023}
 \end{table}
@@ -1132,7 +1119,7 @@ finali usando l'algoritmo di Condorcet e l'algoritmo di Schultze
 Nelle tabelle \ref{table:classifichegeneralireali2023tabella}, \ref{table:classifichegeneralicondorcet2023tabella} e \ref{table:classifichegeneralischultze2023tabella}
 vengono mostrate le matrici complete con il posizionamento dei piloti in ogni classifica provvisoria.
 
-Per motivi prettamente grafici, a ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2023}
+Per motivi prettamente grafici, a ciascun concorrente è stato assegnato un acronimo, consultabile nella terza colonna della tabella \ref{table:classifichefinali2023} .
 Infine, per ciascuna tabella è stato generato il relativo grafico, nel quale le linee rappresentano i concorrenti,
 l'asse delle ascisse rappresenta il numero sequenziale della gara e l'asse delle ordinate è associato al posizionamento in classifica
 al termine della relativa gara.
@@ -1176,7 +1163,7 @@ in figura \ref{fig:classifichegeneralicondorcet2023figura} ed in figura \ref{fig
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa ai valori reali del Mondiale \textit{F1} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa ai valori reali del Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
     \label{table:classifichegeneralireali2023tabella}
 \end{table}
@@ -1222,7 +1209,7 @@ in figura \ref{fig:classifichegeneralicondorcet2023figura} ed in figura \ref{fig
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{F1} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -1270,7 +1257,7 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{F1} 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale F1 2023, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -1317,18 +1304,18 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \end{tabular}}
     \endgroup
 
-    \caption{Campionato \textit{F1} 2023 - Valori di distanza ottenuti applicando la 
+    \caption{Campionato F1 2023 - Valori di distanza ottenuti applicando la 
     \textit{norma di Frobenius} alla differenza delle matrici rappresentate nelle prime due colonne.
     }
     \label{table:distanzef12023}
 \end{table}
 
-\section{Elaborazione del mondiale \textit{F1} 2008}
+\section{Elaborazione del mondiale F1 2008}
 
 
-È stata effettuata l'elaborazione del mondiale \textit{F1} 2008, che rispetto al mondiale 2023 ha visto
+È stata effettuata l'elaborazione del mondiale F1 2008, che rispetto al mondiale 2023 ha visto
 una maggior competizione tra i concorrenti per le prime posizioni. Si è provveduto a generare le classifiche provvisorie 
-replicando il flusso rappresentato in \label{capitoloelaborazionemondiale}.
+replicando il flusso rappresentato nel paragrafo \ref{paragrafoelaborazionemondiale}.
 
 Si riporta in tabella \ref{table:classifichefinali2008} la classifica finale reale ed i risultati ottenuti nelle
 classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
@@ -1369,7 +1356,7 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
     \endgroup
 
     \caption{Classifica finale reale e classifiche finali ottenute con 
-    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale \textit{F1} 2008 }
+    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale F1 2008 }
     \label{table:classifichefinali2008}
 \end{table}
 
@@ -1420,7 +1407,7 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
     \end{tabular}}
     \endgroup
     
-    \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale F1 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati da Ergast API \cite{WebsiteErgastAPIStandings}}
     \label{table:classifichegeneralireali2008tabella}
 \end{table}
@@ -1466,7 +1453,7 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
     \end{tabular}}
     \endgroup
   
-    \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale F1 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Condorcet al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -1514,7 +1501,7 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
     \end{tabular}}
     \endgroup
 
-    \caption{Tabella relativa al Mondiale \textit{F1} 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
+    \caption{Tabella relativa al Mondiale F1 2008, in cui per ogni gara (G*)  è riportata la posizione del concorrente (C*) in classifica generale, al termine della gara stessa.
     I valori sono ricavati dall'applicazione dell'algoritmo di Schultze al termine di ogni gara, considerando anche le precedenti.
     Ogni gara rappresenta un voto, composto dagli ordini di arrivo.
     }
@@ -1557,7 +1544,7 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
     \end{tabular}   }
     \endgroup
 
-    \caption{Campionato \textit{F1} 2008 - Valori di distanza ottenuti applicando la 
+    \caption{Campionato F1 2008 - Valori di distanza ottenuti applicando la 
     \textit{norma di Frobenius} alla differenza delle matrici rappresentate nelle prime due colonne.
     }
     \label{table:distanzef12008}
@@ -1569,20 +1556,20 @@ In questa tesi è stata presentata un'introduzione sulla \textit{democrazia} e s
 della \textit{democrazia digitale}, illustrando soluzioni esistenti sia nell'ambito delle decisioni
 politiche, sia nell'ambito di contesti logistici che impattano la quotidianità della popolazione.
 
-È stata presentata la proposta di creazione di una libreria multipiattaforma in \textit{Kotlin multiplatform},
+È stata presentata la creazione di una libreria multipiattaforma in \texttt{Kotlin Multiplatform},
 avente lo scopo di rendere disponibile uno strumento per gestire le votazioni digitali, parametrandole
-come ritenuto più opportuno dall'utilizzatore finale, ossia dal gestore della votazione.
+come ritenuto più opportuno dall'utilizzatore finale, ossia dall'organizzatore della votazione.
 Questa libreria è stata  progettata ponendo l'accento su una tecnologia multipiattaforma per 
 massimizzarne la diffusione su differenti sistemi, assicurando la piena compatibilità con gli stessi.
 
-Viene approfondita l'analisi del modello di dominio da trattare, in particolare si è reso evidente
+È stata svolta l'analisi del modello di dominio da trattare, in particolare si è reso evidente
 che esistono due tipologie principali di voto che caratterizzano una possibile votazione.
-Viene ideato un \ac{dsl} utile a semplificare la definizione e la struttura di una votazione,
-riportando per esso i diagrammi architetturali.
+Sono stati ideati dei \ac{dsl} utili a semplificare la definizione e la struttura di un pool di votazioni,
+riportando per essi i diagrammi UML architetturali.
 
 Successivamente sono stati mostrati i passi implementativi salienti, corredati dai test effettuati
-e dalla descrizione strumenti utilizzati nel contesto di \textit{build automation}.
-Vengono descritti gli step realizzati per utilizzare questi strumenti ed arrivare alla generazione
+e dalla descrizione degli strumenti utilizzati nel contesto di \textit{build automation}.
+Riguardo a questi ultimi, sono stati descritti gli step realizzati per utilizzare questi strumenti ed arrivare alla generazione
 e pubblicazione degli artefatti finali, compresa la documentazione a corredo.
 
 Infine viene mostrata un'estensione dei casi studio, applicando le funzionalità realizzate a
