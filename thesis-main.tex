@@ -43,7 +43,7 @@ in Nuovi Contesti \\
 \acrodef{jvm}[JVM]{Java Virtual Machine}
 
 
-\mainlinespacing{1.35} % line spacing in mainmatter, comment to default (1)
+\mainlinespacing{1.3} % line spacing in mainmatter, comment to default (1)
 
 \begin{document}
 
@@ -52,6 +52,15 @@ in Nuovi Contesti \\
 
 \begin{abstract}	
 
+    La tesi si concentra sull'evoluzione della democrazia nell'era digitale, 
+    con l'implementazione di \texttt{EleKtion}, una libreria multipiattaforma per votazioni. 
+    Dopo una panoramica storica sulla democrazia, si esplora il dominio delle votazioni 
+    e si progetta un linguaggio di dominio per facilitare la definizione del contesto di votazione.
+    La libreria è sviluppata per affrontare aspetti cruciali come la gestione degli artefatti 
+    e l'implementazione di casi di test. 
+    La sperimentazione della libreria, basata su dati della \textit{Formula 1}, evidenzia come logiche algoritmiche
+    personalizzabili possano influenzare i risultati, confrontandoli con dati reali per una valutazione qualitativa 
+    del sistema.
 \end{abstract}
 
 \begin{dedication} % this is optional
@@ -106,7 +115,7 @@ Questi risultati vengono confrontati con quelli reali per otterne un' evidenza u
 
 
 %----------------------------------------------------------------------------------------
-\chapter{Introduzione alla Democrazia Digitale}
+\chapter{Democrazia Digitale}
 Il termine \textit{Democrazia}, derivante dal greco \textit{governo del popolo},
 indica un forma di governo nella quale il potere appartiene al popolo ed è esercitato attraverso forme dirette, che coinvolgono attivamente
 i cittadini, e attraverso forme rappresentantive, che prevedono un sistema di rappresentanza, la quale viene rinnovata ciclicamente
@@ -951,13 +960,7 @@ Altrimenti questo viene chiuso e scartato.
 
 La finalizzazione del repository porta all'effettiva pubblicazione su Maven Central e si prosegue a pubblicare gli artefatti
 anche su \ac{npm} e \ac{gh} Packages, i quali non seguono l'iter di creazione del repository di stage ma operano con una pubblicazione diretta.
-
 Solo in quest'ultimo caso di successo si prosegue ad invocare il workflow \texttt{publish-docs}.
-
-
-
-
-
 \subsection{Generazione e pubblicazione della documentazione}
 Il workflow \texttt{publish-docs} provvede alla generazione della documentazione, sulla base del codice presente
 nel branch \texttt{master}. 
@@ -972,7 +975,7 @@ La presenza di una modifica in questo branch scatena l'esecuzione di un workflow
 che mette a disposizione il contenuto tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/
 In figura \ref{fig:dokkaSchermata} viene mostrato come appare il sito web statico al termine delle operazioni.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
      \includegraphics[scale=0.8]{figures/schermatadocumentazione.png}
      \caption{Sito web della documentazione, reso disponibile tramite \ac{ghp} }
@@ -1562,50 +1565,38 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
 %----------------------------------------------------------------------------------------
 \chapter{Conclusioni}
 
+In questa tesi è stata presentata un'introduzione sulla \textit{democrazia} e sullo stato attuale 
+della \textit{democrazia digitale}, illustrando soluzioni esistenti sia nell'ambito delle decisioni
+politiche, sia nell'ambito di contesti logistici che impattano la quotidianità della popolazione.
 
+È stata presentata la proposta di creazione di una libreria multipiattaforma in \textit{Kotlin multiplatform},
+avente lo scopo di rendere disponibile uno strumento per gestire le votazioni digitali, parametrandole
+come ritenuto più opportuno dall'utilizzatore finale, ossia dal gestore della votazione.
+Questa libreria è stata  progettata ponendo l'accento su una tecnologia multipiattaforma per 
+massimizzarne la diffusione su differenti sistemi, assicurando la piena compatibilità con gli stessi.
 
+Viene approfondita l'analisi del modello di dominio da trattare, in particolare si è reso evidente
+che esistono due tipologie principali di voto che caratterizzano una possibile votazione.
+Viene ideato un \ac{dsl} utile a semplificare la definizione e la struttura di una votazione,
+riportando per esso i diagrammi architetturali.
 
-%Write your intro here.
-%\sidenote{Add sidenotes in this way. They are named after the author of the thesis}
+Successivamente sono stati mostrati i passi implementativi salienti, corredati dai test effettuati
+e dalla descrizione strumenti utilizzati nel contesto di \textit{build automation}.
+Vengono descritti gli step realizzati per utilizzare questi strumenti ed arrivare alla generazione
+e pubblicazione degli artefatti finali, compresa la documentazione a corredo.
 
-%You can use acronyms that your defined previously,
-%You can use acronyms that your defined previously,
-%such as \ac{IoT}.
-%
-%If you use acronyms twice,
-%they will be written in full only once
-%(indeed, you can mention the \ac{IoT} now without it being fully explained).
-%
-%In some cases, you may need a plural form of the acronym.
-%
-%For instance,
-%that you are discussing \acp{vm},
-%you may need both \ac{vm} and \acp{vm}.
+Infine viene mostrata un'estensione dei casi studio, applicando le funzionalità realizzate a
+dati reali relativi ai campionati \ac{f1}.
+Per questi ultimi vengono approfonditi i dettagli relativi alle classifiche ricalcolate utilizzando
+la libreria e vengono posti a confronto con i dati reali, misurando le differenze applicando un'opportuna
+metrica di distanza. La possibilità di ottenere dei pareggi nelle classifiche generate, ha permesso di
+ottenere una maggior espressività sul piazzamento dei concorrenti, ma allo stesso tempo ha comportato 
+una maggior distanza rispetto alle classifiche reali, che non riportavano la possibilità di pareggio.
 
-%\paragraph{Structure of the Thesis}
-
-%\note{At the end, describe the structure of the paper}
-
-%\chapter{State of the art}
-
-%I suggest referencing stuff as follows: \cref{fig:random-image} or \Cref{fig:random-image}
-
-%\begin{figure}
-%    \centering
-%    \includegraphics[width=.8\linewidth]{figures/random-image.pdf}
-%    \caption{Some random image}
-%    \label{fig:random-image}
-%\end{figure}
-
-%\section{Some cool topic}
-
-%\chapter{Contribution}
-
-%You may also put some code snippet (which is NOT float by default), eg: \cref{lst:random-code}.
-
-%\lstinputlisting[float,language=Java,label={lst:random-code}]{listings/HelloWorld.java}
-
-%\section{Fancy formulas here}
+Le future implementazioni possono consistere nella gestione di eventi sportivi che riportano una
+struttura più complessa, ad esempio l'adozione di gironi e tornei ad eliminazione diretta,
+e secondo, ma non per importanza, l'estensione degli algoritmi disponibili sia per le votazioni a 
+singola preferenza che per quelle a lista di preferenze.
 
 %----------------------------------------------------------------------------------------
 % BIBLIOGRAPHY
