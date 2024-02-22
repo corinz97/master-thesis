@@ -612,7 +612,7 @@ In questo capitolo vengono mostrati alcuni casi d'uso realizzati per verificare 
 dando nota delle possibili eccezioni che sono state gestite.
 Successivamente, viene fornita una panoramica sul processo di \textit{build automation} e
 vengono mostrati gli step realizzati per volgere alla creazione e pubblicazione della libreria.
-Per la libreria, il cui codice sorgente è reperibile all'indirizzo \texttt{https://github.com/corinz97/EleKtion}, \\
+Per la libreria, il cui codice sorgente è reperibile all'indirizzo https://github.com/corinz97/EleKtion, \\
 sono stati adottati \texttt{Kotlin} come linguaggio di programmazione
 e \texttt{Gradle} come tool a supporto della \textit{build automation}.
 
@@ -782,7 +782,7 @@ Infine, per favorire la distribuzione e la compatibilità verso molteplici siste
 è utile adottare strumenti come \texttt{Kotlin Multiplatform},
 che semplificano la generazione dell'output finale adattandolo alle specifiche piattaforme. 
 \subsection{Kotlin Multiplatform}
-Kotlin Multiplatform è un tool che favorisce il riuso di codice tra molteplici piattaforme.
+\texttt{Kotlin Multiplatform} è un tool che favorisce il riuso di codice tra molteplici piattaforme.
 Grazie ad esso, riutilizzando la logica applicativa scritta in \texttt{Kotlin}, è possibile produrre artefatti compatibili
 in molteplici piattaforme (dette \textit{target}), come \texttt{\ac{jvm}}, \texttt{\ac{js}}, \texttt{Android}, \texttt{iOS} ma piattaforme native come \texttt{Linux}, \texttt{Windows}, \texttt{macOS}.
 I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
@@ -931,7 +931,7 @@ l'ambiente di pubblicazione;}
 \item{\texttt{publish-docs}: questa azione è dipendente da \texttt{build-and-deploy}, in quanto viene eseguita successivamente ad essa e solo nel caso in cui 
 sia terminata con esito positivo. Si occupa di generare la documentazione degli artefatti, interpretando gli appositi commenti scritti nel codice sorgente,
 e caricarla nel branch \texttt{gh-pages} del repository \ac{gh}. Un \textit{workflow} di default elabora il contenuto di questo branch e lo mette a 
-disposizione come sito web tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .}
+disposizione come sito web tramite un webserver.}
 \end{enumerate}
 I \textit{workflow} \texttt{dispatcher} e \texttt{build-and-deploy} sono forniti dal template ma sono stati opportunamente configurati per lo scopo del progetto,
 mentre il \textit{workflow} \texttt{publish-docs} è stato creato ex-novo.
@@ -940,7 +940,7 @@ mentre il \textit{workflow} \texttt{publish-docs} è stato creato ex-novo.
 Il \textit{workflow} \texttt{build-and-deploy} si occupa inizialmente di
 richiamare un'apposita \textit{action} \cite{WebsitePrecomputeSemanticReleaseVersionAction}, che calcola la versione da associare
 alla libreria per il rilascio, per poi inizializzare un repository di stage su Maven Central,
-memorizzando l'identificativo generato dal servizio. Questi secondo passo è svolto mediante l'uso di una \textit{action} preposta alla compilazione e
+memorizzando l'identificativo generato dal servizio. Questo secondo passo è svolto mediante l'uso di una \textit{action} preposta alla compilazione e
 pubblicazione di progetti basati su \texttt{Gradle} \cite{WebsiteBuildCheckDeployGradleAction}.
 
 Successivamente viene lanciato il \textit{task} \texttt{gradle build} utilizzando una matrice con i sistemi operativi
@@ -967,21 +967,17 @@ generate attraverso il \textit{task} \texttt{gradle dokkaHtml}.
 Queste pagine rappresentano un sito web statico e vengono copiate nel branch \texttt{gh-pages} grazie ad un'
 apposita \textit{action} \cite{WebsiteGithubPagesDeployAction}. 
 La presenza di una modifica in questo branch scatena l'esecuzione di un \textit{workflow} di default,
-che mette a disposizione il contenuto tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/
+che mette a disposizione il contenuto tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .
 In figura \ref{fig:dokkaSchermata} viene mostrato come appare il sito web statico al termine delle operazioni.
 
 \begin{figure}
     \centering
-     \includegraphics[scale=0.8]{figures/schermatadocumentazione.png}
+     \includegraphics[width=1.1\linewidth]{figures/schermatadocumentazione.png}
      \caption{Sito web della documentazione, reso disponibile tramite \ac{ghpages} }
      \label{fig:dokkaSchermata}
  \end{figure}
 %----------------------------------------------------------------------------------------
-%\chapter{Valutazione}
 
-%%\section{Test realizzati}
-%%Descrivere le varie situazioni che sono andato a controllare,
-%%mettendo dettagli solo per i casi più complicati
 
 \chapter{Sperimentazione con i dati della Formula 1}
 La sperimentazione della libreria EleKtion è stata estesa ad un
@@ -989,7 +985,7 @@ caso di studio reale, applicando gli algoritmi di votazione ai risultati
 delle gare di \ac{f1}.
 
 I dati sono accessibili attraverso un API REST pubblica chiamata Ergast API \cite{WebsiteErgastAPI},
-disponibile per scopi non-commerciali,
+creata per scopi non-commerciali,
 che mette a disposizione dati inerenti ai mondiali di \ac{f1} a partire dall'anno 1950.
 Per ognuno di questi sono a disposizione numerose informazioni come l'elenco delle gare ufficiali (Gran Premi),
 le gare di qualifica, le classifiche dei piloti, lo storico
@@ -1007,7 +1003,7 @@ Nei seguenti paragrafi vengono mostrati i passaggi effettuati per elaborare i da
 in particolare vengono generate, come output delle votazioni, le classifiche provvisorie al termine di ogni gara in modo da avere uno storico,
 che verrà confrontato con lo storico delle classifiche reali.
 Verrà infine svolto un calcolo utile ad indicare
-la differenza, in termini qualitativi, confrontando i dati ottenuti.
+la differenza, in termini qualitativi, confrontando i risultati ottenuti.
 
 \section{Elaborazione dati di un mondiale F1}
 \label{paragrafoelaborazionemondiale}
@@ -1050,7 +1046,7 @@ dove AAAA è l'anno del mondiale e GP è il numero della gara
 
 \lstinputlisting[language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche provvisorie utilizzando EleKtion}]{listings/election-GPs.kt}
 
-Per confrontare gli esiti ottenuti impiegando i differenti algoritmi e i dati reali estratti dall'API,
+Per confrontare gli esiti ottenuti impiegando i differenti algoritmi e quelli reali estratti dall'API,
 è necessario organizzarli secondo matrici \textit{r x k}, dove ogni riga \textit{r} identifica un pilota,
 e ogni colonna \textit{k} identifica una gara. Nell'intersezione è presente la
 posizione nella classifica provvisoria (reale o generata) ottenuta dal \textit{r}-esimo pilota al termine della
@@ -1071,7 +1067,7 @@ differenza tra le matrici trattate.
 
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-condorcet}, caption={Ordinamento propedeutico al confronto (Condorcet)}]{listings/ordering-rankings-Condorcet.kt}
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-schultze}, caption={Ordinamento propedeutico al confronto (Schultze)}]{listings/ordering-rankings-Schultze.kt}
-\lstinputlisting[language=Kotlin,label={lst:ordering-rankings-real},caption={Ordinamento propedeutico al confronto (Dati reali)}]{listings/ordering-rankings-real.kt}
+\lstinputlisting[float,language=Kotlin,label={lst:ordering-rankings-real},caption={Ordinamento propedeutico al confronto (Dati reali)}]{listings/ordering-rankings-real.kt}
 
 \section{Elaborazione del mondiale F1 2023}
 Si è provveduto alla generazione delle classifiche provvisorie utilizzando i dati del mondiale F1 2023.
@@ -1275,9 +1271,9 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
      \label{fig:classifichegeneralischultze2023figura}
  \end{figure}
 
- Si può notare che entrambi gli algoritmi impiegati tendono ad una soluzione iniziale che porta i concorrenti ad essere
+ Si può notare che entrambi gli algoritmi impiegati tendono ad una soluzione che porta i concorrenti ad essere
  molto simili come posizionamento nelle prime fasi del campionato, causando numerosi pareggi ma proseguendo con le gare
- questi tendono a stabilizzarsi per via del numero incrementale di voti. Tuttavia, i risultati evidenziati da Condorcet 
+ questi tendono a ridursi per via del numero incrementale di voti. Tuttavia, i risultati evidenziati da Condorcet 
  nell'ultima classifica manifestano numerosi pareggi, mentre Schultze riesce a discriminare in maniera più accurata
  gli esiti.
 
@@ -1519,8 +1515,8 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
      \label{fig:classifichegeneralischultze2008figura}
  \end{figure}
  
- Gli algoritmi impiegati hanno permesso di elaborare una differente distribuzione della prima classifica provvisoria,
- rispetto al caso reale in cui molti dei piloti erano finiti fuori gara per incidenti o problemi di motore.
+ Gli algoritmi impiegati hanno permesso di elaborare una differente distribuzione della prima classifica provvisoria
+ rispetto alla realtà, in cui molti piloti erano finiti fuori gara per incidenti o problemi di motore.
 
  Al pari del caso inerente al campionato 2023, si continua ad evidenziare una fase iniziale 
  con numerosi pareggi per poi distinguerli successivamente, tuttavia i risultati di Condorcet mostrano limiti in merito alla capacità
@@ -1571,15 +1567,15 @@ che esistono due tipologie principali di voto che caratterizzano una possibile v
 Sono stati ideati dei \ac{dsl} utili a semplificare la definizione e la struttura di un pool di votazioni,
 riportando per essi i diagrammi UML architetturali.
 
-Successivamente sono stati mostrati i passi implementativi salienti, corredati dai test effettuati
-e dalla descrizione degli strumenti utilizzati nel contesto di \textit{build automation}.
-Riguardo a questi ultimi, sono stati descritti gli step realizzati per utilizzare questi strumenti ed arrivare alla generazione
+Successivamente sono stati descritti i passi implementativi salienti, corredati dai test effettuati
+e dagli strumenti utilizzati nel contesto di \textit{build automation}.
+Riguardo a questi ultimi, sono stati illustrati gli step realizzati per arrivare alla generazione
 e pubblicazione degli artefatti finali, compresa la documentazione a corredo.
 
 Infine viene mostrata un'estensione dei casi studio, applicando le funzionalità realizzate a
 dati reali relativi ai campionati \ac{f1}.
 Per questi ultimi vengono approfonditi i dettagli relativi alle classifiche ricalcolate utilizzando
-la libreria e vengono posti a confronto con i dati reali, misurando le differenze applicando un'opportuna
+la libreria e vengono posti a confronto con i dati reali, misurando le differenze tramite un'opportuna
 metrica di distanza. La possibilità di ottenere dei pareggi nelle classifiche generate, ha permesso di
 ottenere una maggior espressività sul piazzamento dei concorrenti, ma allo stesso tempo ha comportato 
 una maggior distanza rispetto alle classifiche reali, che non riportavano la possibilità di pareggio.
