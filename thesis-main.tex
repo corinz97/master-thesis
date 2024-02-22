@@ -1064,11 +1064,9 @@ le classifiche reali. Si rimanda agli estratti di codice \ref{lst:ordering-ranki
 Esistono numerose metriche di confronto tra matrici \cite{golub2013matrix}, in questo caso si è optato per la \textit{norma di Frobenius},
 rappresentata dalla formula $\sqrt{\sum_{i,j}^{} abs(a_{i,j})^2}$, dove $a_{i,j}$ è l'elemento di una matrice $A$ ricavata dalla
 differenza tra le matrici trattate.
-
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-condorcet}, caption={Ordinamento propedeutico al confronto (Condorcet)}]{listings/ordering-rankings-Condorcet.kt}
 \lstinputlisting[language=Kotlin,label={lst:ordering-rankings-schultze}, caption={Ordinamento propedeutico al confronto (Schultze)}]{listings/ordering-rankings-Schultze.kt}
-\lstinputlisting[float,language=Kotlin,label={lst:ordering-rankings-real},caption={Ordinamento propedeutico al confronto (Dati reali)}]{listings/ordering-rankings-real.kt}
-
+\lstinputlisting[language=Kotlin,label={lst:ordering-rankings-real},caption={Ordinamento propedeutico al confronto (Dati reali)}]{listings/ordering-rankings-real.kt}
 \section{Elaborazione del mondiale F1 2023}
 Si è provveduto alla generazione delle classifiche provvisorie utilizzando i dati del mondiale F1 2023.
 Si riporta in tabella \ref{table:classifichefinali2023} la classifica finale reale e quelle 
