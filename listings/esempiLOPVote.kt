@@ -40,7 +40,7 @@
         //      competitorB scores list :
         //         - no score available
 
-    counter = 1
+   
     election =
         PollManagerInstance<BestTimeInMatch, ListOfPreferencesVote<BestTimeInMatch>>() initializedAs {
             +poll {
@@ -56,16 +56,16 @@
                 }
                 -schultzeAlgorithm {}
 
-                +("competitorA" then "competitorB" then "competitorC" votedBy "anonym" + counter++)
-                +("competitorA" then "competitorB" then "competitorC" votedBy "anonym" + counter++)
-                +("competitorC" then "competitorA" then "competitorB" votedBy "anonym" + counter++)
-                +("competitorC" then "competitorA" then "competitorB" votedBy "anonym" + counter++)
-                +("competitorC" then "competitorA" then "competitorB" votedBy "anonym" + counter++)
-                +("competitorC" then "competitorA" then "competitorB" votedBy "anonym" + counter++)
-                +("competitorB" then "competitorC" then "competitorA" votedBy "anonym" + counter++)
-                +("competitorA" then "competitorC" then "competitorB" votedBy "anonym" + counter++)
-                +("competitorB" then "competitorA" then "competitorC" votedBy "anonym" + counter++)
-                +("competitorC" then "competitorB" then "competitorA" votedBy "anonym" + counter++)
+                +(("competitorA" then "competitorB" then "competitorC").asAnonymousVote())
+                +(("competitorA" then "competitorB" then "competitorC").asAnonymousVote())
+                +(("competitorC" then "competitorA" then "competitorB").asAnonymousVote())
+                +(("competitorC" then "competitorA" then "competitorB").asAnonymousVote())
+                +(("competitorC" then "competitorA" then "competitorB").asAnonymousVote())
+                +(("competitorC" then "competitorA" then "competitorB").asAnonymousVote())
+                +(("competitorB" then "competitorC" then "competitorA").asAnonymousVote())
+                +(("competitorA" then "competitorC" then "competitorB").asAnonymousVote())
+                +(("competitorB" then "competitorA" then "competitorC").asAnonymousVote())
+                +(("competitorC" then "competitorB" then "competitorA").asAnonymousVote())
             } // competitorC, competitorA, competitorB
         }
         

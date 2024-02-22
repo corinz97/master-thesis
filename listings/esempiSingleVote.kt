@@ -11,9 +11,9 @@
                 -majorityVotesAlgorithm {
                     +ConstantParameter.AllowMultipleVoteInPollParameter
                 }
-                +("competitor1" votedBy "voter1")
-                +("competitor2" votedBy "voter2")
-                +("competitor1" votedBy "voter2")
+                +("competitor1".asAnonymousVote())
+                +("competitor2".asAnonymousVote())
+                +("competitor1".asAnonymousVote())
             } // competitor1 wins
 
             +poll {
