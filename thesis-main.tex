@@ -608,168 +608,26 @@ assegnato al concorrente (vedi paragrafo \ref{dslcompetizione} ) attraverso l'us
 
 %----------------------------------------------------------------------------------------
 \chapter{Implementazione}
-
-\section{Build automation}
-L'adozione di un sistema di build automation è un fattore chiave per la produzione
-efficace ed efficiente di software di qualità.
-Come principio base, è importante che ciascuna modifica apportata al codice
-sia testata a livello unitario e abbia documentazione correlata, che sia la pubblicazione 
-di una nuova funzionalità piuttosto che la variazione di un campo, a titolo meramente
-esemplificativo. 
-Inoltre, queste modifiche devono essere ulteriormente 
-verificate attraverso test di integrazione, in modo da garantire la piena
-compatibilità con i componenti pre-esistenti. 
-
-Le verifiche possono essere effettuate 
-manualmente dallo sviluppatore, ma per ridurre il rischio di errori è
-possibile adottare un sistema di automazione, che attraverso una serie di task predefiniti
-e ripetibili, verifichi automaticamente gli step,
-gestendo anche le dipendenze tra gli stessi.
-Così facendo, si può subito notare se tutto è andato a buon fine oppure 
-se è necessario effettuare ulteriori eventi correttivi.
-Una volta che il flusso di compilazione e verifica viene terminato con successo,
-è possibile procedere alla generazione di uno o più artefatti e della relativa documentazione.
-Questi prodotti possono essere sottoposti ad un operazione di versionamento,
-in modo da distinguere le evoluzioni del software e semplificarne la distribuzione
-e la tracciabilità.
-
-In questo progetto sono stati adottati \texttt{Kotlin} come linguaggio di programmazione
-e \texttt{Gradle} come build automator.
-
-Poichè gli artefatti generati sono dipendenti dall'architettura della macchina
-e dal sistema operativo sui quali avviene il processo di \textit{build}, è opportuno eseguirlo
-su piattorme dedicate come \ac{gh}.
-\ac{gh} fornisce ambienti standard e personalizzabili
-in base a direttive, gestendo il processo di \ac{ci}/\ac{cd} che è stato descritto in questo capitolo. 
-Infine, per favorire la distribuzione e la compatibilità verso molteplici sistemi,
-è utile adottare strumenti come \texttt{Kotlin Multiplatform},
-che semplificano la generazione dell'output finale adattandolo alle specifiche piattaforme. 
-\subsection{Kotlin Multiplatform}
-Kotlin Multiplatform è un tool che favorisce il riuso di codice tra molteplici piattaforme.
-Grazie ad esso, riutilizzando la logica applicativa scritta in \texttt{Kotlin}, è possibile produrre artefatti compatibili
-in molteplici piattaforme (dette \textit{target}), come \texttt{\ac{jvm}}, \texttt{\ac{js}}, \texttt{Android}, \texttt{iOS} ma piattaforme native come \texttt{Linux},\texttt{Windows},\texttt{macOS}.
-I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
-Per ogni \textit{target} viene definito un \textit{source set}, ossia un insieme di file sorgente, che definisce anche le dipendenze e le compatibilità.
-Il \textit{source set} predefinito è \texttt{commonMain} e contiene il codice comune a tutti i \textit{target}.
-Al suo interno è possibile utilizzare funzioni e dipendenze che siano compilabili verso tutte le piattaforme dichiarate, mentre quelle che
-sono legate ad uno specifico linguaggio o architettura vanno definite ed utilizzate all'interno degli opportuni \textit{source sets},
-come \texttt{jvmMain} e \texttt{jsMain}. 
-Un esempio è visibile in figura \ref{fig:targets}, in cui i \textit{target} intermedi sono colorati in azzurro: \texttt{apple} conterrà
-codice compatibile solamente con i \textit{target} che lo estendono, oltre a quello ereditato dai livelli superiori. Pertanto, è ammesso 
-che \texttt{macos} utilizzi funzioni che non siano disponibili in \texttt{tvos} ma entrambi accedono al codice messo a disposizione da \texttt{apple}.
-
-\begin{figure}[H]
-    \centering
-     \includegraphics[width=1\linewidth]{figures/mptargets.png}
-     \caption{Esempio di una possibile gerarchia di \textit{target}. Fonte: \cite{WebsiteKotlinMultiPlatformTargets}}
-    \label{fig:targets}
- \end{figure}
-
-Inoltre, questo meccanismo permette di applicare un \textit{template method} architetturale, grazie al quale è possibile dichiarare nel \textit{
-    source set
-} \texttt{commonMain} funzioni agnostiche 
-tramite la direttiva \texttt{expected}, senza definirne il contenuto, che sarà valorizzato in un successivo momento.
-In fase di compilazione, nelle versioni platform-specific, saranno valorizzate tramite funzioni che adottano la direttiva \texttt{actual},
-che posso richiamare funzionalità altrimenti non adottabili in \texttt{commonMain}.
-
-Una logica analoga è applicabile anche alla sezione dei test: sono disponibili un \textit{source set} di base, detto \texttt{commonTest}, e altri
-eventuali che contengono codice compatibile solo nella relativa piattaforma.
-In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output ottenuti utilizzando i \textit{target} \texttt{JVM} e \texttt{JS}.
-
-\begin{figure}[H]
-    \centering
-     \includegraphics[width=1\linewidth]{figures/sourcesetscompilation.png}
-     \caption{Esempio di output ottenibili in un progetto multipiattaforma. Fonte: \cite{WebsiteKotlinMultiPlatformCompilations}}
-    \label{fig:sourcesetscompilation}
- \end{figure}
-
-\subsection{GitHub Actions}
- \ac{gha} è una piattaforma di \ac{ci}/\ac{cd} basata su repository \ac{gh},
- ai quali possono essere agganciati degli elementi detti \textit{workflow}.
-
- Un \textit{workflow}, definibile attraverso la sintassi \texttt{YAML}, rappresenta una sequenza di azioni che possono essere eseguite
- all'occorrenza di un evento, ad esempio la creazione di un \textit{tag} nel repository,
- una \textit{richiesta pull}, un'esecuzione manuale richiesta dal proprietario del repository, ecc\dots
-
-In ogni \textit{workflow} va specificato il nome dello stesso e l'insieme di eventi che ne scatena 
-l'esecuzione. 
-Di seguito a ciò, è possibile definire un insieme di \textit{job}.
-
-Ciascun \textit{job} è legato ad uno specifico ambiente di esecuzione: va definito che tipo di
-sistema operativo deve essere adottato (\texttt{Linux}, \texttt{Windows}, \texttt{macOS})
-e se al termine dello stesso debba essere restituito un output, che sarà accessibile da altri \texttt{job}.
-È possibile specificare delle variabili in una \texttt{matrice}, in modo eseguire parallelamente molteplici istanze di uno stesso \texttt{job} 
-in base alle combinazioni delle variabili; a titolo esemplificativo, eseguire la compilazione di codice utilizzando
-la stessa versione del compilatore ma su tre sistemi operativi differenti.  
-
-Ciascun \textit{job} è caratterizzato da un proprio flusso indipendente, di conseguenza
-per orchestare i processi è opportuno specificare condizioni basate sulle variabili di output 
-oppure sull'indicazione del completamento di uno o più i \textit{jobs} desiderati.
-
-All'interno del \textit{job} sono definibili uno o più \textit{step}: questi vengono eseguiti in maniera sequenziale
-e sono impostabili per eseguire una sequenza arbitraria di comandi \texttt{bash} oppure
-per eseguire una \textit{action} pubblica.
-Quest'ultima rappresenta un ottimo modo di favorire il riuso
-e la condivisione di codice nella community \ac{gh}, in quanto è possibile, ad esempio, utilizzare un \textit{workflow} complesso
-come se fosse un singolo step (\textit{composite action}) oppure lanciare l'esecuzione di un container senza
-imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configurazioni (\textit{docker container action}).
-
-\subsection{GitHub Pages}
- \ac{ghpages} è un servizio di hosting disponibile per ogni account ed organizzazione in \ac{gh},
- attraverso il quale è possibile pubblicare un sito web statico e renderlo accessibile tramite un webserver.
- La pubblicazione avviene attraverso un apposito \textit{workflow} predefinito.
- Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato per dare informazioni 
- su come scaricare ed installare il software oppure per pubblicare la documentazione.
-
-\subsection{Maven Central, GitHub Packages e NPM}
-Maven Central è tra i repository centralizzati più popolari per distribuire e riutilizzare artefatti basati su \texttt{\ac{jvm}}.
-Un repository è definibile come "la directory che memorizza tutti i progetti e le librerie JAR, i plugin
-o qualsiasi altro artefatto specifico del progetto che può essere facilmente utilizzato da Maven"\cite{kozak2022three}.
-
-Il sistema di gestione delle dipendenze di Maven è in grado di risolvere automaticamente le dipendenze transitive,
-semplificando la gestione manuale delle dipendenze per gli sviluppatori. 
-Gli artefatti caricati su Maven Central, tra cui librerie di codice compilato, documentazione ed elenco di dipendenze,
-sono immutabili e non possono essere modificati né eliminati.
-Le dipendenze vengono identificate in modo univoco con una tripletta \textit{groupId:artifactId:version},
-dove \textit{groupId} identifica un gruppo di artefatti, \textit{artifactId} si riferisce al nome della libreria
-e \textit{version} identifica univocamente ogni rilascio della libreria.
-Ad esempio, la tripletta 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0' 
-identifica la versione 1.6.0 di un serializzatore json per \texttt{Kotlin}, gestito da \texttt{JetBrains}.
-
-Tutte le versioni di una libreria rilasciate su Maven Central sono sempre disponibili nel repository. 
-Gli utenti della libreria sono liberi di decidere quale versione utilizzare e per quanto tempo e a questi ultimi è delegata la responsabilità di aggiornare le proprie dipendenze per 
-adeguarsi a problemi di sicurezza o evoluzioni dell'API.
-Nel lungo termine, queste decisioni determinano le librerie e le versioni più popolari nell'intero ecosistema software.
-Si osserva che per la maggior parte delle librerie, più di una versione è attivamente utilizzata in un dato momento \cite{soto2019emergence}. 
-
-Dallo studio empirico condotto da \cite{soto2019emergence}, è emerso che "circa il 40\% delle librerie ha due o più versioni attivamente utilizzate, 
-mentre quasi il 4\% non ha mai avuto alcun utente su Maven Central. 
-Inoltre, si è scoperto che più del 90\% delle versioni più popolari non sono le ultime versioni rilasciate, 
-e sia le versioni attive che significativamente popolari sono distribuite lungo la storia delle versioni della libreria".
-
-Un'alternativa all'uso di Maven Central può risiedere in \ac{ghpackages}. Quest'ultimo pone una gestione 
-semplificata per la pubblicazione degli artefatti, in quanto strettamente connesso all'uso di repository \ac{gh},
-il che permette di avere un controllo degli accessi efficace come quello disponibile per i repo.
-Al pari di Maven Central viene mantenuto il concetto di artefatti immutabili, e in più viene dato il supporto
-per l'archiviazione di pacchetti in numerosi linguaggi, tra cui \texttt{C\#}.
-
-Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulle diffusione di librerie \texttt{\ac{js}} e \texttt{Node.js},
-si differenzia dai precedenti in quanto non adotta il principio di immutabilità.
-In questo caso, la modifica o eliminazione di una versione di un pacchetto può avere impatti notevoli sugli utilizzatori,
-portando a potenziali disastri mondiali \cite{NPMChaos}.
+In questo capitolo vengono mostrati alcuni casi d'uso realizzati per verificare il corretto funzionamento della libreria,
+dando nota delle possibili eccezioni che sono state gestite.
+Successivamente, viene fornita una panoramica sul processo di \textit{build automation} e
+vengono mostrati gli step realizzati per volgere alla creazione e pubblicazione della libreria.
+Per la libreria, il cui codice sorgente è reperibile all'indirizzo \texttt{https://github.com/corinz97/EleKtion}, \\
+sono stati adottati \texttt{Kotlin} come linguaggio di programmazione
+e \texttt{Gradle} come tool a supporto della \textit{build automation}.
 
 \section{Casi realizzati per i differenti tipi di algoritmo}
 
 Nel paragrafo \ref{modellodominio} e nel capitolo \ref{designdsl} è stata presentata l'organizzazione del dominio
 da implementare, assieme ad un approfondimento sulle entità che compongono il linguaggio \ac{dsl}
-realizzato appositamente per questa libreria.
+ideato appositamente per questa libreria.
 In questo capitolo vengono mostrati alcuni dei casi d'uso che sono stati realizzati per verificare il corretto funzionamento della libreria,
 spiegando come vengono gestiti eventuali conflitti a seconda dell'algoritmo scelto.
 
 \subsection{Votazioni a singola preferenza}
 Per gestire le votazioni a singola preferenza è stato creato inizialmente il caso base per la votazione a maggioranza,
 nella quale il vincitore è il concorrente che riceve più voti, a prescindere dalla presenza di altri criteri come i punteggi.
-In alcuni casi è possibile avere parità tra i voti, pertanto ci sono più vincitori nella stessa posizione. 
+In alcuni casi è possibile avere parità tra i voti, appaiono più vincitori nella stessa posizione. 
 Successivamente è stata estesa la gestione dei pareggi, dando la possibilità all'utilizzatore della libreria di definire 
 una metrica per la competizione ed un elenco di punteggi realizzati da ciascun concorrente, basati su quella metrica.
 Nel caso in cui si ha un pareggio di voti è possibile decidere di effettuare un ulteriore sotto-confronto basato sui punteggi,
@@ -783,7 +641,7 @@ Le classi realizzate per gestire tutte queste casistiche sono \texttt{MajorityVo
 e \texttt{MajorityVotesThenLowestScoreAlgorithm}. Nell'estratto di codice \ref{lst:controllisinglevote} vengono mostrati i controlli effettuati prima di 
 compiere la scelta del vincitore.
 
-\lstinputlisting[language=Kotlin,label={lst:controllisinglevote}, caption={Controlli effettuati prima della votazione a singola preferenza}]{listings/controlliSingleVote.kt}
+\lstinputlisting[language=Kotlin,label={lst:controllisinglevote}, caption={Controlli effettuati prima di compiere la scelta del vincitore, nella votazione a singola preferenza}]{listings/controlliSingleVote.kt}
 
 Successivamente, viene generata la classifica, che contiene l'insieme dei vincitori con il relativo numero di voti. Per ciascun vincitore,
 viene riportato il punteggio maggiore o quello minore. Nel caso in cui si utilizzi l'algoritmo a maggioranza senza sotto-confronto, vengono riportati
@@ -793,7 +651,7 @@ Nell'estratto di codice \ref{lst:esempisingolapreferenza} vengono mostrati alcun
 è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
 Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
 il quale replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
-Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, utilizzando come identificativo una stringa \texttt{UUID}.
+Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, generando una stringa \texttt{UUID} che viene usata come identificativo del votante.
 
 
 \lstinputlisting[language=Kotlin,label={lst:esempisingolapreferenza}, caption={Esempi di votazioni a singola preferenza, attraverso l'utilizzo di DSL}]{listings/esempiSingleVote.kt}
@@ -841,7 +699,8 @@ Pertanto, è stata ammessa la possibilità di ottenere dei pareggi a parità di 
 Anche per questa tipologia di votazione è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante , ma di negargli
 comunque l'opportunità di votare più volte lo stesso candidato.
 
-Le classi realizzate per gestire le casistiche sono \texttt{CondorcetAlgorithm} e \texttt{SchultzeAlgorithm}.
+Le classi realizzate per gestire le casistiche sono \texttt{CondorcetAlgorithm} e \\
+\texttt{SchultzeAlgorithm}.
 Nell'estratto di codice \ref{lst:controllilopvote} vengono mostrati i controlli effettuati prima di 
 eseguire l'algoritmo di votazione.
 
@@ -890,6 +749,152 @@ restituita un' eccezione nei casi in cui:
 Utilizzando il DSL, è possibile dichiarare voti in cui non appaiono tutti i possibili candidati e in tal caso,
 questi saranno piazzati in fondo alla lista, ossia come più sfavoriti.
 
+\section{Build automation}
+L'adozione di un sistema di build automation è un fattore chiave per la produzione
+efficace ed efficiente di software di qualità.
+Come principio base, è importante che ciascuna modifica apportata al codice
+sia testata a livello unitario e abbia documentazione correlata, che sia la pubblicazione 
+di una nuova funzionalità piuttosto che la variazione di un campo, a titolo meramente
+esemplificativo. 
+Inoltre, queste modifiche devono essere ulteriormente 
+verificate attraverso test di integrazione, in modo da garantire la piena
+compatibilità con i componenti pre-esistenti. 
+
+Le verifiche possono essere effettuate 
+manualmente dallo sviluppatore, ma per ridurre il rischio di errori è
+possibile adottare un sistema di automazione, che attraverso una serie di task predefiniti
+e ripetibili, verifichi automaticamente gli step,
+gestendo anche le dipendenze tra gli stessi.
+Così facendo, si può subito notare se tutto è andato a buon fine oppure 
+se è necessario effettuare ulteriori eventi correttivi.
+Una volta che il flusso di compilazione e verifica viene terminato con successo,
+è possibile procedere alla generazione di uno o più artefatti e della relativa documentazione.
+Questi prodotti possono essere sottoposti ad un operazione di versionamento,
+in modo da distinguere le evoluzioni del software e semplificarne la distribuzione
+e la tracciabilità.
+
+Poichè gli artefatti generati sono dipendenti dall'architettura della macchina
+e dal sistema operativo sui quali avviene il processo di \textit{build}, è opportuno eseguirlo
+su piattorme dedicate come \ac{gh}.
+\ac{gh} fornisce ambienti standard e personalizzabili
+in base a direttive, gestendo il processo di \ac{ci}/\ac{cd} che è stato descritto in questo paragrafo. 
+Infine, per favorire la distribuzione e la compatibilità verso molteplici sistemi,
+è utile adottare strumenti come \texttt{Kotlin Multiplatform},
+che semplificano la generazione dell'output finale adattandolo alle specifiche piattaforme. 
+\subsection{Kotlin Multiplatform}
+Kotlin Multiplatform è un tool che favorisce il riuso di codice tra molteplici piattaforme.
+Grazie ad esso, riutilizzando la logica applicativa scritta in \texttt{Kotlin}, è possibile produrre artefatti compatibili
+in molteplici piattaforme (dette \textit{target}), come \texttt{\ac{jvm}}, \texttt{\ac{js}}, \texttt{Android}, \texttt{iOS} ma piattaforme native come \texttt{Linux}, \texttt{Windows}, \texttt{macOS}.
+I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
+Per ogni \textit{target} viene definito un \textit{source set}, ossia un insieme di file sorgente, che definisce anche le dipendenze e le compatibilità.
+Il \textit{source set} predefinito è \texttt{commonMain} e contiene il codice comune a tutti i \textit{target}.
+Al suo interno è possibile utilizzare funzioni e dipendenze che siano compilabili verso tutte le piattaforme dichiarate, mentre quelle che
+sono legate ad uno specifico linguaggio o architettura vanno definite ed utilizzate all'interno degli opportuni \textit{source sets},
+come \texttt{jvmMain} e \texttt{jsMain}. 
+Un esempio è visibile in figura \ref{fig:targets}, in cui i \textit{target} intermedi sono colorati in verde: \texttt{apple} conterrà
+codice compatibile solamente con i \textit{target} che lo estendono, oltre a quello ereditato dai livelli superiori. Pertanto, è ammesso 
+che \texttt{macos} utilizzi funzioni che non siano disponibili in \texttt{tvos} ma entrambi accedono al codice messo a disposizione da \texttt{apple}.
+
+\begin{figure}
+    \centering
+     \includegraphics[width=1\linewidth]{figures/mptargets.png}
+     \caption{Esempio di una possibile gerarchia di \textit{target}. Fonte: \cite{WebsiteKotlinMultiPlatformTargets}}
+    \label{fig:targets}
+ \end{figure}
+
+Inoltre, questo meccanismo permette di applicare un \textit{template method} architetturale, grazie al quale è possibile dichiarare nel \textit{
+    source set
+} \texttt{commonMain} funzioni agnostiche 
+tramite la direttiva \texttt{expected}, senza definirne il contenuto, che sarà valorizzato in un successivo momento.
+In fase di compilazione, nelle versioni platform-specific, saranno valorizzate tramite funzioni che adottano la direttiva \texttt{actual},
+che posso richiamare funzionalità altrimenti non disponibili in \texttt{commonMain}.
+
+Una logica analoga è applicabile anche alla sezione dei test: sono disponibili un \textit{source set} di base, detto \texttt{commonTest}, e altri
+eventuali che contengono codice compatibile solo nella relativa piattaforma.
+In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output ottenuti utilizzando i \textit{target} \texttt{JVM} e \texttt{JS}.
+
+\begin{figure}[H]
+    \centering
+     \includegraphics[width=1\linewidth]{figures/sourcesetscompilation.png}
+     \caption{Esempio di output ottenibili in un progetto multipiattaforma. Fonte: \cite{WebsiteKotlinMultiPlatformCompilations}}
+    \label{fig:sourcesetscompilation}
+ \end{figure}
+
+\subsection{GitHub Actions}
+ \ac{gha} è una piattaforma di \ac{ci}/\ac{cd} basata su repository \ac{gh},
+ ai quali possono essere agganciati degli elementi detti \textit{workflow}.
+
+ Un \textit{workflow}, definibile attraverso la sintassi \texttt{YAML}, rappresenta una sequenza di azioni che possono essere eseguite
+ all'occorrenza di un evento, ad esempio la creazione di un \textit{tag} nel repository,
+ una \textit{richiesta pull}, un'esecuzione manuale richiesta dal proprietario del repository, ecc\dots
+
+In ogni \textit{workflow} va specificato il nome dello stesso e l'insieme di eventi che ne scatena 
+l'esecuzione. 
+Di seguito a ciò, è possibile definire un insieme di \textit{job}.
+
+Ciascun \textit{job} è legato ad uno specifico ambiente di esecuzione: va definito che tipo di
+sistema operativo deve essere adottato (\texttt{Linux}, \texttt{Windows}, \texttt{macOS})
+e se al termine dello stesso debba essere restituito un output, che sarà accessibile da altri \textit{job}.
+È possibile specificare delle variabili in una \textit{matrice}, in modo eseguire parallelamente molteplici istanze di uno stesso \textit{job} 
+in base alle combinazioni delle variabili; a titolo esemplificativo, eseguire la compilazione di codice utilizzando
+la stessa versione del compilatore ma su tre sistemi operativi differenti.  
+
+Ciascun \textit{job} è caratterizzato da un proprio flusso indipendente, di conseguenza
+per orchestare i processi è opportuno specificare condizioni basate sulle variabili di output 
+oppure sull'indicazione del completamento di uno o più i \textit{jobs} desiderati.
+
+All'interno del \textit{job} sono definibili uno o più \textit{step}: questi vengono eseguiti in maniera sequenziale
+e sono impostabili per eseguire una sequenza arbitraria di comandi \texttt{bash} oppure
+per eseguire una \textit{action} pubblica.
+Quest'ultima rappresenta un ottimo modo di favorire il riuso
+e la condivisione di codice nella community \ac{gh}, in quanto è possibile, ad esempio, utilizzare un \textit{workflow} complesso
+come se fosse un singolo step (\textit{composite action}) oppure lanciare l'esecuzione di un container senza
+imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configurazioni (\textit{docker container action}).
+
+\subsection{GitHub Pages}
+ \ac{ghpages} è un servizio di hosting disponibile per ogni account ed organizzazione in \ac{gh},
+ attraverso il quale è possibile pubblicare un sito web statico e renderlo accessibile tramite un webserver.
+ La pubblicazione avviene attraverso un apposito \textit{workflow} predefinito.
+ Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato per dare informazioni 
+ su come scaricare ed installare il software oppure per pubblicare la documentazione.
+
+\subsection{Maven Central, GitHub Packages e NPM}
+Maven Central è tra i repository centralizzati più popolari per distribuire e riutilizzare artefatti basati su \texttt{\ac{jvm}}.
+Un repository è definibile come "la directory che memorizza tutti i progetti e le librerie JAR, i plugin
+o qualsiasi altro artefatto specifico del progetto che può essere facilmente utilizzato da Maven"\cite{kozak2022three}.
+
+Il sistema di gestione delle dipendenze di Maven è in grado di risolvere automaticamente le dipendenze transitive,
+semplificando la gestione manuale delle dipendenze per gli sviluppatori. 
+Gli artefatti caricati su Maven Central, tra cui librerie di codice compilato, documentazione ed elenco di dipendenze,
+sono immutabili e non possono essere modificati né eliminati.
+Gli artefatti vengono identificati univocamente con una tripletta \textit{groupId:artifactId:version},
+dove \textit{groupId} identifica un gruppo di artefatti, \textit{artifactId} si riferisce al nome della libreria
+e \textit{version} identifica univocamente ogni rilascio della libreria.
+Ad esempio, la tripletta 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0' 
+identifica la versione 1.6.0 di un serializzatore json per \texttt{Kotlin}, gestito da \texttt{JetBrains}.
+
+Tutte le versioni di una libreria rilasciate su Maven Central sono sempre disponibili nel repository. 
+Gli utenti della libreria sono liberi di decidere quale versione utilizzare e per quanto tempo e a questi ultimi è delegata la responsabilità di aggiornare le proprie dipendenze per 
+adeguarsi a problemi di sicurezza o evoluzioni dell'API.
+Nel lungo termine, queste decisioni determinano le librerie e le versioni più popolari nell'intero ecosistema software.
+Si osserva che per la maggior parte delle librerie, più di una versione è attivamente utilizzata in un dato momento \cite{soto2019emergence}. 
+
+Dallo studio empirico condotto da \cite{soto2019emergence}, è emerso che "circa il 40\% delle librerie ha due o più versioni attivamente utilizzate, 
+mentre quasi il 4\% non ha mai avuto alcun utente su Maven Central. 
+Inoltre, si è scoperto che più del 90\% delle versioni più popolari non sono le ultime versioni rilasciate, 
+e sia le versioni attive che significativamente popolari sono distribuite lungo la storia delle versioni della libreria".
+
+Un'alternativa all'uso di Maven Central consiste in \ac{ghpackages}. Quest'ultimo pone una gestione 
+semplificata per la pubblicazione degli artefatti, in quanto strettamente connesso all'uso di repository \ac{gh},
+il che permette di avere un controllo degli accessi efficace come quello disponibile per i repo.
+Al pari di Maven Central viene mantenuto il concetto di artefatti immutabili, e in più viene dato il supporto
+per l'archiviazione di pacchetti in numerosi linguaggi, tra cui \texttt{C\#}.
+
+Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulle diffusione di librerie \texttt{\ac{js}} e \texttt{Node.js},
+si differenzia dai precedenti in quanto non adotta il principio di immutabilità.
+In questo caso, la modifica o eliminazione di una versione di un pacchetto può avere impatti notevoli sugli utilizzatori,
+portando a potenziali disastri mondiali \cite{NPMChaos}.
+
 
 \section{Generazione multipiattaforma degli artefatti e pubblicazione}
 
@@ -917,11 +922,11 @@ libreria in ambito Web, e viene generata la versione \texttt{native}, compatibil
 \end{itemize}
 
 Il processo di compilazione viene eseguito grazie ai \textit{workflow} presenti nel repository \ac{gh}:
-il primo \textit{workflow}, definito \texttt{dispatcher}, viene avviato al momento del ricevimento di un comando \textit{push} o della creazione di
-una \textit{richiesta pull}, e richiama in cascata i seguenti \textit{workflow}:
+il primo \textit{workflow}, definito \texttt{dispatcher}, viene avviato al momento della ricezione di un comando \textit{push} o della creazione di
+una \textit{richiesta pull}, e richiama i seguenti \textit{workflow}:
 \begin{enumerate}
 \item{\texttt{build-and-deploy}: questa azione si occupa di predisporre l'ambiente di pubblicazione, compilare i sorgenti per le piattaforme, eseguire
-i test nelle piattaforme, effettuare controlli di \texttt{code linting} e \texttt{bug detection}, ed infine pubblicare gli artefatti generati e finalizzare
+i test in ogni piattaforma, effettuare controlli di \texttt{code linting} e \texttt{bug detection}, ed infine pubblicare gli artefatti generati e finalizzare
 l'ambiente di pubblicazione;}
 \item{\texttt{publish-docs}: questa azione è dipendente da \texttt{build-and-deploy}, in quanto viene eseguita successivamente ad essa e solo nel caso in cui 
 sia terminata con esito positivo. Si occupa di generare la documentazione degli artefatti, interpretando gli appositi commenti scritti nel codice sorgente,
