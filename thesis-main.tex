@@ -647,14 +647,16 @@ Successivamente, viene generata la classifica, che contiene l'insieme dei vincit
 viene riportato il punteggio maggiore o quello minore. Nel caso in cui si utilizzi l'algoritmo a maggioranza senza sotto-confronto, vengono riportati
 tutti i punteggi realizzati, inoltre per quest'ultimo non è obbligatorio associare dei punteggi ai giocatori.
 
-Nell'estratto di codice \ref{lst:esempisingolapreferenza} vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
+Negli estratti di codice \ref{lst:esempiosinglevotemajority}, \ref{lst:esempiosinglevotemajorityhighestscore} e \ref{lst:esempiosinglevotemajoritylowestscore}  vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
 è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
 Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
 il quale replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
 Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, generando una stringa \texttt{UUID} che viene usata come identificativo del votante.
 
 
-\lstinputlisting[language=Kotlin,label={lst:esempisingolapreferenza}, caption={Esempi di votazioni a singola preferenza, attraverso l'utilizzo di DSL}]{listings/esempiSingleVote.kt}
+\lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajority}, caption={Votazione a singola preferenza, in cui il vincitore è competitor1. }]{listings/esempioSingleVoteMajority.kt}
+\lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajorityhighestscore}, caption={Votazione a singola preferenza, in cui il vincitore è competitor1. }]{listings/esempioSingleVoteMajorityHighestScore.kt}
+\lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajoritylowestscore}, caption={Votazione a singola preferenza, in cui competitor1 e competitor2 pareggiano.}]{listings/esempioSingleVoteMajorityLowestScore.kt}
 
 Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che venga 
 restituita un' eccezione nei casi in cui: 
@@ -711,15 +713,14 @@ Infine viene generata la classifica contenente l'elenco dei vincitori, posti in 
 A parità di posizione è possibile trovare
 più di un candidato e non è previsto riportare il numero di voti, poichè è scollegato dalla logica algoritmica.
 
-Nell'estratto di codice \ref{lst:esempilistepreferenze} vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
+Negli estratti di codice \ref{lst:esempiolopvotecondorcet} e \ref{lst:esempiolopvoteschultze} vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
 è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
 Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
 che replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
 Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. 
 I voti possono essere anonimizzati, come nel caso delle votazioni a preferenza singola.
-
-\lstinputlisting[language=Kotlin,label={lst:esempilistepreferenze}, caption={Esempi di votazioni a lista di preferenze, attraverso l'utilizzo di DSL}]{listings/esempiLOPVote.kt}
-
+\lstinputlisting[language=Kotlin,label={lst:esempiolopvotecondorcet}, caption={Votazione a lista di preferenze con l'algoritmo di Condorcet, in cui la classifica generata è competitorC, competitorA, competitorB}]{listings/esempioLOPVoteCondorcet.kt}
+\lstinputlisting[language=Kotlin,label={lst:esempiolopvoteschultze}, caption={Votazione a lista di preferenze con l'algoritmo di Schultze, in cui la classifica generata è competitorC, competitorA, competitorB}]{listings/esempioLOPVoteSchultze.kt}
 Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che venga 
 restituita un' eccezione nei casi in cui: 
 \begin{enumerate}
