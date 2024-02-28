@@ -175,7 +175,7 @@ ostacoli più legati all'aspetto organizzativo e umano, che all'aspetto tecnolog
 vi sono esempi notabili anche nel campo del \textit{pervasive computing}, ad esempio nell'ambito delle \textit{smart cities}.
 Ricollegandosi al fenomeno dei cambiamenti climatici che stanno inesorabilmente continuando ad avanzare,
 in certe zone del mondo l'acqua potabile sta diventando un bene sempre meno reperibile e degno di salvaguardia.
-~\cite{smartwater} pone il focus sull'adozione di sistemi di \textit{Idroinformatica}. Questo tipo di sistema permette di analizzare 
+In~\cite{smartwater} si pone il focus sull'adozione di sistemi di \textit{Idroinformatica}. Questo tipo di sistema permette di analizzare 
 e monitorare, attraverso sensori e componenti real-time \texttt{SCADA} (Supervisory Control And Data Acquisition), gli attuali flussi e pressioni nella
 rete di distribuzione ed effettuare predizioni sui futuri guasti. Questi strumenti di analisi possono fornire ai cittadini
 informazioni su come ottimizzare l'utilizzo delle risorse. L'unione di questi sistemi, ad una politica di gestione digitale e democratica,
@@ -675,7 +675,7 @@ restituita un' eccezione nei casi in cui:
 Utilizzando il DSL, è possibile dichiarare voti in cui non appaiono tutti i possibili candidati e in tal caso,
 questi saranno piazzati in fondo alla lista, ossia come più sfavoriti.
 \section{Build automation}
-L'adozione di un sistema di build automation è un fattore chiave per la produzione
+L'adozione di un sistema di \textit{build automation} è un fattore chiave per la produzione
 efficace ed efficiente di software di qualità.
 Come principio base, è importante che ciascuna modifica apportata al codice
 sia testata a livello unitario e abbia documentazione correlata, che sia la pubblicazione 
@@ -707,7 +707,7 @@ che semplificano la generazione dell'output finale adattandolo alle specifiche p
 \subsection{Kotlin Multiplatform}
 \texttt{Kotlin Multiplatform} è un tool che favorisce il riuso di codice tra molteplici piattaforme.
 Grazie ad esso, riutilizzando la logica applicativa scritta in \texttt{Kotlin}, è possibile produrre artefatti compatibili
-in molteplici piattaforme (dette \textit{target}), come \texttt{\ac{jvm}}, \texttt{\ac{js}}, \texttt{Android}, \texttt{iOS} ma piattaforme native come \texttt{Linux}, \texttt{Windows}, \texttt{macOS}.
+in molteplici piattaforme (dette \textit{target}), come \texttt{\ac{jvm}}, \texttt{\ac{js}}, \texttt{Android}, \texttt{iOS}, oltre a piattaforme native come \texttt{Linux}, \texttt{Windows}, \texttt{macOS}.
 I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
 Per ogni \textit{target} viene definito un \textit{source set}, ossia un insieme di file sorgente, che definisce anche le dipendenze e le compatibilità.
 Il \textit{source set} predefinito è \texttt{commonMain} e contiene il codice comune a tutti i \textit{target}.
@@ -787,10 +787,10 @@ Gli utenti della libreria sono liberi di decidere quale versione utilizzare e pe
 adeguarsi a problemi di sicurezza o evoluzioni dell'API.
 Nel lungo termine, queste decisioni determinano le librerie e le versioni più popolari nell'intero ecosistema software.
 Si osserva che per la maggior parte delle librerie, più di una versione è attivamente utilizzata in un dato momento~\cite{soto2019emergence}. 
-Dallo studio empirico condotto da~\cite{soto2019emergence}, è emerso che "circa il 40\% delle librerie ha due o più versioni attivamente utilizzate, 
+Dallo studio empirico condotto in~\cite{soto2019emergence}, è emerso che "circa il 40\% delle librerie ha due o più versioni attivamente utilizzate, 
 mentre quasi il 4\% non ha mai avuto alcun utente su Maven Central. 
 Inoltre, si è scoperto che più del 90\% delle versioni più popolari non sono le ultime versioni rilasciate, 
-e sia le versioni attive che significativamente popolari sono distribuite lungo la storia delle versioni della libreria".
+e sia le versioni attive che quelle significativamente popolari sono distribuite lungo la storia delle versioni della libreria".
 
 Un'alternativa all'uso di Maven Central consiste in \ac{ghpackages}. Quest'ultimo pone una gestione 
 semplificata per la pubblicazione degli artefatti, in quanto strettamente connesso all'uso di repository \ac{gh},
@@ -830,41 +830,33 @@ Il processo di compilazione viene eseguito grazie ai \textit{workflow} presenti 
 il primo \textit{workflow}, definito \texttt{dispatcher}, viene avviato al momento della ricezione di un comando \textit{push} o della creazione di
 una \textit{richiesta pull}, e richiama i seguenti \textit{workflow}:
 \begin{enumerate}
-\item{\texttt{build-and-deploy}: questa azione si occupa di predisporre l'ambiente di pubblicazione, compilare i sorgenti per le piattaforme, eseguire
-i test in ogni piattaforma, effettuare controlli di \texttt{code linting} e \texttt{bug detection}, ed infine pubblicare gli artefatti generati e finalizzare
-l'ambiente di pubblicazione;}
-\item{\texttt{publish-docs}: questa azione è dipendente da \texttt{build-and-deploy}, in quanto viene eseguita successivamente ad essa e solo nel caso in cui 
-sia terminata con esito positivo. Si occupa di generare la documentazione degli artefatti, interpretando gli appositi commenti scritti nel codice sorgente,
-e caricarla nel branch \texttt{gh-pages} del repository \ac{gh}. Un \textit{workflow} di default elabora il contenuto di questo branch e lo mette a 
-disposizione come sito web tramite un webserver.}
+\item{\texttt{build-and-deploy}: compila i sorgenti ed esegue i test nelle piattaforme dichiarate, effettua controlli di correttezza del codice
+ed infine pubblica gli artefatti generati;}
+\item{\texttt{publish-docs}: genera la documentazione degli artefatti e la mette a disposizione per la pubblicazione.}
 \end{enumerate}
 I \textit{workflow} \texttt{dispatcher} e \texttt{build-and-deploy} sono forniti dal template ma sono stati opportunamente configurati per lo scopo del progetto,
 mentre il \textit{workflow} \texttt{publish-docs} è stato creato ex-novo.
 \subsection{Generazione e pubblicazione della libreria}
 Il \textit{workflow} \texttt{build-and-deploy} si occupa inizialmente di
-richiamare un'apposita \textit{action}\footnote{\url{https://archive.is/Jjb3Y}}, che calcola la versione da associare
-alla libreria per il rilascio, per poi inizializzare un repository di stage su Maven Central,
-memorizzando l'identificativo generato dal servizio. Questo secondo passo è svolto mediante l'uso di una \textit{action}\footnote{\url{https://archive.is/wdzf2}} preposta alla compilazione e
-pubblicazione di progetti basati su \texttt{Gradle}.
+calcolare la nuova versione da associare
+alla libreria per poi inizializzare un repository di stage su Maven Central.
 Successivamente viene lanciato il \textit{task} \texttt{gradle build} utilizzando una matrice con i sistemi operativi
  \texttt{windows-2022}, \texttt{macos-12}, \texttt{ubuntu-22.04}. Ciò permette di compilare il codice sorgente, 
  eseguire i test, effettuare i controlli di \texttt{code linting} e \texttt{bug detection} e generare gli artefatti
  in ciascun ambiente. Questi sono generati sulla base dei \textit{target} definiti nella lista al paragrafo \ref{list:elencotargetgenerati};
 ciascun ambiente di compilazione, a seconda del sistema operativo in esecuzione, genera un \textit{subset} di artefatti e li carica sul repository di stage.
-Infine, se la libreria deve essere pubblicata nel branch \texttt{master} del repository \ac{gh}, e la \textit{action}\footnote{\url{https://archive.is/Jjb3Y}}
-abbia calcolato che la versione è candidabile al rilascio, viene chiuso e finalizzato il repository di stage su Maven Central,
-Altrimenti questo viene chiuso e scartato. 
+Infine il repository di stage viene chiuso e finalizzato. 
 La finalizzazione del repository porta all'effettiva pubblicazione su Maven Central e si prosegue a pubblicare gli artefatti
-anche su \ac{npm} e \ac{gh} Packages, i quali non seguono l'iter di creazione del repository di stage ma operano con una pubblicazione diretta.
-Solo in quest'ultimo caso di successo si prosegue ad invocare il \textit{workflow} \texttt{publish-docs}.
+anche su \ac{npm} e \ac{gh} Packages.
+Completato questo flusso si prosegue ad invocare il \textit{workflow} \texttt{publish-docs}.
 \subsection{Generazione e pubblicazione della documentazione}
 Il \textit{workflow} \texttt{publish-docs} provvede alla generazione della documentazione, sulla base del codice presente
 nel branch \texttt{master}. 
 Al termine del \textit{workflow} \texttt{build-and-deploy} viene generato un \textit{tag}
-associato al \textit{commit} effettuato sul branch \texttt{master}. Questo \textit{tag}
+associato al \textit{merge commit} effettuato sul branch \texttt{master}. Questo \textit{tag}
 rappresenta il nuovo valore della versione appena rilasciata, il quale viene riportato nelle pagine di documentazione
 generate attraverso il \textit{task} \texttt{gradle dokkaHtml}.
-Queste pagine rappresentano un sito web statico e vengono copiate nel branch \texttt{gh-pages} grazie ad un'
+Queste pagine compongono un sito web statico e vengono copiate nel branch \texttt{gh-pages} grazie ad un'
 apposita \textit{action}\footnote{\url{https://archive.is/NKNH0}}. 
 La presenza di una modifica in questo branch scatena l'esecuzione di un \textit{workflow} di default,
 che mette a disposizione il contenuto tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .
