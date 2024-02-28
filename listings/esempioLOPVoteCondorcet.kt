@@ -18,6 +18,6 @@ val election =
                 +("competitorA" then "competitorC" then "competitorB" votedBy "anonym" + counter++)
                 +("competitorB" then "competitorA" then "competitorC" votedBy "anonym" + counter++)
                 +("competitorC" then "competitorB" then "competitorA" votedBy "anonym" + counter++)
-        } // competitorC, competitorA, competitorB
+        }
     }
 election.printRankings()

@@ -18,6 +18,6 @@ val election =
                 +("competitor1" votedBy "voter1")
                 +("competitor2" votedBy "voter2")
                 +("competitor1" votedBy "voter2")
-        }          // same votes, competitor1 has the highest score
+        }
     }
 election.printRankings()

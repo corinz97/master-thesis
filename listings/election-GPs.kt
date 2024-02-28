@@ -8,7 +8,7 @@ var election =
         for (raceResult in raceResults) {
             currentGPs = currentGPs + raceResult.toPair()
             +poll {
-                -competition("F1 Pilots - Partial Ranking - GPs #1 to #${index++}") {
+                -competition("F1 Pilots - Temporary Ranking - GPs #1 to #${index++}") {
                     allCompetitorNames.forEach {
                         +competitor(it) {}
                     }

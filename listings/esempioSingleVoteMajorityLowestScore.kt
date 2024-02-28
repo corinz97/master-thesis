@@ -8,7 +8,7 @@ val election =
                         +(BestTimeInMatch realized (2.toDuration(DurationUnit.HOURS)))
                     }
                     +competitor("competitor2") {
-                        +(BestTimeInMatch realized (T.toDuration(DurationUnit.HOURS)))
+                        +(BestTimeInMatch realized (0.toDuration(DurationUnit.HOURS)))
                     }
                 }
                 -majorityVotesLScoreAlgorithm {
@@ -18,6 +18,6 @@ val election =
                 +("competitor1" votedBy "voter1")
                 +("competitor2" votedBy "voter2")
                 +("competitor1" votedBy "voter2")
-        } // same votes, same lowest score
+        }
     }
 election.printRankings()

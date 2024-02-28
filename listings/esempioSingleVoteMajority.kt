@@ -13,5 +13,4 @@ val election =
                 +("competitor1".asAnonymousVote())
             }
     }
- // competitor1 wins
 election.printRankings()

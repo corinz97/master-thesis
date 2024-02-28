@@ -17,6 +17,6 @@ val election =
                 +(("competitorA" then "competitorC" then "competitorB").asAnonymousVote())
                 +(("competitorB" then "competitorA" then "competitorC").asAnonymousVote())
                 +(("competitorC" then "competitorB" then "competitorA").asAnonymousVote())
-        } // competitorC, competitorA, competitorB
+        }
     }
 election.printRankings()
