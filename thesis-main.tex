@@ -57,22 +57,19 @@ in Nuovi Contesti \\
 \begin{abstract}	
     La tesi si concentra sull'evoluzione della democrazia nell'era digitale, 
     con l'implementazione di EleKtion, una libreria multipiattaforma per votazioni. 
-    Dopo un' introduzione sulla democrazia, si esplora il dominio delle votazioni 
-    e si progetta un linguaggio di dominio per facilitare la definizione del contesto di votazione.
-    La libreria è sviluppata affrontando aspetti cruciali come la gestione degli artefatti 
-    e l'implementazione di casi di test. 
-    La sperimentazione della libreria, basata su dati della Formula 1, evidenzia come logiche algoritmiche
-    personalizzabili possano influenzare i risultati, confrontandoli infine con i dati reali per una valutazione qualitativa 
-    del sistema.
+    Dopo un' introduzione sulla democrazia, si analizzano le caratteristiche delle votazioni 
+    e si progetta un linguaggio di dominio volto a facilitare la definizione del contesto della votazione.
+    La fase di implementazione si svolge affrontando aspetti cruciali come la gestione degli artefatti 
+    e l'implementazione dei casi di test. 
+    In seguito si sperimenta la libreria utilizzando dati reali delle competizioni di Formula 1,
+    evidenziando come logiche algoritmiche personalizzabili possano generare esiti alternativi, confrontandoli infine 
+    con quelli reali per una valutazione qualitativa del sistema.
 \end{abstract}
 
 \begin{dedication} % this is optional
 Ai miei genitori
 \end{dedication}
 
-%\begin{acknowledgements} % this is optional
-%Optional. Max 1 page.
-%\end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
 \tableofcontents   
@@ -86,32 +83,34 @@ Ai miei genitori
 \chapter{Introduzione}
 \label{chap:introduction}
 Nell'ultimo ventennio, l'informatica sta perpetuando un progresso tecnologico sempre più pervasivo
-nella quotidianità delle persone. Si aprono nuovi scenari, si semplificano i processi 
-e la tendenza è ad arrivare ad una digitalizzazione completa di qualunque aspetto.
+nella quotidianità delle persone, digitalizzando i processi in numerosi ambiti, come le procedure burocratiche,
+la razionalizzazione delle risorse, la raccolta di opinioni di una comunità,
+con la tendenza di giungere ad una semplificazione e ad una maggior diffusione sulle informazioni di
+interesse per gli \textit{stakeholders}.
 Questo fenomeno ha impattato, pur con qualche difficoltà, anche alcuni dei processi che tradizionalmente
 sono più legati ad una lavorazione analogica e ad una maggior attenzione da parte del pubblico,
 ossia il contesto delle votazioni e dell'applicazione del potere democratico all'interno di uno Stato.
-La digitalizzazione delle votazioni è stata adattata a molteplici contesti, dalle votazioni per le  
-elezioni dei rappresentanti politici, a decisioni interne tra gruppi di lavoro e consultazioni
-della volontà popolare. L'espansione potrà in futuro coinvolgere altri settori, come quello sportivo, ponendo sugli esiti un maggior
-potere in base a nuovi criteri e volontà popolari.
-Lo scopo della tesi è realizzare una libreria multipiattaforma, chiamata EleKtion, la quale permette di creare votazioni
-lasciando al gestore ampia possibilità di parametrizzazione.
+L'informatizzazione delle votazioni è stata adattata a molteplici contesti, dalle votazioni per le  
+elezioni dei rappresentanti politici a decisioni interne tra gruppi di lavoro e consultazioni
+della volontà popolare. L'espansione potrà in futuro coinvolgere nuovi settori, come quello sportivo, ponendo sugli esiti una maggior
+influenza fondata su nuovi criteri e volontà popolari.
+Lo scopo della tesi è realizzare una libreria in \textt{Kotlin Multiplatform} chiamata EleKtion, la quale permette di creare e gestire
+votazioni lasciando all'utilizzatore ampia possibilità di parametrizzazione.
 La disponibilità degli artefatti finali su molteplici piattaforme permette di massimizzarne la diffusione, garantendo
 allo stesso tempo che il prodotto sia stato generando seguendo criteri di qualità, sia a livello di logiche di funzionamento
 che correttezza sintattica del codice sorgente.
-In questa tesi viene presentata una panoramica relativa alla nascita della democrazia, di come essa è mutata nel tempo,
+In questa tesi viene presentata inizialmente una panoramica relativa alla nascita della democrazia, di come essa è mutata nel tempo,
 e di come l'informatica può, e in certi casi ha potuto, riportare maggior potere nella volontà popolare, abbattendo barriere
-fisiche e geografiche.
-Successivamente viene effettuata l'analisi e la modellazione di dominio per la gestione di votazioni,
-approfondendo le differenti tipologie di voto e presentando diagrammi UML architetturali.
-Viene illustrata la progettazione di un linguaggio di dominio utile a definire con maggior facilità il contesto di votazione,
-per poi vagliare gli aspetti implementantivi della libreria, partendo dagli strumenti che semplificano la gestione e l'evoluzione
-degli artefatti fino ad arrivare ai casi di test realizzati.
-Infine, viene mostrata una sperimentazione della libreria, utilizzando dati relativi ai campionati sportivi, nello specifico
-scegliendo come sport la Formula 1. L'applicazione di logiche algoritmiche, definibili dal gestore, e la possibilità
-di dichiarare un elenco di voti, pone nuovi scenari che possono modificare e mutare la storia di uno campionato sportivo.
-Questi risultati vengono confrontati con quelli reali per ottenere un' evidenza utile ad una valutazione qualitativa.
+geografiche e sociali.
+Successivamente viene mostrata l'analisi e la modellazione del dominio per la gestione delle votazioni,
+approfondendo le differenti tipologie di voto.
+Viene poi esposta la progettazione di un linguaggio di dominio utile a definire con maggior facilità il contesto della votazione,
+generando diagrammi UML architetturali, per poi vagliare gli aspetti implementantivi della libreria, 
+partendo dagli strumenti che semplificano l'evoluzione e la pubblicazione del software fino ad arrivare ai casi di test.
+Infine, viene illustrata una sperimentazione della libreria utilizzando dati relativi a campionati sportivi, nello specifico
+scegliendo come sport la Formula 1. L'applicazione di logiche algoritmiche, definibili dall'utilizzatore, e la possibilità
+di dichiarare elenchi di voti nelle gare, pongono nuovi scenari che possono modificare e mutare la storia di uno campionato.
+Questi risultati vengono confrontati con quelli reali per ottenere un'evidenza utile ad una valutazione qualitativa.
 
 
 %----------------------------------------------------------------------------------------
@@ -165,7 +164,7 @@ In altri sistemi, una fase di analisi iniziale poco trasversale ha portato a dar
 ad aspetti non funzionali, come la privacy, e troppo poco approfondimento a quelli funzionali, come il modello di democrazia
 da applicare, che per alcuni aspetti rimane implicito~\cite{Pianini:2019}.
 Ciò è dovuto anche al fatto che il maggior coinvolgimento si concentra 
-principalmente alle fasi iniziali e finali del ciclo di votazione~\cite{hennen2020european}.
+principalmente alle fasi iniziali e finali del ciclo della votazione~\cite{hennen2020european}.
 La mancanza di elementi formalizzanti, che descrivono dettagliatamente tutti gli step applicati nel
 processo, unita alle variazioni ed evoluzioni che vengono apportate nel tempo, portano alla divergenza del flusso rispetto all'idea iniziale, 
 che conseguentemente non risulterà chiaro agli utilizzatori e potenzialmente potrebbe scoraggiare l'utilizzo del sistema~\cite{Pianini:2019}.
@@ -325,7 +324,7 @@ Il risultato di Schultze non coincide sempre con il risultato di Condorcet.
 La libreria EleKtion fornisce la possibilità di creare ed effettuare votazioni.
 Essa non tratta la parte preliminare ad una votazione, quale fase di proposta, discussione,
 eventuali pre-votazioni o quorum, ma pone l'obiettivo sulla definizione e gestione dei concorrenti coinvolti,
-la tipologia di algoritmo utilizzato per ottenere il risultato finale ed i voti presenti nella fase di votazione.
+la tipologia di algoritmo utilizzato per ottenere il risultato finale ed i voti presenti nella fase della votazione.
 Al termine della stessa, viene resa disponibile una classifica che riporta informazioni 
 circa le specifiche impostate e le caratteristiche dei concorrenti.
 Ciascuna votazione ha associata una competizione con un metrica che caratterizza l'operato dei concorrenti.
@@ -344,7 +343,7 @@ sarebbe stato l'esito finale con regole differenti.
 
     \subsection{Requisiti funzionali}
     \begin{itemize}
-        \item{Definizione di gestori di votazioni, inteso come contenitore delle stesse. Ciascuna votazione
+        \item{Definizione di gestori delle votazioni, intesi come contenitori delle stesse. Ciascuna votazione
         deve essere indipendente dalle altre. L'eventuale collegamento tra esse viene demandato all'utilizzatore della libreria;}
         \item{Definizione dei concorrenti che rappresentano i candidati disponibili, assieme alle relative caratteristiche e di
         eventuali punteggi.
@@ -378,9 +377,9 @@ sarebbe stato l'esito finale con regole differenti.
 
 \section{Modello del dominio}
 \label{modellodominio}
-EleKtion ha a disposizione uno o più gestori di votazioni. 
+EleKtion ha a disposizione uno o più gestori delle votazioni. 
 I gestori sono indipendenti tra loro e così anche le votazioni all'interno degli stessi,
-fatto salvo l'uso coerente della tipologia di votazione e della metrica di punteggio,
+fatto salvo l'uso coerente della tipologia della votazione e della metrica di punteggio,
 che rimane stabile nello stesso gestore.
 Non è contemplata l'ipotesi di più turni nella stessa votazione, 
 quindi in tal caso devono essere gestiti come votazioni separate.
@@ -449,7 +448,7 @@ Per semplificarne la creazione è utile definire una funzione di supporto conten
 I tipi \texttt{S} e \texttt{V} vincolano i seguenti componenti che verranno trattati, pertanto non è possibile adottare diverse metriche di punteggio tra i concorrenti,
 o diverse tipologie di voto, tra le varie votazioni presenti nel medesimo gestore.
 Il punto di ingresso dell'intero flusso è rappresentato dalla funzione \texttt{initializedAs}, al suo interno è possibile inizializzare una votazione attraverso 
-la funzione \texttt{poll}, e l'utilizzo dell'operatore unario \texttt{+}, per l'aggiunta di quest'ultima alla lista di votazioni.
+la funzione \texttt{poll}, e l'utilizzo dell'operatore unario \texttt{+}, per l'aggiunta di quest'ultima alla lista delle votazioni.
 In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfacce e della classe astratta.
 \vfill
 \begin{center} 
@@ -1394,7 +1393,7 @@ Questa libreria è stata  progettata ponendo l'accento su una tecnologia multipi
 massimizzarne la diffusione su differenti sistemi, assicurando la piena compatibilità con gli stessi.
 È stata svolta l'analisi del modello del dominio da trattare, in particolare si è reso evidente
 che esistono due tipologie principali di voto che caratterizzano una possibile votazione.
-Sono stati ideati dei \ac{dsl} utili a semplificare la definizione e la struttura di un pool di votazioni,
+Sono stati ideati dei \ac{dsl} utili a semplificare la definizione e la struttura di un pool delle votazioni,
 riportando per essi i diagrammi UML architetturali.
 Successivamente sono stati descritti i passi implementativi salienti, corredati dai test effettuati
 e dagli strumenti utilizzati nel contesto di \textit{build automation}.
