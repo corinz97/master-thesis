@@ -221,8 +221,8 @@ di Condorcet, e di un suo derivato, l'algoritmo di Schultze.
 \subsection{Algoritmo di Condorcet}
 L'algoritmo di Condorcet permette di estrarre un vincitore tra ${n}$ candidati,
 applicando il criterio di maggioranza tra le coppie di candidati.
-Si generano le possibili coppie, si confrontano e si valuta quale coppia ha ottenuto il
-maggior numero di preferenze. All'interno di una coppia, un concorrente è vincitore se occupa una posizione preferenziale rispetto all'altro.
+Si generano le possibili coppie, si confrontano e si valuta quale candidato batte tutti gli altri nello scontro di coppia. 
+All'interno di una coppia, un candidato è vincitore se occupa una posizione preferenziale rispetto all'altro.
 Di seguito viene riportato un esempio, supponendo di avere tre possibili candidati, A, B, C,
 e 60 differenti votanti, che ordinano i candidati dalla posizione 1 alla posizione 3 dove la posizione 1 
 indica la posizione di maggior preferenza.
@@ -282,7 +282,7 @@ complessiva.
 
 \subsection{Algoritmo di Schultze}
 L'algoritmo di Schultze, conosciuto anche come Schwartz Sequential Dropping (SSD),
-è una variante di Condorcet basata sulla sommatoria del conteggio delle preferenze tra i concorrenti.
+è una variante di Condorcet basata sulla sommatoria del conteggio delle vittorie tra i concorrenti.
 Ad esempio, nel caso in cui si hanno 3 candidati, A, B, C,
 e questi vengono ordinati in una lista di preferenze dalla posizione 1 alla posizione 3 dove la posizione 1 
 indica la posizione di maggior preferenza, si può avere il seguente risultato:
