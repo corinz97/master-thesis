@@ -414,7 +414,7 @@ che esplica l'organizzazione di interfacce e classi astratte.
 Questi diagrammi sono realizzati con il presupposto di poter adottare l'utilizzo
 dei seguenti costrutti:
 \begin{itemize}
-\item{Tipi \texttt{generici}\footnote{\url{https://archive.is/kISda}};}
+\item{\texttt{Tipi generici}\footnote{\url{https://archive.is/kISda}};}
 \item{\texttt{Overloading} degli \texttt{operatori}\footnote{\url{https://archive.is/cExIS}};}
 \item{\texttt{Higher order functions} (\texttt{function literal with receiver})\footnote{\url{https://archive.is/mWF2b}};}
 \item{\texttt{Companion object}\footnote{\url{https://archive.is/yfHS5}}.}
@@ -442,8 +442,8 @@ Per semplificarne la creazione è utile definire una funzione di supporto conten
 \end{center}
 \vfill
 
-I tipi \texttt{S} e \texttt{V} vincolano i seguenti componenti che verranno trattati, pertanto non è possibile adottare diverse metriche di punteggio tra i concorrenti,
-o diverse tipologie di voto, tra le varie votazioni presenti nel medesimo gestore.
+I tipi \texttt{S} e \texttt{V} vincolano i seguenti componenti che verranno trattati, pertanto non è possibile adottare diverse metriche di punteggio
+o diverse tipologie di voto tra le varie votazioni presenti nel medesimo gestore.
 Il punto di ingresso dell'intero flusso è rappresentato dalla funzione \texttt{initializedAs}, al suo interno è possibile inizializzare una votazione attraverso 
 la funzione \texttt{poll}, e l'utilizzo dell'operatore unario \texttt{+}, per l'aggiunta di quest'ultima alla lista delle votazioni.
 In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfacce e della classe astratta.
@@ -462,10 +462,10 @@ In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfa
  Questo \ac{dsl} è pensato per facilitare la creazione di una votazione.
  In base al tipo di voto viene definito un costrutto per agevolarne la creazione.
  Nel caso in cui il voto sia a singola preferenza, è necessario specificare
- l'identificativo del votato e l'identificativo del votante (vedi funzione \texttt{votedBy} in \texttt{SinglePreferenceVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL}). Se quest'ultimo non 
- deve essere pubblico, corrisponderà ad un identificativo casuale (vedi funzione \texttt{asAnonymousVote} in \texttt{SinglePreferenceVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL}).
+ l'identificativo del votato e l'identificativo del votante (vedi funzione \texttt{votedBy} in \texttt{SinglePreferenceVoteAlgorithmDSL}, figura \ref{fig:SPPollAlgorithmDSL}). Se quest'ultimo non 
+ deve essere pubblico, corrisponderà ad un identificativo casuale (vedi funzione \texttt{asAnonymousVote} in \texttt{SinglePreferenceVoteAlgorithmDSL}, figura \ref{fig:SPPollAlgorithmDSL}).
  Nel caso in cui il voto sia a lista di preferenze, per costruire la lista è necessario specificare l'elenco degli identificativi dei votati,
- utilizzando la funzione \texttt{then} in concatenazione (vedi funzione \texttt{then} in \texttt{ListOfPreferencesVoteAlgorithmDSL}, figura \ref{fig:pollAlgorithmDSL})).
+ utilizzando la funzione \texttt{then} in concatenazione (vedi funzione \texttt{then} in \texttt{ListOfPreferencesVoteAlgorithmDSL}, figura \ref{fig:LOPPollAlgorithmDSL}).
  Allo stesso modo del voto a singola preferenza, è prevista la possibilità di anonimizzare il votante.
  Sono previsti metodi per semplificare l'inizializzazione degli algoritmi disponibili:
  \begin{itemize}
@@ -487,17 +487,28 @@ attraverso l'uso dell'operatore unario \texttt{-}.
 Infine è possibile aggiungere un elenco di voti, istanziati utilizzando i metodi descritti nella prima parte
 di questo paragrafo. Ciascun voto viene effettivamente aggiunto alla lista di voti attraverso
 l'uso dell' operatore unario \texttt{+}.
-Per motivi di spazio, nelle figure \ref{fig:pollAlgorithmDSL} e \ref{fig:pollDSL} sono stati utilizzati gli
+Per motivi di spazio, nelle figure \ref{fig:SPPollAlgorithmDSL} e \ref{fig:LOPPollAlgorithmDSL} sono stati utilizzati gli
 acronimi \texttt{SP} e \texttt{LOP}, al posto di, rispettivamente, \texttt{SinglePreference} e \texttt{ListOfPreferences}.
 
  \vfill
  \begin{center} 
  \begin{figure}[H]
      \centering
-      \includegraphics[width=1.1\linewidth]{figures/pollAlgorithmDSL.pdf}
-      \caption{Diagramma UML del \ac{dsl} per la porzione di definizione dell'algoritmo}
-     \label{fig:pollAlgorithmDSL}
+      \includegraphics[width=1.1\linewidth]{figures/SPPollAlgorithmDSL.pdf}
+      \caption{Diagramma UML del \ac{dsl} per la definizione dell'algoritmo a singola preferenza}
+     \label{fig:SPPollAlgorithmDSL}
   \end{figure}
+\end{center}
+\vfill
+
+\vfill
+\begin{center} 
+\begin{figure}[H]
+    \centering
+     \includegraphics[width=1.1\linewidth]{figures/LOPPollAlgorithmDSL.pdf}
+     \caption{Diagramma UML del \ac{dsl} per la definizione dell'algoritmo a lista di preferenze}
+    \label{fig:LOPPollAlgorithmDSL}
+ \end{figure}
 \end{center}
 \vfill
 
@@ -508,7 +519,7 @@ acronimi \texttt{SP} e \texttt{LOP}, al posto di, rispettivamente, \texttt{Singl
  \begin{figure}[H]
      \centering
       \includegraphics[width=1.1\linewidth]{figures/pollDSL.pdf}
-      \caption{Diagramma UML del \ac{dsl} per la porzione di definizione della votazione}
+      \caption{Diagramma UML del \ac{dsl} per la definizione della votazione}
      \label{fig:pollDSL}
   \end{figure}
 \end{center}
@@ -534,8 +545,8 @@ In figura \ref{fig:competitionDSL} viene mostrato il diagramma UML delle interfa
 
 \section{Domain Specific Language per la definizione del concorrente}
 Questo DSL è ideato per facilitare la creazione di un concorrente.
-Ciascun concorrente può avere un elenco di punteggi, e ciascuno di essi può essere
-assegnato al concorrente (vedi paragrafo \ref{dslcompetizione} ) attraverso l'uso dell'operatore unario \texttt{+}.
+Ciascun concorrente può avere un elenco di punteggi, i quali vengono
+assegnati attraverso l'uso dell'operatore unario \texttt{+}.
 \begin{figure}[H]
     \centering
      \includegraphics[width=1.1\linewidth]{figures/competitorDSL.pdf}
