@@ -55,9 +55,8 @@ in Nuovi Contesti \\
 \frontispiece
 
 \begin{abstract}	
-    La tesi si concentra sull'evoluzione della democrazia nell'era digitale, 
-    con l'implementazione di EleKtion, una libreria multipiattaforma per votazioni. 
-    Dopo un' introduzione sulla democrazia, si analizzano le caratteristiche delle votazioni 
+    La tesi si concentra sull'evoluzione della democrazia digitale e l'implementazione di EleKtion, una libreria multipiattaforma per votazioni. 
+    Dopo un' introduzione sulla definizione di democrazia, si analizzano le caratteristiche delle votazioni 
     e si progetta un linguaggio di dominio volto a facilitare la definizione del contesto della votazione.
     La fase di implementazione si svolge affrontando aspetti cruciali come la gestione degli artefatti 
     e l'implementazione dei casi di test. 
@@ -82,25 +81,25 @@ Ai miei genitori
 %----------------------------------------------------------------------------------------
 \chapter{Introduzione}
 \label{chap:introduction}
-Nell'ultimo ventennio, l'informatica sta perpetuando un progresso tecnologico sempre più pervasivo
+Nell'ultimo ventennio l'informatica sta perpetuando un progresso tecnologico sempre più pervasivo
 nella quotidianità delle persone, digitalizzando i processi in numerosi ambiti, come le procedure burocratiche,
 la razionalizzazione delle risorse, la raccolta di opinioni di una comunità,
 con la tendenza di giungere ad una semplificazione e ad una maggior diffusione sulle informazioni di
 interesse per gli \textit{stakeholders}.
-Questo fenomeno ha impattato, pur con qualche difficoltà, anche alcuni dei processi che tradizionalmente
-sono più legati ad una lavorazione analogica e ad una maggior attenzione da parte del pubblico,
+Questo fenomeno ha impattato, pur con qualche difficoltà, anche uno dei processi che tradizionalmente
+è più legato ad una lavorazione analogica e ad una maggior attenzione da parte del pubblico,
 ossia il contesto delle votazioni e dell'applicazione del potere democratico all'interno di uno Stato.
 L'informatizzazione delle votazioni è stata adattata a molteplici contesti, dalle votazioni per le  
 elezioni dei rappresentanti politici a decisioni interne tra gruppi di lavoro e consultazioni
 della volontà popolare. L'espansione potrà in futuro coinvolgere nuovi settori, come quello sportivo, ponendo sugli esiti una maggior
 influenza fondata su nuovi criteri e volontà popolari.
 Lo scopo della tesi è realizzare una libreria in \texttt{Kotlin Multiplatform} chiamata EleKtion, la quale permette di creare e gestire
-votazioni lasciando all'utilizzatore ampia possibilità di parametrizzazione.
+votazioni lasciando all'utilizzatore la possibilità di parametrizzazione.
 La disponibilità degli artefatti finali su molteplici piattaforme permette di massimizzarne la diffusione, garantendo
 allo stesso tempo che il prodotto sia stato generando seguendo criteri di qualità, sia a livello di logiche di funzionamento
 che correttezza sintattica del codice sorgente.
 In questa tesi viene presentata inizialmente una panoramica relativa alla nascita della democrazia, di come essa è mutata nel tempo,
-e di come l'informatica può, e in certi casi ha potuto, riportare maggior potere nella volontà popolare, abbattendo barriere
+e di come l'approccio informatico può, e in certi casi ha potuto, riportare maggior potere nella volontà popolare, abbattendo barriere
 geografiche e sociali.
 Successivamente viene mostrata l'analisi e la modellazione del dominio per la gestione delle votazioni,
 approfondendo le differenti tipologie di voto.
@@ -109,14 +108,14 @@ generando diagrammi UML architetturali, per poi vagliare gli aspetti implementan
 partendo dagli strumenti che semplificano l'evoluzione e la pubblicazione del software fino ad arrivare ai casi di test.
 Infine, viene illustrata una sperimentazione della libreria utilizzando dati relativi a campionati sportivi, nello specifico
 scegliendo come sport la Formula 1. L'applicazione di logiche algoritmiche, definibili dall'utilizzatore, e la possibilità
-di dichiarare elenchi di voti nelle gare, pongono nuovi scenari che possono modificare e mutare la storia di uno campionato.
+di dichiarare elenchi di voti nelle gare, pongono nuovi scenari che possono modificare e mutare la storia di un campionato.
 Questi risultati vengono confrontati con quelli reali per ottenere un'evidenza utile ad una valutazione qualitativa.
 
 
 %----------------------------------------------------------------------------------------
 \chapter{Democrazia Digitale}
 Il termine \textit{Democrazia}, derivante dal greco \textit{démos krátos} (governo del popolo),
-indica un forma di governo nella quale il potere appartiene al popolo ed è esercitato attraverso forme dirette, che coinvolgono attivamente
+indica una forma di governo nella quale il potere appartiene al popolo ed è esercitato attraverso forme dirette, che coinvolgono attivamente
 i cittadini, e attraverso forme rappresentantive, che prevedono un sistema di rappresentanza rinnovata ciclicamente
 attraverso apposite elezioni.
 In una qualunque forma di \textit{democrazia}, sono fondamentali i principi di elezioni libere, equità dei cittadini, partecipazione
@@ -157,7 +156,7 @@ e votazioni interne tra i membri, come nel caso del Partito Pirata tedesco in Ge
 o il Movimento 5 Stelle in Italia (piattaforma Rousseau). Lo scopo principale è quello di promuovere la discussione
 di proposte tra i membri di un organizzazione, le quali saranno portate in sede legislativa da un loro rappresentante~\cite{korthagen2020non}.
 Sistemi come LiquidFeedback, OpenDCN, Airesis, essendo strutturati come applicativi end-to-end,
-pongo molta enfasi sull'interazione tra utenti, la presentazione e validazione di proposte,
+pongono molta enfasi sull'interazione tra utenti, la presentazione e validazione di proposte,
 l'eventuale presenza di deleghe, l'espressione del voto tramite una lista di preferenze, ma
 non permettono la variazione delle logiche da applicare per la selezione del vincitore~\cite{Trapanese:2018}.
 In altri sistemi, una fase di analisi iniziale poco trasversale ha portato a dar molto risalto
@@ -262,15 +261,14 @@ A con un punteggio di 37 a 23. Il risultato finale è quindi il seguente:
     \item{Posizione 3: A}
 \end{itemize} 
 
-In alcuni casi il metodo di Condorcet può non portare ad alcun vincitore, in quel caso si
-ha un ciclo, ad esempio, trovandosi in una situazione 
+In alcuni casi il metodo di Condorcet può non portare ad alcun vincitore, presentando un ciclo e trovandosi, ad esempio, in una situazione 
 in cui C $>$ B, B $>$ A, A $>$ C.
 Le varianti del metodo di Condorcet ottimizzano l'algoritmo per minimizzare il rischio
 di indeterminazione del vincitore.
 Può accedere, in Condorcet come nelle sue varianti, di ottenere dei pareggi,
 i quali avvengono quando due o più concorrenti pareggiano l'uno con l'altro ma 
 battono tutti i restanti. La situazione di pareggio può essere gestita in vari
-modi, ad esempio, estraendo una sequenza in modo casuale, valutando altri criteri
+modi, ad esempio, estraendo il vincitore in modo casuale, valutando altri criteri
 come la preferenza nei singoli voti (most first choice) oppure mantenendo il set di pareggio
 senza effettuare alcuna azione.
 Dato il risultato della votazione, è possibile definire l'utilità individuale come il grado
@@ -329,7 +327,7 @@ circa le specifiche impostate e le caratteristiche dei concorrenti.
 Ciascuna votazione ha associata una competizione con una metrica che caratterizza l'operato dei concorrenti.
 Prendendo esempi di riferimento legati al mondo del motor sport,
 si potrebbe pensare ai punti totalizzati per ogni gara, come nel caso di \ac{f1} o Moto GP.
-Seppur in molti casi le regole non cambiano in modo drastico, ciascuno sport è influenzato da molti fattori:
+Seppur in molti casi le regole non cambino in modo drastico, ciascuno sport è influenzato da molti fattori:
 i concorrenti, gli ambienti di gara, i tifosi e altri aspetti che contribuiscono a rendere 
 ogni campionato come un capitolo a sè stante. 
 Inoltre ognuno di essi ha un proprio metodo di calcolo ed organizzazione delle competizioni. 
