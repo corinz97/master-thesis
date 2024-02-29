@@ -565,36 +565,36 @@ Per la libreria, il cui codice sorgente è reperibile all'indirizzo https://gith
 sono stati adottati \texttt{Kotlin} come linguaggio di programmazione
 e \texttt{Gradle} come tool a supporto della \textit{build automation}.
 \section{Casi realizzati per i differenti tipi di algoritmo}
-Nel paragrafo \ref{modellodominio} e nel capitolo \ref{designdsl} è stata presentata l'organizzazione del dominio
+Nel paragrafo \ref{modellodominio} e nel capitolo \ref{designdsl} sono stati presentati l'organizzazione del dominio
 da implementare, assieme ad un approfondimento sulle entità che compongono il linguaggio \ac{dsl}
-ideato appositamente per questa libreria.
+ideato appositamente.
 In questo capitolo vengono mostrati alcuni dei casi d'uso che sono stati realizzati per verificare il corretto funzionamento della libreria,
 spiegando come vengono gestiti eventuali conflitti a seconda dell'algoritmo scelto.
 \subsection{Votazioni a singola preferenza}
 Per gestire le votazioni a singola preferenza è stato creato inizialmente il caso base per la votazione a maggioranza,
 nella quale il vincitore è il concorrente che riceve più voti, a prescindere dalla presenza di altri criteri come i punteggi.
-In alcuni casi è possibile avere parità tra i voti, appaiono più vincitori nella stessa posizione. 
+In alcuni casi è possibile avere parità tra i voti, risultando più vincitori nella stessa posizione della classifica. 
 Successivamente è stata estesa la gestione dei pareggi, dando la possibilità all'utilizzatore della libreria di definire 
 una metrica per la competizione ed un elenco di punteggi realizzati da ciascun concorrente, basati su quella metrica.
 Nel caso in cui si ha un pareggio di voti è possibile decidere di effettuare un ulteriore sotto-confronto basato sui punteggi,
 per selezionare chi risulta vincitore sulla base del punteggio più basso o più alto realizzato nella competizione.
 Questo sotto-confronto può portare ad avere dei vincitori a pari merito, oppure di piazzarli in posizioni differenti, proprio
 per la differenza dei punteggi.
-La gestione quindi non garantisce l'assenza totale di pareggi, che può verificarsi anche a livello di punteggio.
+La gestione quindi non garantisce l'assenza totale di pareggi, che possono verificarsi anche a livello di punteggio.
 Inoltre, è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante, ma di negargli
 comunque l'opportunità di votare più volte lo stesso candidato.
 Le classi realizzate per gestire tutte queste casistiche sono \texttt{MajorityVotesAlgorithm}, \texttt{MajorityVotesThenHighestScoreAlgorithm}
 e \texttt{MajorityVotesThenLowestScoreAlgorithm}. Nell'estratto di codice \ref{lst:controllisinglevote} vengono mostrati i controlli effettuati prima di 
 compiere la scelta del vincitore.
 \lstinputlisting[language=Kotlin,label={lst:controllisinglevote}, caption={Controlli effettuati prima di compiere la scelta del vincitore, nella votazione a singola preferenza}]{listings/controlliSingleVote.kt}
-Successivamente, viene generata la classifica, che contiene l'insieme dei vincitori con il relativo numero di voti. Per ciascun vincitore,
+La classifica generata contiene l'insieme dei vincitori con il relativo numero di voti e per ciascuno
 viene riportato il punteggio maggiore o quello minore. Nel caso in cui si utilizzi l'algoritmo a maggioranza senza sotto-confronto, vengono riportati
 tutti i punteggi realizzati, inoltre per quest'ultimo non è obbligatorio associare dei punteggi ai giocatori.
 Negli estratti di codice \ref{lst:esempiosinglevotemajority}, \ref{lst:esempiosinglevotemajorityhighestscore} e \ref{lst:esempiosinglevotemajoritylowestscore}  vengono mostrati alcuni esempi realizzati: nella definizione di ogni competizione
 è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
 Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
 il quale replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
-Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, generando una stringa \texttt{UUID} che viene usata come identificativo del votante.
+Si definiscono poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, generando una stringa \texttt{UUID} che viene usata come identificativo del votante.
 \lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajority}, caption={Votazione a singola preferenza, in cui il vincitore è competitor1. }]{listings/esempioSingleVoteMajority.kt}
 \lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajorityhighestscore}, caption={Votazione a singola preferenza, in cui il vincitore è competitor1. }]{listings/esempioSingleVoteMajorityHighestScore.kt}
 \lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajoritylowestscore}, caption={Votazione a singola preferenza, in cui competitor1 e competitor2 pareggiano.}]{listings/esempioSingleVoteMajorityLowestScore.kt}
@@ -625,23 +625,23 @@ restituita un' eccezione nei casi in cui:
 
 \subsection{Votazioni a lista di preferenze}
 Per gestire la votazioni a lista di preferenze è stato necessario procedere all'implementazione dell'algoritmo di
-Condorcet e dell'algoritmo di Schultze. Come è stato descritto in \ref{chapter:votazionilistapreferenze}, quest'ultimo
+Condorcet e dell'algoritmo di Schultze. Come è stato descritto nel paragrafo \ref{chapter:votazionilistapreferenze}, quest'ultimo
 è una variante del primo, pertanto condividono buona parte della logica.
 Inizialmente usando una matrice di dimensione \textit{n x n}, dove \textit{n} è il numero dei candidati, ed esaminando l'indice in cui si posizionano i 
 candidati in un voto, si evidenzia chi dei due abbiamo ottenuto un punto. Si ottiene quindi una matrice che indica quante volte 
 sono stati vinti gli scontri di coppia tra due determinati candidati.
 Successivamente, l'algoritmo di Condorcet effettua tante iterazioni quanti sono i concorrenti rimasti da piazzare in graduatoria,
-ed in ogni iterazione si esamina quali siano i candidati che hanno battuto tutti gli altri nello scontro a coppie.
+ed in ogni iterazione si esamina quali siano i candidati che hanno battuto tutti gli altri negli scontri a coppie.
 Anche l'algoritmo di Schultze effettua tante iterazioni quanti sono i concorrenti rimasti da piazzare in graduatoria, ed in ogni iterazione
 si determinano quali sono i candidati che hanno ottenuto il maggior numero di vittorie negli scontri a coppie.
 Pertanto, è stata ammessa la possibilità di ottenere dei pareggi a parità di posizionamento.
 Anche per questa tipologia di votazione è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante , ma di negargli
 comunque l'opportunità di votare più volte lo stesso candidato.
-Le classi realizzate per gestire le casistiche sono \texttt{CondorcetAlgorithm} e \\
+Le classi realizzate per gestire le casistiche sono \texttt{CondorcetAlgorithm} e
 \texttt{SchultzeAlgorithm}.
 Nell'estratto di codice \ref{lst:controllilopvote} vengono mostrati i controlli effettuati prima di 
 eseguire l'algoritmo di votazione.
-\lstinputlisting[language=Kotlin,label={lst:controllilopvote}, caption={Controlli effettuati prima della votazione a lista di preferenze}]{listings/controlliLOPVote.kt}
+\lstinputlisting[language=Kotlin,label={lst:controllilopvote}, caption={Controlli effettuati prima di eseguire l'algoritmo di votazione a lista di preferenze}]{listings/controlliLOPVote.kt}
 Infine viene generata la classifica contenente l'elenco dei vincitori, posti in ordine di preferenza decrescente secondo la logica dell'algoritmo selezionato.
 A parità di posizione è possibile trovare
 più di un candidato e non è previsto riportare il numero di voti, poichè è scollegato dalla logica algoritmica.
@@ -649,7 +649,7 @@ Negli estratti di codice \ref{lst:esempiolopvotecondorcet} e \ref{lst:esempiolop
 è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
 Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
 che replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
-Si definisce poi l'algoritmo da utilizzare e l'elenco di voti. 
+Si definiscono poi l'algoritmo da utilizzare e l'elenco di voti. 
 I voti possono essere anonimizzati, come nel caso delle votazioni a preferenza singola.
 \lstinputlisting[language=Kotlin,label={lst:esempiolopvotecondorcet}, caption={Votazione a lista di preferenze con l'algoritmo di Condorcet, in cui la classifica generata è competitorC, competitorA, competitorB}]{listings/esempioLOPVoteCondorcet.kt}
 \lstinputlisting[language=Kotlin,label={lst:esempiolopvoteschultze}, caption={Votazione a lista di preferenze con l'algoritmo di Schultze, in cui la classifica generata è competitorC, competitorA, competitorB}]{listings/esempioLOPVoteSchultze.kt}
@@ -699,10 +699,10 @@ Così facendo, si può subito notare se tutto è andato a buon fine oppure
 se è necessario effettuare ulteriori eventi correttivi.
 Una volta che il flusso di compilazione e verifica viene terminato con successo,
 è possibile procedere alla generazione di uno o più artefatti e della relativa documentazione.
-Questi prodotti possono essere sottoposti ad un operazione di versionamento,
+Questi prodotti possono essere sottoposti ad un'operazione di versionamento,
 in modo da distinguere le evoluzioni del software e semplificarne la distribuzione
 e la tracciabilità.
-Poichè gli artefatti generati sono dipendenti dall'architettura della macchina
+Poichè gli artefatti generati possono essere dipendenti dall'architettura della macchina
 e dal sistema operativo sui quali avviene il processo di \textit{build}, è opportuno eseguirlo
 su piattorme dedicate come \ac{gh}.
 \ac{gh} fornisce ambienti standard e personalizzabili
@@ -804,7 +804,7 @@ il che permette di avere un controllo degli accessi efficace come quello disponi
 Al pari di Maven Central viene mantenuto il concetto di artefatti immutabili, e in più viene dato il supporto
 per l'archiviazione di pacchetti in numerosi linguaggi, tra cui \texttt{C\#}.
 
-Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulle diffusione di librerie \texttt{\ac{js}} e \texttt{Node.js},
+Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulla diffusione di librerie \texttt{\ac{js}} e \texttt{Node.js},
 si differenzia dai precedenti in quanto non adotta il principio di immutabilità.
 In questo caso, la modifica o eliminazione di una versione di un pacchetto può avere impatti\footnote{\url{https://archive.is/qMtZE}} notevoli sugli utilizzatori,
 portando a potenziali disastri mondiali.
@@ -832,7 +832,7 @@ libreria in ambito Web, e viene generata la versione \texttt{native}, compatibil
     \item{tvos x64;}
     \item{tvos simulator arm64.}
 \end{itemize}
-Il processo di compilazione viene eseguito grazie ai \textit{workflow} presenti nel repository \ac{gh}:
+Il processo di automazione viene eseguito grazie ai \textit{workflow} presenti nel repository \ac{gh}:
 il primo \textit{workflow}, definito \texttt{dispatcher}, viene avviato al momento della ricezione di un comando \textit{push} o della creazione di
 una \textit{richiesta pull}, e richiama i seguenti \textit{workflow}:
 \begin{enumerate}
