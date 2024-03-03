@@ -1,4 +1,4 @@
-val raceResults : Map<String, List<Pair<String, Int>>>() = ... //get data from Ergast API
+val raceResults : Map<String, List<Pair<String, Int>>>() = ... 
 val validCompetitors = raceResults.flatMap { it.value }.groupBy({ it.first }, { it.second })
 val allCompetitorNames = validCompetitors.keys.fold(setOf<String>()) { s, element -> s + element }
 var election =

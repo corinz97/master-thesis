@@ -96,7 +96,7 @@ influenza fondata su nuovi criteri e volontà popolari.
 Lo scopo della tesi è realizzare una libreria in \texttt{Kotlin Multiplatform} chiamata EleKtion, la quale permette di creare e gestire
 votazioni lasciando all'utilizzatore la possibilità di parametrizzazione.
 La disponibilità degli artefatti finali su molteplici piattaforme permette di massimizzarne la diffusione, garantendo
-allo stesso tempo che il prodotto sia stato generando seguendo criteri di qualità, sia a livello di logiche di funzionamento
+allo stesso tempo che il prodotto sia stato generato seguendo criteri di qualità, sia a livello di logiche di funzionamento
 che correttezza sintattica del codice sorgente.
 In questa tesi viene presentata inizialmente una panoramica relativa alla nascita della democrazia, di come essa è mutata nel tempo,
 e di come l'approccio informatico può, e in certi casi ha potuto, riportare maggior potere nella volontà popolare, abbattendo barriere
@@ -114,7 +114,7 @@ Questi risultati vengono confrontati con quelli reali per ottenere un'evidenza u
 
 %----------------------------------------------------------------------------------------
 \chapter{Democrazia Digitale}
-Il termine \textit{Democrazia}, derivante dal greco \textit{démos krátos} (governo del popolo),
+Il termine \textit{democrazia}, derivante dal greco \textit{démos krátos} (governo del popolo),
 indica una forma di governo nella quale il potere appartiene al popolo ed è esercitato attraverso forme dirette, che coinvolgono attivamente
 i cittadini, e attraverso forme rappresentantive, che prevedono un sistema di rappresentanza rinnovata ciclicamente
 attraverso apposite elezioni.
@@ -203,7 +203,7 @@ viene fornita una modellazione del dominio mediante diagramma UML.
 \section{Votazioni a singola preferenza}
 La tipologia di voto a singola preferenza impone al votante di effettuare una scelta tra un
 numero definito di candidati. Al termine della votazione, tipicamente si adotta il criterio
-della votazione maggioritaria: si contano i voti ottenuti da ciascun candidato, e colui che ottiene il
+maggioritario: si contano i voti ottenuti da ciascun candidato, e colui che ottiene il
 numero più elevato risulta vincitore. A seconda del contesto preso in considerazione,
 è possibile avere più turni per diminuire di volta in volta il numero di candidati coinvolti.
 Se si arriva ad un pareggio, è possibile effettuare un nuovo ballottaggio oppure adottare
@@ -262,7 +262,7 @@ A con un punteggio di 37 a 23. Il risultato finale è quindi il seguente:
 \end{itemize} 
 
 In alcuni casi il metodo di Condorcet può non portare ad alcun vincitore, presentando un ciclo e trovandosi, ad esempio, in una situazione 
-in cui C $>$ B, B $>$ A, A $>$ C.
+in cui C batte B, B batte A, A batte C.
 Le varianti del metodo di Condorcet ottimizzano l'algoritmo per minimizzare il rischio
 di indeterminazione del vincitore.
 Può accedere, in Condorcet come nelle sue varianti, di ottenere dei pareggi,
@@ -342,7 +342,7 @@ sarebbe stato l'esito finale con regole differenti.
     \begin{itemize}
         \item{Definizione di gestori delle votazioni, intesi come contenitori delle stesse. Ciascuna votazione
         deve essere indipendente dalle altre. L'eventuale collegamento tra esse viene demandato all'utilizzatore della libreria;}
-        \item{Definizione dei concorrenti che rappresentano i candidati disponibili, assieme alle relative caratteristiche e di
+        \item{Definizione dei concorrenti che rappresentano i candidati disponibili, assieme alle relative caratteristiche ed
         eventuali punteggi.
         I punteggi sono collegati ad una specifica metrica di interesse.
         }
@@ -568,8 +568,7 @@ e \texttt{Gradle} come tool a supporto della \textit{build automation}.
 Nel paragrafo \ref{modellodominio} e nel capitolo \ref{designdsl} sono stati presentati l'organizzazione del dominio
 da implementare, assieme ad un approfondimento sulle entità che compongono il linguaggio \ac{dsl}
 ideato appositamente.
-In questo capitolo vengono mostrati alcuni dei casi d'uso che sono stati realizzati per verificare il corretto funzionamento della libreria,
-spiegando come vengono gestiti eventuali conflitti a seconda dell'algoritmo scelto.
+In questo paragrafo viene spiegato come vengono gestiti eventuali pareggi ed inconsistenze.
 \subsection{Votazioni a singola preferenza}
 Per gestire le votazioni a singola preferenza è stato creato inizialmente il caso base per la votazione a maggioranza,
 nella quale il vincitore è il concorrente che riceve più voti, a prescindere dalla presenza di altri criteri come i punteggi.
@@ -678,8 +677,8 @@ restituita un' eccezione nei casi in cui:
     }
 
 \end{enumerate}
-Utilizzando il DSL, è possibile dichiarare voti in cui non appaiono tutti i possibili candidati e in tal caso,
-questi saranno piazzati in fondo alla lista, ossia come più sfavoriti.
+Utilizzando il DSL è possibile dichiarare voti in cui non appaiono tutti i possibili candidati e in tal caso,
+i mancanti saranno piazzati in fondo alla lista di preferenze, ossia come più sfavoriti.
 \section{Build automation}
 L'adozione di un sistema di \textit{build automation} è un fattore chiave per la produzione
 efficace ed efficiente di software di qualità.
@@ -696,7 +695,7 @@ possibile adottare un sistema di automazione, che attraverso una serie di task p
 e ripetibili, verifichi automaticamente gli step,
 gestendo anche le dipendenze tra gli stessi.
 Così facendo, si può subito notare se tutto è andato a buon fine oppure 
-se è necessario effettuare ulteriori eventi correttivi.
+se è necessario effettuare interventi correttivi.
 Una volta che il flusso di compilazione e verifica viene terminato con successo,
 è possibile procedere alla generazione di uno o più artefatti e della relativa documentazione.
 Questi prodotti possono essere sottoposti ad un'operazione di versionamento,
@@ -776,12 +775,12 @@ La pubblicazione avviene attraverso un apposito \textit{workflow} predefinito.
 Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato per dare informazioni 
 su come scaricare ed installare il software oppure per pubblicare la documentazione.
 \subsection{Maven Central, GitHub Packages e NPM}
-Maven Central è tra i repository centralizzati più popolari per distribuire e riutilizzare artefatti basati su \texttt{\ac{jvm}}.
+Maven Central è tra i gestori di repository più popolari per distribuire e riutilizzare artefatti basati su \texttt{\ac{jvm}}.
 Un repository è definibile come "la directory che memorizza tutti i progetti e le librerie JAR, i plugin
 o qualsiasi altro artefatto specifico del progetto che può essere facilmente utilizzato da Maven"~\cite{kozak2022three}.
 Il sistema di gestione delle dipendenze di Maven è in grado di risolvere automaticamente le dipendenze transitive,
 semplificando la gestione manuale delle dipendenze per gli sviluppatori. 
-Gli artefatti caricati su Maven Central, tra cui librerie di codice compilato, documentazione ed elenco di dipendenze,
+Gli artefatti caricati su Maven Central, tra cui librerie di codice compilato ed elenchi di dipendenze,
 sono immutabili e non possono essere modificati né eliminati.
 Gli artefatti vengono identificati univocamente con una tripletta \textit{groupId:artifactId:version},
 dove \textit{groupId} identifica un gruppo di artefatti, \textit{artifactId} si riferisce al nome della libreria
@@ -884,7 +883,7 @@ delle gare di \ac{f1}.
 I dati sono accessibili attraverso un API REST pubblica chiamata Ergast API\footnote{\url{https://archive.is/Iujgc}},
 creata per scopi non-commerciali,
 che mette a disposizione dati inerenti ai mondiali di \ac{f1} a partire dall'anno 1950.
-Per ognuno di questi sono a disposizione numerose informazioni come l'elenco delle gare ufficiali (Gran Premi),
+Per ognuno di questi sono disponibili numerose informazioni come l'elenco delle gare ufficiali (Gran Premi),
 le gare di qualifica, le classifiche dei piloti, lo storico
 dei piloti, le classifiche dei costruttori e molto altro.
 Allo scopo di questa tesi, sono utili le informazioni riguardo ai risultati delle gare ufficiali
@@ -962,7 +961,7 @@ finali basate sull'algoritmo di Condorcet e l'algoritmo di Schultze.
     \begin{tabular}{|p{0.1\linewidth}|p{0.33\linewidth}|p{0.33\linewidth}|p{0.33\linewidth}|}
 
     \hline
-    \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
+    \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reale} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
     1.	 & 	Max-Verstappen  & 	 Max-Verstappen (C1.)& 	 Max-Verstappen 	 \\ \hline
     2.	 & 	Sergio-Pérez & 	 Sergio-Pérez (C2.) & 	 Sergio-Pérez 	 \\ \hline
     3.	 & 	Lewis-Hamilton & 	 Lewis-Hamilton (C3.)& 	 Lewis-Hamilton 	 \\ \hline
@@ -1163,10 +1162,8 @@ C22.  & 22 & 15 & 19 & 18 & 19 & 21 & 20 & 21 & 20 & 22 & 20 & 22 & 21 & 20 & 21
     \multicolumn{1}{|l|}{Elemento 1} & \multicolumn{1}{l|}{Elemento 2} & \multicolumn{1}{l|}{Valore distanza euclidea} \\ \hline
     Matrice "reale" & Matrice Condorcet &  68.23 \\ \hline
     Matrice "reale" & Matrice Schultze &  44.72 \\ \hline
-   % Matrice Condorcet & Matrice Schultze &  48.04 \\ \hline
     Classifica finale "reale" & Classifica finale Condorcet &  14.35 \\ \hline
     Classifica finale "reale" & Classifica finale Schultze &  8.31 \\ \hline
-    %Classifica finale Condorcet & Classifica finale Schultze &  14.04 \\ \hline
     \end{tabular}}
     \endgroup
     \caption{Campionato F1 2023 - Valori di distanza ottenuti applicando la 
@@ -1187,7 +1184,7 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
     \resizebox{\linewidth}{!}{%
     \begin{tabular}{|p{0.1\linewidth}|p{0.33\linewidth}|p{0.33\linewidth}|p{0.33\linewidth}|}
     \hline
-    \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reali} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
+    \multicolumn{1}{|l|}{Posizione} & \multicolumn{1}{l|}{Reale} & \multicolumn{1}{l|}{Condorcet} & \multicolumn{1}{l|}{Schultze} \\ \hline
     
     1. &	Lewis-Hamilton & 	 Felipe-Massa (C1.)& 	 Lewis-Hamilton 	 \\ \hline
     2.&	Felipe-Massa & 	 Lewis-Hamilton (C2.)& 	 Robert-Kubica 	 \\ \hline
@@ -1215,7 +1212,8 @@ classifiche finali, usando l'algoritmo di Condorcet e l'algoritmo di Schultze.
     \end{tabular}}
     \endgroup
     \caption{Classifica finale reale e classifiche finali ottenute con 
-    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale F1 2008 }
+    l'algoritmo di Condorcet e l'algoritmo di Schultze, relativamente al mondiale F1 2008.
+    Nella colonna relativa all'algoritmo di Condorcet viene fornito un acronimo ad ogni concorrente.  }
     \label{table:classifichefinali2008}
 \end{table}
 Nelle tabelle \ref{table:classifichegeneralireali2008tabella}, \ref{table:classifichegeneralicondorcet2008tabella} e \ref{table:classifichegeneralischultze2008tabella}
@@ -1363,10 +1361,10 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
  con numerosi pareggi per poi distinguerli successivamente, tuttavia i risultati di Condorcet mostrano limiti in merito alla capacità
  di discriminazione di un vincitore unico per ogni posizione.
  In tabella \ref{table:distanzef12008} vengono mostrati i valori di distanza ottenuti applicando la 
- \textit{norma di Frobenius} alla distanza tra le matrici rappresentate nelle prime due colonne.
+ \textit{norma di Frobenius} alla differenza delle matrici rappresentate nelle prime due colonne.
  Rispetto al caso del campionato 2023 si può notare un differenza più marcata in termini di distanze, sia nel caso
  di Schultze che in Condorcet. Quest'ultimo mostra una maggior differenza sia nel caso in cui viene confrontato
- l'insieme delle classifiche provvisorie, sia nel caso della classifica finale.
+ l'insieme delle classifiche provvisorie, sia nel caso della sola classifica finale.
  \begin{table}[H]
     \centering
     \begingroup
@@ -1377,10 +1375,8 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
     \multicolumn{1}{|l|}{Elemento 1} & \multicolumn{1}{l|}{Elemento 2} & \multicolumn{1}{l|}{Valore distanza euclidea} \\ \hline
     Matrice "reale" & Matrice Condorcet &  77.19 \\ \hline
     Matrice "reale" & Matrice Schultze &  52.53 \\ \hline
-    %Matrice Condorcet & Matrice Schultze &  55.94 \\ \hline
     Classifica finale "reale" & Classifica finale Condorcet &  24.6 \\ \hline
     Classifica finale "reale" & Classifica finale Schultze &  12.45 \\ \hline
-    %Classifica finale Condorcet & Classifica finale Schultze &  19.34 \\ \hline
     \end{tabular}   }
     \endgroup
     \caption{Campionato F1 2008 - Valori di distanza ottenuti applicando la 
@@ -1392,7 +1388,7 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
 \chapter{Conclusioni}
 In questa tesi è stata presentata un'introduzione sulla \textit{democrazia} e sullo stato attuale 
 della \textit{democrazia digitale}, illustrando soluzioni esistenti sia nell'ambito delle decisioni
-politiche, sia nell'ambito di contesti logistici che impattano la quotidianità della popolazione.
+politiche che nell'ambito di contesti logistici impattanti la quotidianità della popolazione.
 È stata presentata la creazione di una libreria multipiattaforma in \texttt{Kotlin Multiplatform},
 avente lo scopo di rendere disponibile uno strumento per gestire le votazioni digitali, parametrandole
 come ritenuto più opportuno dall'utilizzatore finale, ossia dall'organizzatore della votazione.
@@ -1410,11 +1406,11 @@ Infine viene mostrata un'estensione dei casi studio, applicando le funzionalità
 dati reali relativi ai campionati \ac{f1}.
 Per questi ultimi vengono approfonditi i dettagli relativi alle classifiche ricalcolate utilizzando
 la libreria e vengono posti a confronto con i dati reali, misurando le differenze tramite un'opportuna
-metrica di distanza. La possibilità di ottenere dei pareggi nelle classifiche generate, ha permesso di
+metrica di distanza. La possibilità di ottenere dei pareggi nelle classifiche generate ha permesso di
 ottenere una maggior espressività sul piazzamento dei concorrenti, ma allo stesso tempo ha comportato 
 una maggior distanza rispetto alle classifiche reali, che non riportavano la possibilità di pareggio.
-Le future implementazioni possono consistere nella gestione di eventi sportivi che riportano una
-struttura più complessa, ad esempio l'adozione di gironi e tornei ad eliminazione diretta,
+Le future evoluzioni della libreria possono consistere nella gestione di eventi sportivi che riportano una
+struttura più complessa, ad esempio l'adozione di gironi,
 e secondo, ma non per importanza, l'estensione degli algoritmi disponibili sia per le votazioni a 
 singola preferenza che per quelle a lista di preferenze.
 
