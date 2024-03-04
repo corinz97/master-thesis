@@ -28,8 +28,6 @@ if (candidates.groupingBy { it.name }.eachCount().any { it.value > 1 }) {
                 error("Every allowed candidate must be present in every list of preferences")
             }
         }
-        val groupCount = it.groupingBy { comp -> comp }.eachCount()
-        if (groupCount.any { count -> count.value > 1 }) {
+        if (it.groupingBy { comp -> comp }.eachCount().any { count -> count.value > 1 }) 
             error("Every allowed candidate can be present only once in the list of competitors")
-        }
     }

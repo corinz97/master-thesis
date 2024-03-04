@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,openright, oneside]{book}
+\documentclass[12pt,a4paper,openright, twoside]{book}
 \usepackage[utf8]{inputenc}
 \usepackage{disi-thesis}
 \usepackage{code-lstlistings}
@@ -174,7 +174,7 @@ vi sono esempi notabili anche nel campo del \textit{pervasive computing}, ad ese
 Ricollegandosi al fenomeno dei cambiamenti climatici che stanno inesorabilmente continuando ad avanzare,
 in certe zone del mondo l'acqua potabile sta diventando un bene sempre meno reperibile e degno di salvaguardia.
 In~\cite{smartwater} si pone il focus sull'adozione di sistemi di \textit{IdroInformatica}. Questo tipo di sistema permette di analizzare 
-e monitorare, attraverso sensori e componenti real-time \texttt{SCADA} (Supervisory Control And Data Acquisition), gli attuali flussi e pressioni nella
+e monitorare, attraverso sensori e componenti real-time \textit{SCADA} (Supervisory Control And Data Acquisition), gli attuali flussi e pressioni nella
 rete di distribuzione ed effettuare predizioni sui futuri guasti. Questi strumenti di analisi possono fornire ai cittadini
 indicazioni su come ottimizzare l'utilizzo delle risorse. L'unione di questi sistemi ad un coinvolgimento digitale e democratico,
 che porti i cittadini a prendere parte alle decisioni per i cambiamenti della gestione presente in una determinata area,
@@ -563,7 +563,7 @@ Successivamente, viene fornita una panoramica sul processo di \textit{build auto
 vengono mostrati gli step realizzati per volgere alla creazione e pubblicazione della libreria.
 Per la libreria, il cui codice sorgente è reperibile all'indirizzo https://github.com/corinz97/EleKtion, \\
 sono stati adottati Kotlin come linguaggio di programmazione
-e \texttt{Gradle} come tool a supporto della \textit{build automation}.
+e Gradle come tool a supporto della \textit{build automation}.
 \section{Casi realizzati per i differenti tipi di algoritmo}
 Nel paragrafo \ref{modellodominio} e nel capitolo \ref{designdsl} sono stati presentati l'organizzazione del dominio
 da implementare, assieme ad un approfondimento sulle entità che compongono il linguaggio \ac{dsl}
@@ -593,7 +593,7 @@ Negli estratti di codice \ref{lst:esempiosinglevotemajority}, \ref{lst:esempiosi
 è essenziale dichiarare l'elenco di tutti i possibili candidati in modo da poter verificare che non ci siano voti associati ad un candidato non esistente.
 Questo controllo è effettuato anche dal DSL nella fase di definizione dei voti, e quindi in precedenza all'invocazione dell'algoritmo,
 il quale replica questo controllo in quanto è possibile utilizzarlo indipendentemente dall'adozione di DSL.
-Si definiscono poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, generando una stringa \texttt{UUID} che viene usata come identificativo del votante.
+Si definiscono poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono essere anonimizzati, generando una stringa \textit{UUID} che viene usata come identificativo del votante.
 \lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajority}, caption={Votazione a singola preferenza, in cui il vincitore è competitor1. }]{listings/esempioSingleVoteMajority.kt}
 \lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajorityhighestscore}, caption={Votazione a singola preferenza, in cui il vincitore è competitor1. }]{listings/esempioSingleVoteMajorityHighestScore.kt}
 \lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajoritylowestscore}, caption={Votazione a singola preferenza, in cui competitor1 e competitor2 pareggiano.}]{listings/esempioSingleVoteMajorityLowestScore.kt}
@@ -712,16 +712,16 @@ che semplificano la generazione dell'output finale adattandolo alle specifiche p
 \subsection{Kotlin Multiplatform}
 Kotlin Multiplatform è un tool che favorisce il riuso di codice tra molteplici piattaforme.
 Grazie ad esso, riutilizzando la logica applicativa scritta in Kotlin, è possibile produrre artefatti compatibili
-in molteplici piattaforme (dette \textit{target}), come \texttt{\ac{jvm}}, \texttt{\ac{js}}, \texttt{Android}, \texttt{iOS}, oltre a piattaforme native come \texttt{Linux}, \texttt{Windows}, \texttt{macOS}.
+in molteplici piattaforme (dette \textit{target}), come \ac{jvm}, \ac{js}, Android, iOS, oltre a piattaforme native come Linux, Windows, macOS.
 I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
 Per ogni \textit{target} viene definito un \textit{source set}, ossia un insieme di file sorgente, che definisce anche le dipendenze e le compatibilità.
 Il \textit{source set} predefinito è \texttt{commonMain} e contiene il codice comune a tutti i \textit{target}.
 Al suo interno è possibile utilizzare funzioni e dipendenze che siano compilabili verso tutte le piattaforme dichiarate, mentre quelle che
 sono legate ad uno specifico linguaggio o architettura vanno definite ed utilizzate all'interno degli opportuni \textit{source sets},
 come \texttt{jvmMain} e \texttt{jsMain}. 
-Un esempio è visibile in figura \ref{fig:targets}, in cui i \textit{target} intermedi sono colorati in verde: \texttt{apple} conterrà
+Un esempio è visibile in figura \ref{fig:targets}, in cui i \textit{target} intermedi sono colorati in verde: \textit{apple} conterrà
 codice compatibile solamente con i \textit{target} che lo estendono, oltre a quello ereditato dai livelli superiori. Pertanto, è ammesso 
-che \texttt{macos} utilizzi funzioni che non siano disponibili in \texttt{tvos} ma entrambi accedono al codice messo a disposizione da \texttt{apple}.
+che \textit{macos} utilizzi funzioni che non siano disponibili in \textit{tvos} ma entrambi accedono al codice messo a disposizione da \textit{apple}.
 \begin{figure}
     \centering
      \includegraphics[width=\linewidth]{figures/mptargets.pdf}
@@ -734,7 +734,7 @@ In fase di compilazione, nelle versioni platform-specific, saranno valorizzate t
 che posso richiamare funzionalità altrimenti non disponibili in \texttt{commonMain}.
 Una logica analoga è applicabile anche alla sezione dei test: sono disponibili un \textit{source set} di base, detto \texttt{commonTest}, e altri
 eventuali che contengono codice compatibile solo nella relativa piattaforma.
-In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output ottenuti utilizzando i \textit{target} \texttt{JVM} e \texttt{JS}.
+In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output ottenuti utilizzando i \textit{target} \textit{JVM} e \textit{JS}.
 
 \begin{figure}[H]
     \centering
@@ -746,14 +746,14 @@ In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output 
 \subsection{GitHub Actions}
 \ac{gha} è una piattaforma di \ac{ci}/\ac{cd} basata su repository \ac{gh},
 ai quali possono essere agganciati degli elementi detti \textit{workflow}.
-Un \textit{workflow}, definibile attraverso la sintassi \texttt{YAML}, rappresenta una sequenza di azioni che possono essere eseguite
+Un \textit{workflow}, definibile attraverso la sintassi YAML, rappresenta una sequenza di azioni che possono essere eseguite
 all'occorrenza di un evento, ad esempio la creazione di un \textit{tag} nel repository,
 una \textit{richiesta pull}, un'esecuzione manuale richiesta dal proprietario del repository, ecc\dots
 In ogni \textit{workflow} va specificato il nome dello stesso e l'insieme di eventi che ne scatena 
 l'esecuzione. 
 Di seguito a ciò, è possibile definire un insieme di \textit{job}.
 Ciascun \textit{job} è legato ad uno specifico ambiente di esecuzione: va definito che tipo di
-sistema operativo deve essere adottato (\texttt{Linux}, \texttt{Windows}, \texttt{macOS})
+sistema operativo deve essere adottato (Linux, Windows, macOS)
 e se al termine dello stesso debba essere restituito un output, che sarà accessibile da altri \textit{job}.
 È possibile specificare delle variabili in una \textit{matrice}, in modo eseguire parallelamente molteplici istanze di uno stesso \textit{job} 
 in base alle combinazioni delle variabili; a titolo esemplificativo, eseguire la compilazione di codice utilizzando
@@ -762,7 +762,7 @@ Ciascun \textit{job} è caratterizzato da un proprio flusso indipendente, di con
 per orchestare i processi è opportuno specificare condizioni basate sulle variabili di output 
 oppure sull'indicazione del completamento di uno o più i \textit{jobs} desiderati.
 All'interno del \textit{job} sono definibili uno o più \textit{step}: questi vengono eseguiti in maniera sequenziale
-e sono impostabili per eseguire una sequenza arbitraria di comandi \texttt{bash} oppure
+e sono impostabili per eseguire una sequenza arbitraria di comandi bash oppure
 per eseguire una \textit{action} pubblica.
 Quest'ultima rappresenta un ottimo modo di favorire il riuso
 e la condivisione di codice nella community \ac{gh}, in quanto è possibile, ad esempio, utilizzare un \textit{workflow} complesso
@@ -775,7 +775,7 @@ La pubblicazione avviene attraverso un apposito \textit{workflow} predefinito.
 Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato per dare informazioni 
 su come scaricare ed installare il software oppure per pubblicare la documentazione.
 \subsection{Maven Central, GitHub Packages e NPM}
-Maven Central è tra i gestori di repository più popolari per distribuire e riutilizzare artefatti basati su \texttt{\ac{jvm}}.
+Maven Central è tra i gestori di repository più popolari per distribuire e riutilizzare artefatti basati su \ac{jvm}.
 Un repository è definibile come "la directory che memorizza tutti i progetti e le librerie JAR, i plugin
 o qualsiasi altro artefatto specifico del progetto che può essere facilmente utilizzato da Maven"~\cite{kozak2022three}.
 Il sistema di gestione delle dipendenze di Maven è in grado di risolvere automaticamente le dipendenze transitive,
@@ -803,7 +803,7 @@ il che permette di avere un controllo degli accessi efficace come quello disponi
 Al pari di Maven Central viene mantenuto il concetto di artefatti immutabili, e in più viene dato il supporto
 per l'archiviazione di pacchetti in numerosi linguaggi, tra cui \texttt{C\#}.
 
-Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulla diffusione di librerie \texttt{\ac{js}} e \texttt{Node.js},
+Un altro famoso gestore di pacchetti è \ac{npm}, focalizzato sulla diffusione di librerie \ac{js} e Node.js,
 si differenzia dai precedenti in quanto non adotta il principio di immutabilità.
 In questo caso, la modifica o eliminazione di una versione di un pacchetto può avere impatti\footnote{\url{https://archive.is/qMtZE}} notevoli sugli utilizzatori,
 portando a potenziali disastri mondiali.
@@ -811,9 +811,9 @@ portando a potenziali disastri mondiali.
 
 \section{Generazione multipiattaforma degli artefatti e pubblicazione}
 La libreria EleKtion è stata realizzata partendo da un template\footnote{\url{https://archive.is/rLXB0}} disponibile su \ac{gh}, che fornisce 
-la struttura di avvio per un progetto multipiattaforma in \texttt{Kotlin}, volto alla generazione e pubblicazione di artefatti.
-I \textit{target} sono tutti compilati per \texttt{\ac{jvm} versione 1.8}, successivamente vengono anche convertiti in \texttt{\ac{js}} per la generazione della
-libreria in ambito Web, e viene generata la versione \texttt{native}, compatibile in linguaggio nativo con i seguenti sistemi:
+la struttura di avvio per un progetto multipiattaforma in Kotlin, volto alla generazione e pubblicazione di artefatti.
+I \textit{target} sono tutti compilati per \ac{jvm} versione 1.8, successivamente vengono anche convertiti in \ac{js} per la generazione della
+libreria in ambito Web, e viene generata la versione native, compatibile in linguaggio nativo con i seguenti sistemi:
 \begin{itemize}
     \label{list:elencotargetgenerati}
     \item{Linux x64;}
@@ -847,7 +847,7 @@ calcolare la nuova versione da associare
 alla libreria per poi inizializzare un repository di stage su Maven Central.
 Successivamente viene lanciato il \textit{task} \texttt{gradle build} utilizzando una matrice con i sistemi operativi
  \texttt{windows-2022}, \texttt{macos-12}, \texttt{ubuntu-22.04}. Ciò permette di compilare il codice sorgente, 
- eseguire i test, effettuare i controlli di \texttt{code linting} e \texttt{bug detection} e generare gli artefatti
+ eseguire i test, effettuare i controlli di code linting e bug detection e generare gli artefatti
  in ciascun ambiente. Questi sono generati sulla base dei \textit{target} definiti nella lista al paragrafo \ref{list:elencotargetgenerati};
 ciascun ambiente di compilazione, a seconda del sistema operativo in esecuzione, genera un \textit{subset} di artefatti e li carica sul repository di stage.
 Infine il repository di stage viene chiuso e finalizzato. 
@@ -856,7 +856,7 @@ anche su \ac{npm} e \ac{gh} Packages.
 Completato questo flusso si prosegue ad invocare il \textit{workflow} \texttt{publish-docs}.
 \subsection{Generazione e pubblicazione della documentazione}
 Il \textit{workflow} \texttt{publish-docs} provvede alla generazione della documentazione, sulla base del codice presente
-nel branch \texttt{master}. 
+nel branch \texttt{master}. \\
 Al termine del \textit{workflow} \texttt{build-and-deploy} viene generato un \textit{tag}
 associato al \textit{merge commit} effettuato sul branch \texttt{master}. Questo \textit{tag}
 rappresenta il nuovo valore della versione appena rilasciata, il quale viene riportato nelle pagine di documentazione
@@ -899,8 +899,8 @@ Verrà infine svolto un calcolo utile ad indicare
 la differenza, in termini qualitativi, confrontando i risultati ottenuti.
 \section{Elaborazione dati di un mondiale F1}
 \label{paragrafoelaborazionemondiale}
-Si è provveduto ad ottenere l'elenco delle gare svoltesi nel corso del mondiale AAAA (anno del mondiale), disponibili
-all'endpoint di Ergast API \newline https://ergast.com/api/f1/AAAA.json.
+Si è provveduto ad ottenere l'elenco delle gare svoltesi nel corso del mondiale AAAA (anno del mondiale), contattando 
+l'endpoint ergast.com/api/f1/AAAA.json.
 In questo mondiale sono state effettuate in totale \textit{k} gare, per ognuna di esse sono stati scaricati i relativi
 dati, filtrandoli, tenendo in considerazione solamente il nominativo del pilota e la posizione di arrivo.
 Eventuali ritiri a causa di guasti o altri motivi non sono gestiti, ciascun pilota in ogni caso ha attribuita una posizione di arrivo.
@@ -927,7 +927,7 @@ come voti gli esiti dalla prima alla \textit{k}-esima gara.
 La generazione delle classifiche provvisorie fornisce una serie di risultati in
 cui il primo consiste nella classifica provvisoria al termine della prima gara, il secondo nella classifica provvisoria al termine 
 della seconda gara, fino ad arrivare alla classifica finale.
-I dati delle classifiche provvisorie reali sono ottenuti contattando l'endpoint \newline https://ergast.com/api/f1/AAAA/GP/driverStandings.json,
+I dati delle classifiche provvisorie reali sono ottenuti contattando l'endpoint ergast.com/api/f1/AAAA/GP/driverStandings.json,
 dove AAAA è l'anno del mondiale e GP è il numero della gara
 \lstinputlisting[language=Kotlin,label={lst:election-GPs}, caption={Generazione delle classifiche provvisorie utilizzando EleKtion}]{listings/election-GPs.kt}
 Per confrontare gli esiti ottenuti impiegando i differenti algoritmi e quelli reali estratti dall'API,
@@ -1389,7 +1389,7 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
 In questa tesi è stata presentata un'introduzione sulla \textit{democrazia} e sullo stato attuale 
 della \textit{democrazia digitale}, illustrando soluzioni esistenti sia nell'ambito delle decisioni
 politiche che nell'ambito di contesti logistici impattanti la quotidianità della popolazione.
-A seguire è stata presentata la creazione di una libreria multipiattaforma in \texttt{Kotlin Multiplatform},
+A seguire è stata presentata la creazione di una libreria multipiattaforma in Kotlin Multiplatform,
 avente lo scopo di rendere disponibile uno strumento per gestire le votazioni digitali, parametrandole
 come ritenuto più opportuno dall'utilizzatore finale, ossia dall'organizzatore della votazione.
 Questa libreria è stata  progettata ponendo l'accento su una tecnologia multipiattaforma per 
