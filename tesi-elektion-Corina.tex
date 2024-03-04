@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,openright,twoside]{book}
+\documentclass[12pt,a4paper,openright, oneside]{book}
 \usepackage[utf8]{inputenc}
 \usepackage{disi-thesis}
 \usepackage{code-lstlistings}
@@ -93,7 +93,7 @@ L'informatizzazione delle votazioni è stata adattata a molteplici contesti, dal
 elezioni dei rappresentanti politici a decisioni interne tra gruppi di lavoro e consultazioni
 della volontà popolare. L'espansione potrà in futuro coinvolgere nuovi settori, come quello sportivo, ponendo sugli esiti una maggior
 influenza fondata su nuovi criteri e volontà popolari.
-Lo scopo della tesi è realizzare una libreria in \texttt{Kotlin Multiplatform} chiamata EleKtion, la quale permette di creare e gestire
+Lo scopo della tesi è realizzare una libreria in Kotlin Multiplatform chiamata EleKtion, la quale permette di creare e gestire
 votazioni lasciando all'utilizzatore la possibilità di parametrizzazione.
 La disponibilità degli artefatti finali su molteplici piattaforme permette di massimizzarne la diffusione, garantendo
 allo stesso tempo che il prodotto sia stato generato seguendo criteri di qualità, sia a livello di logiche di funzionamento
@@ -398,7 +398,7 @@ il dominio descritto in questo capitolo.
 \begin{figure}
 
     
-    \includegraphics[width=1.2\linewidth, left]{figures/modellodominio.pdf}
+    \includegraphics[width=\linewidth, left]{figures/modellodominio.pdf}
     \caption{Diagramma UML del modello del dominio di EleKtion}
    \label{fig:modellodominio}
 \end{figure}
@@ -408,18 +408,18 @@ il dominio descritto in questo capitolo.
 \label{designdsl}
 In questo capitolo, partendo dalla modellazione del dominio descritta nel paragrafo \ref{modellodominio}, 
 viene sviluppato un approfondimento sulla definizione delle metriche di punteggio e sulla porzione
-impattata dall'introduzione di \ac{dsl}, volto alla semplificazione dell'utilizzabilità della libreria EleKtion.
+impattata dall'introduzione di un \ac{dsl}, volto alla semplificazione dell'utilizzabilità della libreria EleKtion.
 Ciascuna funzionalità viene approfondita in un apposito paragrafo, ognuno contenente diagrammi UML
 che esplicano l'organizzazione di interfacce e classi astratte.
 Questi diagrammi sono realizzati con il presupposto di poter adottare l'utilizzo
 dei seguenti costrutti:
 \begin{itemize}
-\item{\texttt{Tipi generici}\footnote{\url{https://archive.is/kISda}};}
-\item{\texttt{Overloading} degli \texttt{operatori}\footnote{\url{https://archive.is/cExIS}};}
-\item{\texttt{Higher order functions} (\texttt{function literal with receiver})\footnote{\url{https://archive.is/mWF2b}};}
-\item{\texttt{Companion object}\footnote{\url{https://archive.is/yfHS5}}.}
+\item{Tipi generici\footnote{\url{https://archive.is/kISda}};}
+\item{Overloading degli operatori\footnote{\url{https://archive.is/cExIS}};}
+\item{Higher order functions (function literal with receiver)\footnote{\url{https://archive.is/mWF2b}};}
+\item{Companion object\footnote{\url{https://archive.is/yfHS5}}.}
 \end{itemize}
-Si rimanda alle fonti per l'approfondimento specifico in \texttt{Kotlin}, la sintassi utilizzata nei diagrammi
+Si rimanda alle fonti per l'approfondimento specifico in Kotlin, la sintassi utilizzata nei diagrammi
 è generica ed astrae dal linguaggio specifico.
 \section{Domain Specific Language per la definizione del gestore delle votazioni }
 Questo \ac{dsl} è pensato per facilitare la creazione del gestore delle votazioni.
@@ -435,7 +435,7 @@ Per semplificarne la creazione è utile definire una funzione di supporto conten
 \begin{center} 
 \begin{figure}[H]
     \centering
-     \includegraphics[width=1.1\linewidth]{figures/scoremetric.pdf}
+     \includegraphics[width=\linewidth]{figures/scoremetric.pdf}
      \caption{Diagramma UML dell'organizzazione di una metrica}
     \label{fig:metrica}
  \end{figure}
@@ -451,7 +451,7 @@ In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfa
 \begin{center} 
 \begin{figure}[H]
     \centering
-     \includegraphics[width=1.1\linewidth]{figures/pollManagerDSL.pdf}
+     \includegraphics[width=\linewidth]{figures/pollManagerDSL.pdf}
      \caption{Diagramma UML del \ac{dsl} per la definizione del gestore delle votazioni}
     \label{fig:pollManagerDSL}
  \end{figure}
@@ -494,7 +494,7 @@ acronimi \texttt{SP} e \texttt{LOP}, al posto di, rispettivamente, \texttt{Singl
  \begin{center} 
  \begin{figure}[H]
      \centering
-      \includegraphics[width=1.1\linewidth]{figures/SPPollAlgorithmDSL.pdf}
+      \includegraphics[width=\linewidth]{figures/SPPollAlgorithmDSL.pdf}
       \caption{Diagramma UML del \ac{dsl} per la definizione dell'algoritmo di votazione a singola preferenza}
      \label{fig:SPPollAlgorithmDSL}
   \end{figure}
@@ -505,7 +505,7 @@ acronimi \texttt{SP} e \texttt{LOP}, al posto di, rispettivamente, \texttt{Singl
 \begin{center} 
 \begin{figure}[H]
     \centering
-     \includegraphics[width=1.1\linewidth]{figures/LOPPollAlgorithmDSL.pdf}
+     \includegraphics[width=\linewidth]{figures/LOPPollAlgorithmDSL.pdf}
      \caption{Diagramma UML del \ac{dsl} per la definizione dell'algoritmo di votazione a lista di preferenze}
     \label{fig:LOPPollAlgorithmDSL}
  \end{figure}
@@ -518,7 +518,7 @@ acronimi \texttt{SP} e \texttt{LOP}, al posto di, rispettivamente, \texttt{Singl
 \begin{center}
  \begin{figure}[H]
      \centering
-      \includegraphics[width=1.1\linewidth]{figures/pollDSL.pdf}
+      \includegraphics[width=\linewidth]{figures/pollDSL.pdf}
       \caption{Diagramma UML del \ac{dsl} per la definizione della votazione}
      \label{fig:pollDSL}
   \end{figure}
@@ -537,7 +537,7 @@ Il concorrente istanziato, viene aggiunto alla lista dei concorrenti grazie all'
 In figura \ref{fig:competitionDSL} viene mostrato il diagramma UML delle interfacce e della classe astratta.
 \begin{figure}[H]
     \centering
-     \includegraphics[width=1.1\linewidth]{figures/competitionDSL.pdf}
+     \includegraphics[width=\linewidth]{figures/competitionDSL.pdf}
      \caption{Diagramma UML del \ac{dsl} per la definizione della competizione}
     \label{fig:competitionDSL}
  \end{figure}
@@ -549,7 +549,7 @@ Ciascun concorrente può avere un elenco di punteggi, i quali vengono
 assegnati attraverso l'uso dell'operatore unario \texttt{+}.
 \begin{figure}[H]
     \centering
-     \includegraphics[width=1.1\linewidth]{figures/competitorDSL.pdf}
+     \includegraphics[width=\linewidth]{figures/competitorDSL.pdf}
      \caption{Diagramma UML del \ac{dsl} per la definizione del concorrente}
     \label{fig:competitorDSL}
  \end{figure}
@@ -562,7 +562,7 @@ dando nota delle possibili eccezioni che sono state gestite.
 Successivamente, viene fornita una panoramica sul processo di \textit{build automation} e
 vengono mostrati gli step realizzati per volgere alla creazione e pubblicazione della libreria.
 Per la libreria, il cui codice sorgente è reperibile all'indirizzo https://github.com/corinz97/EleKtion, \\
-sono stati adottati \texttt{Kotlin} come linguaggio di programmazione
+sono stati adottati Kotlin come linguaggio di programmazione
 e \texttt{Gradle} come tool a supporto della \textit{build automation}.
 \section{Casi realizzati per i differenti tipi di algoritmo}
 Nel paragrafo \ref{modellodominio} e nel capitolo \ref{designdsl} sono stati presentati l'organizzazione del dominio
@@ -707,11 +707,11 @@ su piattorme dedicate come \ac{gh}.
 \ac{gh} fornisce ambienti standard e personalizzabili
 in base a direttive, gestendo il processo di \ac{ci}/\ac{cd} che è stato descritto in questo paragrafo. 
 Infine, per favorire la distribuzione e la compatibilità verso molteplici sistemi,
-è utile adottare strumenti come \texttt{Kotlin Multiplatform},
+è utile adottare strumenti come Kotlin Multiplatform,
 che semplificano la generazione dell'output finale adattandolo alle specifiche piattaforme. 
 \subsection{Kotlin Multiplatform}
-\texttt{Kotlin Multiplatform} è un tool che favorisce il riuso di codice tra molteplici piattaforme.
-Grazie ad esso, riutilizzando la logica applicativa scritta in \texttt{Kotlin}, è possibile produrre artefatti compatibili
+Kotlin Multiplatform è un tool che favorisce il riuso di codice tra molteplici piattaforme.
+Grazie ad esso, riutilizzando la logica applicativa scritta in Kotlin, è possibile produrre artefatti compatibili
 in molteplici piattaforme (dette \textit{target}), come \texttt{\ac{jvm}}, \texttt{\ac{js}}, \texttt{Android}, \texttt{iOS}, oltre a piattaforme native come \texttt{Linux}, \texttt{Windows}, \texttt{macOS}.
 I \textit{target} sono disposti secondo una gerarchia predefinita, comunque modificabile in caso di necessità, e sono previsti \textit{target} intermedi.
 Per ogni \textit{target} viene definito un \textit{source set}, ossia un insieme di file sorgente, che definisce anche le dipendenze e le compatibilità.
@@ -724,7 +724,7 @@ codice compatibile solamente con i \textit{target} che lo estendono, oltre a que
 che \texttt{macos} utilizzi funzioni che non siano disponibili in \texttt{tvos} ma entrambi accedono al codice messo a disposizione da \texttt{apple}.
 \begin{figure}
     \centering
-     \includegraphics[width=1\linewidth]{figures/mptargets.pdf}
+     \includegraphics[width=\linewidth]{figures/mptargets.pdf}
      \caption{Esempio di una possibile gerarchia di \textit{target}. Fonte: \url{https://archive.is/eH6ha}}
     \label{fig:targets}
  \end{figure}
@@ -738,7 +738,7 @@ In figura \ref{fig:sourcesetscompilation} viene mostrato il flusso e gli output 
 
 \begin{figure}[H]
     \centering
-     \includegraphics[width=1\linewidth]{figures/sourcesetscompilation.png}
+     \includegraphics[width=\linewidth]{figures/sourcesetscompilation.png}
      \caption{Esempio di output ottenibili in un progetto multipiattaforma. Fonte: \url{https://archive.is/wSykW}}
     \label{fig:sourcesetscompilation}
  \end{figure}
@@ -786,7 +786,7 @@ Gli artefatti vengono identificati univocamente con una tripletta \textit{groupI
 dove \textit{groupId} identifica un gruppo di artefatti, \textit{artifactId} si riferisce al nome della libreria
 e \textit{version} identifica univocamente ogni rilascio della libreria.
 Ad esempio, la tripletta 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0' 
-identifica la versione 1.6.0 di un serializzatore json per \texttt{Kotlin}, gestito da \texttt{JetBrains}.
+identifica la versione 1.6.0 di un serializzatore json per Kotlin, gestito da JetBrains.
 Tutte le versioni di una libreria rilasciate su Maven Central sono sempre disponibili nel repository. 
 Gli utenti della libreria sono liberi di decidere quale versione utilizzare e per quanto tempo e a questi ultimi è delegata la responsabilità di aggiornare le proprie dipendenze per 
 adeguarsi a problemi di sicurezza o evoluzioni dell'API.
@@ -866,10 +866,10 @@ apposita \textit{action}\footnote{\url{https://archive.is/NKNH0}}.
 La presenza di una modifica in questo branch scatena l'esecuzione di un \textit{workflow} di default,
 che mette a disposizione il contenuto tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .
 In figura \ref{fig:dokkaSchermata} viene mostrato come appare il sito web statico al termine delle operazioni.
-\begin{figure}
+\begin{figure}[H]
     \centering
    
-     \includegraphics[width=1.05\linewidth]{figures/schermatadocumentazione.pdf}
+     \includegraphics[width=\linewidth]{figures/schermatadocumentazione.pdf}
      \caption{Sito web della documentazione, reso disponibile tramite \ac{ghpages} }
      \label{fig:dokkaSchermata}
  \end{figure}
@@ -1389,15 +1389,15 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
 In questa tesi è stata presentata un'introduzione sulla \textit{democrazia} e sullo stato attuale 
 della \textit{democrazia digitale}, illustrando soluzioni esistenti sia nell'ambito delle decisioni
 politiche che nell'ambito di contesti logistici impattanti la quotidianità della popolazione.
-È stata presentata la creazione di una libreria multipiattaforma in \texttt{Kotlin Multiplatform},
+A seguire è stata presentata la creazione di una libreria multipiattaforma in \texttt{Kotlin Multiplatform},
 avente lo scopo di rendere disponibile uno strumento per gestire le votazioni digitali, parametrandole
 come ritenuto più opportuno dall'utilizzatore finale, ossia dall'organizzatore della votazione.
 Questa libreria è stata  progettata ponendo l'accento su una tecnologia multipiattaforma per 
 massimizzarne la diffusione su differenti sistemi, assicurando la piena compatibilità con gli stessi.
-È stata svolta l'analisi del modello del dominio da trattare, in particolare si è reso evidente
+Per fare ciò è stata svolta l'analisi del modello del dominio da trattare, in particolare si è reso evidente
 che esistono due tipologie principali di voto che caratterizzano una possibile votazione.
-Sono stati ideati dei \ac{dsl} utili a semplificare la definizione e la struttura di un pool delle votazioni,
-riportando per essi i diagrammi UML architetturali.
+Al fine di agevolare l'utilizzo della libreria sono stati ideati dei \ac{dsl} utili a semplificare la definizione
+e la struttura di un pool delle votazioni, riportando per essi i diagrammi UML architetturali.
 Successivamente sono stati descritti i passi implementativi salienti, corredati dai test effettuati
 e dagli strumenti utilizzati nel contesto di \textit{build automation}.
 Riguardo a questi ultimi, sono stati illustrati gli step realizzati per arrivare alla generazione
