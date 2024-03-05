@@ -153,7 +153,7 @@ organizzato per mettere in contatto la popolazione milanese con l'amministrazion
 Inoltre, queste soluzioni sono spesso adottate da partiti o movimenti politici per avviare iniziative
 e votazioni interne tra i membri, come nel caso del Partito Pirata tedesco in Germania (piattaforma LiquidFeedback),
 o il Movimento 5 Stelle in Italia (piattaforma Rousseau). Lo scopo principale è quello di promuovere la discussione
-di proposte tra i membri di un organizzazione, le quali saranno portate in sede legislativa da un loro rappresentante~\cite{korthagen2020non}.
+di proposte tra i membri di un'organizzazione, le quali saranno portate in sede legislativa da un loro rappresentante~\cite{korthagen2020non}.
 Sistemi come LiquidFeedback, OpenDCN, Airesis, essendo strutturati come applicativi end-to-end,
 pongono molta enfasi sull'interazione tra utenti, la presentazione e validazione di proposte,
 l'eventuale presenza di deleghe, l'espressione del voto tramite una lista di preferenze, ma
@@ -296,7 +296,7 @@ i punti per il numero di occorrenze, si ottiene la situazione finale mostrata in
     \centering
     \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-    \multicolumn{1}{|l|}{concorrente} & \multicolumn{1}{|l|}{x 23} & \multicolumn{1}{|l|}{x 19} & \multicolumn{1}{l|}{x 16} & \multicolumn{1}{l|}{x 2} & \multicolumn{1}{l|}{Sommatoria} \\ \hline
+    \multicolumn{1}{|l|}{Concorrente} & \multicolumn{1}{|l|}{x 23} & \multicolumn{1}{|l|}{x 19} & \multicolumn{1}{l|}{x 16} & \multicolumn{1}{l|}{x 2} & \multicolumn{1}{l|}{Sommatoria} \\ \hline
     A & 2 & 0 & 0 & 1 & 48                              \\ \hline
     B & 0 & 2 & 1 & 0 & 54                              \\ \hline
     C & 1 & 1 & 2 & 2 & 78                             \\ \hline
@@ -382,7 +382,7 @@ quindi in tal caso devono essere gestiti come votazioni separate.
 Una votazione ha associata una determinata competizione, 
 alla quale è associato l'elenco dei concorrenti, detti anche candidati. 
 Ciascun concorrente può avere una serie di punteggi,
-e la tipologia di punteggio è strettamente correlato alla metrica adottata.
+e la tipologia di punteggio è strettamente correlata alla metrica adottata.
 La votazione, inoltre, ha associato l'elenco dei voti,
 i quali hanno i riferimenti sia del votato che del votante
 ma quest'ultimo è rilevante solo in caso di votazione non anonima.
@@ -407,7 +407,7 @@ il dominio descritto in questo capitolo.
 \label{designdsl}
 In questo capitolo, partendo dalla modellazione del dominio descritta nel paragrafo \ref{modellodominio}, 
 viene sviluppato un approfondimento sulla definizione delle metriche di punteggio e sulla porzione
-impattata dall'introduzione di un \ac{dsl}, volto alla semplificazione dell'utilizzabilità della libreria EleKtion.
+impattata dall'introduzione dei \ac{dsl}, volti alla semplificazione dell'utilizzabilità della libreria EleKtion.
 Ciascuna funzionalità viene approfondita in un apposito paragrafo, ognuno contenente diagrammi UML
 che esplicano l'organizzazione di interfacce e classi astratte.
 Questi diagrammi sono realizzati con il presupposto di poter adottare l'utilizzo
@@ -476,8 +476,8 @@ In figura \ref{fig:pollManagerDSL} viene mostrato il diagramma UML delle interfa
     \item{\texttt{condorcetAlgorithm}: rappresenta la creazione dell'algoritmo di Condorcet;}
     \item{\texttt{schultzeAlgorithm}: rappresenta la creazione dell'algoritmo di Schultze.}
  \end{itemize}
-I parametri utili al funzionamento dell'algoritmo possono essere impostati utilizzando l'
-operatore unario \texttt{+} presente in \texttt{PollAlgorithmDSL}.
+I parametri utili al funzionamento dell'algoritmo possono essere impostati utilizzando
+l'operatore unario \texttt{+} presente in \texttt{PollAlgorithmDSL}.
 In figura \ref{fig:pollDSL} vengono mostrati gli altri metodi utili alla creazione di una votazione:
 la funzione \texttt{competition} istanzia una competizione,
 richiedendo che vengano definiti il nome della competizione ed un inizializzatore in cui saranno specificati i candidati presenti.
@@ -485,7 +485,7 @@ La competizione, così come l'algoritmo scelto, sono effettivamente assegnati al
 attraverso l'uso dell'operatore unario \texttt{-}.
 Infine è possibile aggiungere un elenco di voti, istanziati utilizzando i metodi descritti nella prima parte
 di questo paragrafo. Ciascun voto viene effettivamente aggiunto alla lista di voti attraverso
-l'uso dell' operatore unario \texttt{+}.
+l'uso dell'operatore unario \texttt{+}.
 Per motivi di spazio, nelle figure \ref{fig:SPPollAlgorithmDSL} e \ref{fig:LOPPollAlgorithmDSL} sono stati utilizzati gli
 acronimi \texttt{SP} e \texttt{LOP}, al posto di, rispettivamente, \texttt{SinglePreference} e \texttt{ListOfPreferences}.
 
@@ -597,7 +597,7 @@ Si definiscono poi l'algoritmo da utilizzare e l'elenco di voti. I voti possono 
 \lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajorityhighestscore}, caption={Votazione a singola preferenza, in cui il vincitore è competitor1. }]{listings/esempioSingleVoteMajorityHighestScore.kt}
 \lstinputlisting[language=Kotlin,label={lst:esempiosinglevotemajoritylowestscore}, caption={Votazione a singola preferenza, in cui competitor1 e competitor2 pareggiano.}]{listings/esempioSingleVoteMajorityLowestScore.kt}
 Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che venga 
-restituita un' eccezione nei casi in cui: 
+restituita un'eccezione nei casi in cui: 
 \begin{enumerate}
     \item{Nell'ambito degli algoritmi, in una determinata votazione
         \begin{itemize}
@@ -634,7 +634,7 @@ Anche l'algoritmo di Schultze effettua tante iterazioni quanti sono i concorrent
 si determinano quali sono i candidati che hanno ottenuto il maggior numero di vittorie negli scontri a coppie.
 Pertanto, è stata ammessa la possibilità di ottenere dei pareggi a parità di posizionamento.
 Anche per questa tipologia di votazione è possibile avere un parametro che indica la capacità di effettuare molteplici voti per votante , ma di negargli
-comunque l'opportunità di votare più volte lo stesso candidato.
+comunque l'opportunità di votare più volte la stessa lista.
 Le classi realizzate per gestire le casistiche sono \texttt{CondorcetAlgorithm} e
 \texttt{SchultzeAlgorithm}.
 Nell'estratto di codice \ref{lst:controllilopvote} vengono mostrati i controlli effettuati prima di 
@@ -652,7 +652,7 @@ I voti possono essere anonimizzati, come nel caso delle votazioni a preferenza s
 \lstinputlisting[language=Kotlin,label={lst:esempiolopvotecondorcet}, caption={Votazione a lista di preferenze con l'algoritmo di Condorcet, in cui la classifica generata è competitorC, competitorA, competitorB}]{listings/esempioLOPVoteCondorcet.kt}
 \lstinputlisting[language=Kotlin,label={lst:esempiolopvoteschultze}, caption={Votazione a lista di preferenze con l'algoritmo di Schultze, in cui la classifica generata è competitorC, competitorA, competitorB}]{listings/esempioLOPVoteSchultze.kt}
 Sono stati realizzati test a supporto dell'utilizzo del DSL e degli algoritmi, in particolare è stato verificato che venga 
-restituita un' eccezione nei casi in cui: 
+restituita un'eccezione nei casi in cui: 
 \begin{enumerate}
     \item{Nell'ambito degli algoritmi, in una determinata votazione
         \begin{itemize}
@@ -759,7 +759,7 @@ in base alle combinazioni delle variabili; a titolo esemplificativo, eseguire la
 la stessa versione del compilatore ma su tre sistemi operativi differenti.  
 Ciascun \textit{job} è caratterizzato da un proprio flusso indipendente, di conseguenza
 per orchestare i processi è opportuno specificare condizioni basate sulle variabili di output 
-oppure sull'indicazione del completamento di uno o più i \textit{jobs} desiderati.
+oppure sull'indicazione del completamento di uno o più \textit{jobs} desiderati.
 All'interno del \textit{job} sono definibili uno o più \textit{step}: questi vengono eseguiti in maniera sequenziale
 e sono impostabili per eseguire una sequenza arbitraria di comandi bash oppure
 per eseguire una \textit{action} pubblica.
@@ -771,7 +771,7 @@ imporre \textit{effort} riguardo alla gestione delle dipendenze e delle configur
 \ac{ghpages} è un servizio di hosting disponibile per ogni account ed organizzazione in \ac{gh},
 attraverso il quale è possibile pubblicare un sito web statico e renderlo accessibile tramite un webserver.
 La pubblicazione avviene attraverso un apposito \textit{workflow} predefinito.
-Nel caso di un iniziativa progettuale come una libreria, può essere utilizzato per dare informazioni 
+Nel caso di un'iniziativa progettuale come una libreria, può essere utilizzato per dare informazioni 
 su come scaricare ed installare il software oppure per pubblicare la documentazione.
 \subsection{Maven Central, GitHub Packages e NPM}
 Maven Central è tra i gestori di repository più popolari per distribuire e riutilizzare artefatti basati su \ac{jvm}.
@@ -860,8 +860,8 @@ Al termine del \textit{workflow} \texttt{build-and-deploy} viene generato un \te
 associato al \textit{merge commit} effettuato sul branch \texttt{master}. Questo \textit{tag}
 rappresenta il nuovo valore della versione appena rilasciata, il quale viene riportato nelle pagine di documentazione
 generate attraverso il \textit{task} \texttt{gradle dokkaHtml}.
-Queste pagine compongono un sito web statico e vengono copiate nel branch \texttt{gh-pages} grazie ad un'
-apposita \textit{action}\footnote{\url{https://archive.is/NKNH0}}. 
+Queste pagine compongono un sito web statico e vengono copiate nel branch \texttt{gh-pages} grazie ad
+un'apposita \textit{action}\footnote{\url{https://archive.is/NKNH0}}. 
 La presenza di una modifica in questo branch scatena l'esecuzione di un \textit{workflow} di default,
 che mette a disposizione il contenuto tramite un webserver, accessibile all'indirizzo https://corinz97.github.io/EleKtion/ .
 In figura \ref{fig:dokkaSchermata} viene mostrato come appare il sito web statico al termine delle operazioni.
@@ -887,7 +887,7 @@ le gare di qualifica, le classifiche dei piloti, lo storico
 dei piloti, le classifiche dei costruttori e molto altro.
 Allo scopo di questa tesi, sono utili le informazioni riguardo ai risultati delle gare ufficiali
 e le classifiche provvisorie dei piloti al termine di ogni gara, entrambe legate ad uno specifico anno.
-Attaverso appositi endpoint, è possibile ottenere i dati necessari per predisporre le informazioni necessarie
+Attraverso appositi endpoint, è possibile ottenere i dati per predisporre le informazioni necessarie
 ad EleKtion, utilizzando gli esiti delle varie gare come voti e applicando di conseguenza gli algoritmi a lista di preferenze.
 L'elemento più favorito nel voto è rappresentato dal pilota che si è classificato primo in gara, mentre l'elemento più sfavorito
 è il pilota classificatosi ultimo in gara.
@@ -1361,7 +1361,7 @@ in figura \ref{fig:classifichegeneralicondorcet2008figura} ed in figura \ref{fig
  di discriminazione di un vincitore unico per ogni posizione.
  In tabella \ref{table:distanzef12008} vengono mostrati i valori di distanza ottenuti applicando la 
  \textit{norma di Frobenius} alla differenza delle matrici rappresentate nelle prime due colonne.
- Rispetto al caso del campionato 2023 si può notare un differenza più marcata in termini di distanze, sia nel caso
+ Rispetto al caso del campionato 2023 si può notare una differenza più marcata in termini di distanze, sia nel caso
  di Schultze che in Condorcet. Quest'ultimo mostra una maggior differenza sia nel caso in cui viene confrontato
  l'insieme delle classifiche provvisorie, sia nel caso della sola classifica finale.
  \begin{table}[H]
